@@ -41,9 +41,10 @@
          (run
           "git" ,(subseq (string-downcase name) 4)
           ,@(loop for arg in req when (front-arg-p arg) collect (parse-rargdef arg))
+          ,@(loop for arg in opt when (front-arg-p arg) collect (parse-oargdef arg))
           ,@(mapcar #'parse-kargdef key)
           ,@(loop for arg in req unless (front-arg-p arg) collect (parse-rargdef arg))
-          ,@(mapcar #'parse-oargdef opt))))))
+          ,@(loop for arg in opt unless (front-arg-p arg) collect (parse-oargdef arg)))))))
 
 (defmacro %opt (option &rest forms)
   `(let ((args (assoc ,option options)))
