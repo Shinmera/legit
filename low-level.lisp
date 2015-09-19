@@ -102,18 +102,114 @@
   amend no-post-rewrite include only (untracked-files :flag :arg=) verbose quiet
   dry-run (status :bool) (gpg-sign :bool :arg=))
 
-(define-git-wrapper git-commit-tree)
-(define-git-wrapper git-config)
-(define-git-wrapper git-count-objects)
-(define-git-wrapper git-daemon)
-(define-git-wrapper git-describe)
-(define-git-wrapper git-diff)
-(define-git-wrapper git-diff-index)
-(define-git-wrapper git-fast-import)
-(define-git-wrapper git-fetch)
-(define-git-wrapper git-filter-branch)
-(define-git-wrapper git-for-each-ref)
-(define-git-wrapper git-format-patch)
+(define-git-wrapper git-commit-tree
+  tree
+  &key (parent (:name p) :arg) (message (:name m) :arg) (file (:name F) :upcase :arg)
+  (gpg-sign :bool :arg=))
+
+(define-git-wrapper git-config
+  &optional (file-option :front :opt) (type :front :opt) name value URL name-regex
+  value-regex old-name new-name default stdout-is-tty
+  &key null add replace-all unset unset-all rename-section remove-section list
+  get-color get-colorbool edit)
+
+(define-git-wrapper git-count-objects
+  &key verbose human-readable)
+
+(define-git-wrapper git-daemon
+  &optional directory
+  &key strict-paths (base-path :arg=) base-path-relaxed (interpolated-path :arg=)
+  export-all inted (listen :arg=) (port :arg=) (init-timeout :arg=) (timeout :arg=)
+  (max-connections :arg=) syslog (user-path :flag :arg=) verbose reuseaddr detach
+  (pid-file :arg=) (user :arg=) (group :arg=) (enable :arg=) (disable :arg=)
+  (allow-override :arg=) (forbid-overrif :arg=) (informative-errors :bool)
+  (access-hook :arg=))
+
+(define-git-wrapper git-describe
+  &optional commit-ish
+  &key (dirty :flag :arg=) all tags contains (abbrev :arg=) (candidates :arg=)
+  exact-match debug long (match :arg) always first-parent)
+
+(define-git-wrapper git-diff
+  &optional commit blob (paths :--)
+  &key (patch :bool) (unified :arg=) raw patch-with-raw minimal patience histogram
+  (diff-algorithm (:member :patience :minimal :histogram :myers)) (stat :arg=) numstat
+  shortstat (dirstat :arg=) summary patch-with-stat (null (:name z) :flag) name-only
+  name-status (submodule :arg=) (color :bool :arg=) (word-diff :arg=)
+  (word-diff-regex :arg=) (color-words :arg=) no-renames check
+  (ws-error-highlight :arg=) full-index binary (abbrev :arg=) (break-rewrites :arg=)
+  (find-renames :arg=) (find-copies :arg=) find-copies-harder irreversible-delete
+  (limit-find (:name l) :arg.) (diff-filter :arg=)
+  (differing-occurrences (:name S) :upcase :arg.)
+  (differing-diffs (:name G) :upcase :arg.)
+  pickaxe-all pickaxe-regex (order (:name O) :upcase :arg.)
+  (swap (:name R) :upcase :flag) (relative :arg=) text ignore-space-at-eol
+  ignore-space-change ignore-all-space ignore-blank-lines (inter-hunk-context :arg=)
+  function-context (ext-diff :bool) (textconv :bool) (ignore-submodules :flag :arg=)
+  (src-prefix :arg=) (dst-prefix :arg=) no-prefix)
+
+(define-git-wrapper git-diff-index
+  tree-ish
+  &optional paths
+  &key (patch :bool) (unified :arg=) raw patch-with-raw minimal patience histogram
+  (diff-algorithm (:member :patience :minimal :histogram :myers)) (stat :arg=) numstat
+  shortstat (dirstat :arg=) summary patch-with-stat (null (:name z) :flag) name-only
+  name-status (submodule :arg=) (color :bool :arg=) (word-diff :arg=)
+  (word-diff-regex :arg=) (color-words :arg=) no-renames check
+  (ws-error-highlight :arg=) full-index binary (abbrev :arg=) (break-rewrites :arg=)
+  (find-renames :arg=) (find-copies :arg=) find-copies-harder irreversible-delete
+  (limit-find (:name l) :arg.) (diff-filter :arg=)
+  (differing-occurrences (:name S) :upcase :arg.)
+  (differing-diffs (:name G) :upcase :arg.)
+  pickaxe-all pickaxe-regex (order (:name O) :upcase :arg.)
+  (swap (:name R) :upcase :flag) (relative :arg=) text ignore-space-at-eol
+  ignore-space-change ignore-all-space ignore-blank-lines (inter-hunk-context :arg=)
+  function-context (ext-diff :bool) (textconv :bool) (ignore-submodules :flag :arg=)
+  (src-prefix :arg=) (dst-prefix :arg=) no-prefix (report-unchecked (:name m) :flag)
+  cached)
+
+(define-git-wrapper git-fast-import
+  &key force quiet stats (cat-blob-fd :arg=) (date-format :arg=) done
+  (export-marks :arg=) (import-marks :arg=) (import-marks-if-exists :arg=)
+  (relative-marks :bool) (active-branches :arg=) (big-file-threshold :arg=)
+  (depth :arg=) (export-pack edges :arg=) (max-pack-size :arg=))
+
+(define-git-wrapper git-fetch
+  &optional repository refspec group
+  &key all append (depth :arg=) unshallow update-shallow dry-run force
+  keep multiple prune no-tags (refmap :arg=) tags
+  (recurse-submodules (:member :yes :on-demand :no) :bool) (submodule-prefix :arg=)
+  (recurse-submodules-default (:member :yes :on-demand)) update-head-ok
+  (upload-pack :arg) quiet verbose progress)
+
+(define-git-wrapper git-filter-branch
+  &optional (options :--)
+  &key (env-filter :arg) (tree-filter :arg) (index-filter :arg) (parent-filter :arg)
+  (msg-filter :arg) (commit-filter :arg) (tag-name-filter :arg)
+  (subdirectory-filter :arg) prune-empty (original :arg) (directory (:name d) :arg)
+  force)
+
+(define-git-wrapper git-for-each-ref
+  &optional patterns
+  &key (count :arg=) shell perl python tcl (sort :arg=) (format :arg=))
+
+(define-git-wrapper git-format-patch
+  &optional options since revision-range
+  &key no-stat no-patch (unified :arg=) minimal patience histogram
+  (diff-algorigthm (:member :default :myers :minimal :patience :histogram))
+  (stat :arg=) numstat shortstat (dirstat :arg=) summary no-renames full-index
+  binary (abbrev :flag :arg=) (break-rewrites :flag :arg=) (find-renames :flag :arg=)
+  (find-copies :flag :arg=) find-copies-harder irreversible-delete
+  (limit-find (:name l) :arg.) (order (:name O) :upcase :arg.) text ignore-space-at-eol
+  ignore-space-change ignore-all-space ignore-blank-lines (inter-hunk-context :arg=)
+  function-context (ext-diff :bool) (textconv :bool) (ignore-submodules :flag :arg=)
+  (src-prefix :arg=) (dst-prefix :arg=) no-prefix (output-directory :arg)
+  (numbered :bool) (start-number :arg) numbered-files keep-subject signoff stdout
+  (attach :arg= :bool) (inline :arg=) (thread :arg= :bool) (in-reply-to :arg=)
+  ignore-if-in-upstream (subject-prefix :arg=) (reroll-count :arg=) (to :arg=)
+  (cc :arg=) (from :arg= :flag) (add-header :arg=) (cover-letter :bool)
+  (notes :flag :arg=) (signature :bool :arg=) (signature-file :arg=) (suffix :arg=)
+  quiet no-binary root)
 
 (define-git-wrapper git-fsck
   &optional objects
@@ -324,7 +420,7 @@
   (notes :arg= :bool) (show-notes :flag :arg=) standard-notes show-signature
   (patch :bool) (unified :arg=) raw patch-with-raw minimal patience histogram
   (diff-algorigthm (:member :default :myers :minimal :patience :histogram))
-  (stat :arg=) numstat shortstat (dirst at :arg=) summary patch-with-stat
+  (stat :arg=) numstat shortstat (dirstat :arg=) summary patch-with-stat
   (null (:name z) :flag) name-only name-status (submodule :flag :arg=)
   (color :bool :arg=) (word-diff :flag :arg=) (word-diff-regex :arg=)
   (color-words :arg=) no-renames check (ws-error-highlight :arg=) full-index
