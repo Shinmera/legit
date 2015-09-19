@@ -7,26 +7,27 @@
 (in-package #:org.shirakumo.legit)
 
 (define-git-wrapper git-init
-  directory
+  &optional directory
   &key quiet bare (template :arg=) (separate-git-dir :arg=)
   (shared :arg= (:member :false :true :umask :group :all :world :everybody)))
 
 (define-git-wrapper git-clone
-  url directory
+  repository
+  &optional directory
   &key local no-hardlinks shared (reference :arg) dissociate quiet verbose progress
   no-checkout bare mirror (origin :arg) (branch :arg) (upload-pack :arg)
   (template :arg=) (config :map) (depth :arg) (single-branch :bool) recursive
   (separate-git-dir :arg=))
 
 (define-git-wrapper git-push
-  remote
-  &key (refs :optional) all prune mirror dry-run porcelain delete tags follow-tags
+  &optional repository refs
+  &key all prune mirror dry-run porcelain delete tags follow-tags
   signed (atomic :bool) (receive-pack :arg=) (force-with-lease :bool :arg=) force
   repo set-upstream (thin :bool) quiet verbose progress
   (recurse-submodules (:member :check :on-demand)) (verify :bool))
 
 (define-git-wrapper git-pull
-  repository
+  &optional repository refspec
   &key quiet verbose (recurse-submodules :bool (:member :yes :on-demand :no))
   (commit :bool) (edit :bool) (ff :bool) ff-only (log :bool :arg=) (stat :bool)
   (squash :bool) (strategy :arg=) (strategy-option :arg=) (verify-signatures :bool)
@@ -35,7 +36,6 @@
   (upload-pack :arg) progress)
 
 (define-git-wrapper git-rev-parse
-  repository
   &key parseopt sq-quote keep-dashdash stop-at-non-option stuck-long revs flags
   (default :arg) (prefix :arg) verify quiet (abbrev-ref (:member :strict :loose))
   (short :arg) symbolic symbolic-full-name all (branches :arg=) (tags :arg=)
