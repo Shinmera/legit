@@ -27,6 +27,9 @@
 (defun p-symb (symbol)
   (intern (format NIL "~a-P" symbol)))
 
+(defun front-arg-p (arg)
+  (and (listp arg) (find :front arg)))
+
 (defmacro define-git-wrapper (name &rest argdefs)
   (lambda-fiddle:with-destructured-lambda-list (:required req :optional opt :key key) argdefs
     (let* ((purereq (purify-args req))
@@ -37,8 +40,9 @@
          (declare (ignorable ,@(mapcar #'third augkeys)))
          (run
           "git" ,(subseq (string-downcase name) 4)
+          ,@(loop for arg in req when (front-arg-p arg) collect (parse-rargdef arg))
           ,@(mapcar #'parse-kargdef key)
-          ,@(mapcar #'parse-rargdef req)
+          ,@(loop for arg in req unless (front-arg-p arg) collect (parse-rargdef arg))
           ,@(mapcar #'parse-oargdef opt))))))
 
 (defmacro %opt (option &rest forms)
@@ -69,7 +73,7 @@
      `((T (list "--" ,name))))
     (:member
      (loop for thing in (cdr args)
-           collect `((eql ,thing) ,thing)))
+           collect `((eql ,thing) ,(format NIL "~(~a~)" thing))))
     (:req
      `((T ,name)))))
 
