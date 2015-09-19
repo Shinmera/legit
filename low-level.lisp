@@ -41,7 +41,7 @@
   &key no-checkout)
 
 (define-git-wrapper git-blame
-  (file :--)
+  (files :--)
   &key (blank (:name b) :flag) root show-stats (range (:name L) :upcase (:map ","))
   (long (:name l) :flag) (timestamp (:name t) :flag) (revisions (:name S) :upcase :arg)
   reverse porcelain line-porcelain incremental (encoding :arg=) (contents :arg)
@@ -114,18 +114,42 @@
 (define-git-wrapper git-filter-branch)
 (define-git-wrapper git-for-each-ref)
 (define-git-wrapper git-format-patch)
-(define-git-wrapper git-fsck)
-(define-git-wrapper git-gc)
-(define-git-wrapper git-grep)
-(define-git-wrapper git-hash-object)
-(define-git-wrapper git-help)
+
+(define-git-wrapper git-fsck
+  &optional objects
+  &key unreacakble (dangling :bool) root tags cache no-reflogs full strict verbose
+  lost-found (progress :bool))
+
+(define-git-wrapper git-gc
+  &key aggressive auto (prune :arg= :bool) quiet force)
+
+(define-git-wrapper git-grep
+  &optional tree (paths :--)
+  &key cached no-index untracked (exclude-standard :bool) text (textconv :bool)
+  ignore-case (no-binary (:name I) :upcase :flag) (max-depth :arg) word-regexp
+  invert-match (suppress-filename (:name h) :flag) full-name extended-regexp
+  basic-regexp perl-regexp fixed-strings line-number name-only null count
+  (color :bool :arg=) break heading show-function (context :arg)
+  (after-context :arg) (before-context :arg) function-context (file (:name f) :arg)
+  (pattern (:name e) :arg) and or not all-match quiet)
+
+(define-git-wrapper git-hash-object
+  (files :--)
+  &key (type (:name t) :arg) (write (:name w) :flag) stdin stdin-paths
+  (path :arg=) no-filters literally)
+
+(define-git-wrapper git-help
+  command-or-guide
+  &key all guides info man web)
 
 (define-git-wrapper git-init
   &optional directory
   &key quiet bare (template :arg=) (separate-git-dir :arg=)
   (shared :arg= (:member :false :true :umask :group :all :world :everybody)))
 
-(define-git-wrapper git-instaweb)
+(define-git-wrapper git-instaweb
+  &key local (httpd :arg=) (module-path :arg=) (port :arg=) (browser :arg=)
+  start stop restart)
 
 (define-git-wrapper git-log
   &optional revision-range (paths :--)
@@ -146,11 +170,31 @@
   (full-merge-diff (:name m) :flag) (show-recursive-diff (:name r) :flag)
   (show-tree-diff (:name t) :flag))
 
-(define-git-wrapper git-ls-files)
-(define-git-wrapper git-merge)
-(define-git-wrapper git-merge-base)
-(define-git-wrapper git-mergetool)
-(define-git-wrapper git-mv)
+(define-git-wrapper git-ls-files
+  &optional (files :--)
+  &key cached deleted modified others ignored stage directory no-empty-directory
+  unmerged killed (zero-terminate (:name z) :flag) (exclude :arg=)
+  (exclude-from :arg=) (exclude-per-directory :arg=) exclude-standard error-unmatch
+  (with-tree :arg=) full-name (abbrev :arg=) debug)
+
+(define-git-wrapper git-merge
+  &optional head commits
+  &key (commit :bool) (edit :bool) (ff :bool) ff-only (log :bool :arg=) (stat :bool)
+  (squash :bool) (strategy :arg=) (strategy-option :arg=) (verify-signatures :bool)
+  (summary :bool) quiet verbose (progress :bool) (gpg-sign :flag :arg=)
+  (message (:name m) :arg) (rerere-autoipdate :bool) abort)
+
+(define-git-wrapper git-merge-base
+  &optional ref commit
+  &key octopus independent is-ancestor fork-point all)
+
+(define-git-wrapper git-mergetool
+  &optional files
+  &key (tool :arg=) tool-help (prompt :bool))
+
+(define-git-wrapper git-mv
+  source destination
+  &key fodce (skip-errors (:name k) :flag) dry-run verbose)
 
 (define-git-wrapper git-pull
   &optional repository refspec
@@ -246,8 +290,15 @@
   (resolve-git-dir :arg) (git-path :arg) show-cdup show-prefix show-toplevel
   shared-index-path (since :arg=) (until :arg=))
 
-(define-git-wrapper git-revert)
-(define-git-wrapper git-rm)
+(define-git-wrapper git-revert
+  &optional commit
+  &key (edit :bool) (mainline :arg) no-commit (gpg-sign :flag :arg=) signoff
+  (strategy :arg=) (strategy-option :arg=) continue quit abort)
+
+(define-git-wrapper git-rm
+  (files :--)
+  &key force dry-run (recursive (:name r) :flag) cached ignore-unmatch quiet)
+
 (define-git-wrapper git-send-email)
 (define-git-wrapper git-shortlog)
 (define-git-wrapper git-show)
