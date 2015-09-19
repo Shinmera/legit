@@ -21,7 +21,7 @@
   (remove-leading-slashes (:name p) :arg.) (surrounding (:name C) :upcase :arg.))
 
 (define-git-wrapper git-apply
-  &optional patch
+  &optional patches
   &key stat numstat summary check index cached 3way (build-fake-ancestor :arg=)
   recursive reject (machine-readable (:name z) :flag)
   (remove-leading-slashes (:name p) :arg.) (surrounding (:name C) :upcase :arg.)
@@ -31,7 +31,7 @@
 
 (define-git-wrapper git-archive
   tree-ish
-  &optional path
+  &optional paths
   &key (format :arg=) list verbose (prefix :arg=) (output :arg=) worktree-attributes
   (remote :arg=) (exec :arg=))
 
@@ -41,7 +41,7 @@
   &key no-checkout)
 
 (define-git-wrapper git-blame
-  (files :--)
+  (file :--)
   &key (blank (:name b) :flag) root show-stats (range (:name L) :upcase (:map ","))
   (long (:name l) :flag) (timestamp (:name t) :flag) (revisions (:name S) :upcase :arg)
   reverse porcelain line-porcelain incremental (encoding :arg=) (contents :arg)
@@ -50,7 +50,7 @@
   (suppress (:name s) :flag) show-email (ignore-whitespace (:name w) :flag) (abbrev :arg=))
 
 (define-git-wrapper git-branch
-  &optional branch start-point old-branch new-branch
+  &optional branch start-point old-branch new-branch patterns branches
   &key delete create-reflog force move (color :arg= :bool) (column :arg :bool)
   remotes all list verbose quiet (abbrev :arg= :bool) (track :bool) set-upstream
   (set-upstream-to :arg=) unset-upstream edit-description (contains :arg)
@@ -58,7 +58,7 @@
 
 (define-git-wrapper git-bundle
   (action (:member :create :verify :list-heads :unbundle)) file
-  &optional git-rev-list-args refname)
+  &optional git-rev-list-args refnames)
 
 (define-git-wrapper git-cat-file
   object
@@ -74,7 +74,7 @@
   ignore-other-worktrees)
 
 (define-git-wrapper git-cherry-pick
-  &optional commit
+  &optional commits
   &key edit continue quit abort (append-notice (:name x) :flag) (mainline :arg)
   no-commit signoff (gpg-sign :flag :arg=) ff allow-empty allow-empty-message
   keep-redundant-commits (strategy :arg=) (strategy-option :arg=))
@@ -126,7 +126,7 @@
   (access-hook :arg=))
 
 (define-git-wrapper git-describe
-  &optional commit-ish
+  &optional commit-ishs
   &key (dirty :flag :arg=) all tags contains (abbrev :arg=) (candidates :arg=)
   exact-match debug long (match :arg) always first-parent)
 
@@ -175,7 +175,7 @@
   (depth :arg=) (export-pack edges :arg=) (max-pack-size :arg=))
 
 (define-git-wrapper git-fetch
-  &optional repository refspec group
+  &optional repository refspecs group repositories groups
   &key all append (depth :arg=) unshallow update-shallow dry-run force
   keep multiple prune no-tags (refmap :arg=) tags
   (recurse-submodules (:member :yes :on-demand :no) :bool) (submodule-prefix :arg=)
@@ -281,7 +281,7 @@
   (message (:name m) :arg) (rerere-autoipdate :bool) abort)
 
 (define-git-wrapper git-merge-base
-  &optional ref commit
+  &optional ref commits
   &key octopus independent is-ancestor fork-point all)
 
 (define-git-wrapper git-mergetool
@@ -289,11 +289,11 @@
   &key (tool :arg=) tool-help (prompt :bool))
 
 (define-git-wrapper git-mv
-  source destination
+  sources destination
   &key fodce (skip-errors (:name k) :flag) dry-run verbose)
 
 (define-git-wrapper git-pull
-  &optional repository refspec
+  &optional repository refspecs
   &key quiet verbose (recurse-submodules :bool (:member :yes :on-demand :no))
   (commit :bool) (edit :bool) (ff :bool) ff-only (log :bool :arg=) (stat :bool)
   (squash :bool) (strategy :arg=) (strategy-option :arg=) (verify-signatures :bool)
@@ -302,7 +302,7 @@
   (upload-pack :arg) progress)
 
 (define-git-wrapper git-push
-  &optional repository refs
+  &optional repository refspecs
   &key all prune mirror dry-run porcelain delete tags follow-tags
   signed (atomic :bool) (receive-pack :arg=) (force-with-lease :bool :arg=) force
   repo set-upstream (thin :bool) quiet verbose progress
@@ -346,7 +346,7 @@
 
 (define-git-wrapper git-remote
   (action (:member :add :rename :remove :set-head :set-branches :set-url :show :prune :update) :front)
-  &optional name url old new branch newurl oldurl group remote
+  &optional name url old new branches newurl oldurl names groups remotes
   &key verbose (tags :bool) (mirror (:member :fetch :push)) auto add
   push delete dry-run prune (immediate (:name f) :flag) (track (:name t) :arg)
   (symlink (:name m) :arg) (no-query (:name n) :flag))
@@ -387,7 +387,7 @@
   shared-index-path (since :arg=) (until :arg=))
 
 (define-git-wrapper git-revert
-  &optional commit
+  &optional commits
   &key (edit :bool) (mainline :arg) no-commit (gpg-sign :flag :arg=) signoff
   (strategy :arg=) (strategy-option :arg=) continue quit abort)
 
@@ -411,11 +411,11 @@
   quiet (validate :bool) force)
 
 (define-git-wrapper git-shortlog
-  &optional revision-range (path :--)
+  &optional revision-range (paths :--)
   &key numbered summary email (format :arg=) (width (:name w) :arg.))
 
 (define-git-wrapper git-show
-  object
+  objects
   &key (pretty :flag :arg=) (abbrev-commit :bool) oneline (encoding :arg=)
   (notes :arg= :bool) (show-notes :flag :arg=) standard-notes show-signature
   (patch :bool) (unified :arg=) raw patch-with-raw minimal patience histogram
@@ -436,7 +436,7 @@
   (src-prefix :arg=) (dst-prefix :arg=) no-prefix)
 
 (define-git-wrapper git-show-ref
-  &optional (pattern :--)
+  &optional (patterns :--)
   &key head tags heads dereference (hash :flag :arg=) verify (abbrev :arg=) quiet
   (exclude-existing :flag :arg=))
 
@@ -452,7 +452,7 @@
 
 (define-git-wrapper git-submodule
   (action (:member :add :status :init :deinit :update :summary :foreach :sync) :front)
-  &optional commit (path :--) (repository :--) repository-path
+  &optional commit (paths :--) (repository :--) repository-path
   &key quiet (branch (:name b) :arg) force (name :arg) (reference :arg) (depth :arg)
   cached recursive init remote no-fetch rebase merge files (summary-limit :arg))
 
@@ -478,7 +478,7 @@
   &key delete quiet short (message (:name m) :arg))
 
 (define-git-wrapper git-tag
-  &optional tag commit object pattern
+  &optional tags commit object patterns
   &key annotate sign (local-user :arg=) force delete verify (lines (:name n) :arg.)
   (list :arg) (sort :arg=) (column :bool :arg=) (contains :arg) (points-at :arg)
   (message :arg=) (file :arg=) (cleanup :arg=))
@@ -500,7 +500,7 @@
   &key force)
 
 (define-git-wrapper git-verify-pack
-  (pack :--)
+  (packs :--)
   &key verbose stat-only)
 
 (define-git-wrapper git-write-tree
