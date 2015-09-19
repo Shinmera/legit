@@ -229,7 +229,7 @@
   root (autosquash :bool) (autostash :bool) no-ff)
 
 (define-git-wrapper git-reflog
-  (action (:member :show :expire :delete))
+  (action (:member :show :expire :delete) :front)
   &key all (expire :arg=) (expire-unreachable :arg=) updateref rewrite stale-fix
   dry-run verbose follow (decorate (:member :short :full :no) :bool) source use-mailmap
   full-diff log-size (range (:name L) :upcase (:map ",")) (max-count :arg=)
@@ -249,7 +249,7 @@
   (show-tree-diff (:name t) :flag))
 
 (define-git-wrapper git-remote
-  (action (:member :add :rename :remove :set-head :set-branches :set-url :show :prune :update))
+  (action (:member :add :rename :remove :set-head :set-branches :set-url :show :prune :update) :front)
   &optional name url old new branch newurl oldurl group remote
   &key verbose (tags :bool) (mirror (:member :fetch :push)) auto add
   push delete dry-run prune (immediate (:name f) :flag) (track (:name t) :arg)
@@ -299,18 +299,113 @@
   (files :--)
   &key force dry-run (recursive (:name r) :flag) cached ignore-unmatch quiet)
 
-(define-git-wrapper git-send-email)
-(define-git-wrapper git-shortlog)
-(define-git-wrapper git-show)
-(define-git-wrapper git-show-ref)
-(define-git-wrapper git-stash)
-(define-git-wrapper git-status)
-(define-git-wrapper git-submodule)
-(define-git-wrapper git-svn)
-(define-git-wrapper git-symbolic-ref)
-(define-git-wrapper git-tag)
-(define-git-wrapper git-update-index)
-(define-git-wrapper git-update-ref)
-(define-git-wrapper git-update-server-info)
-(define-git-wrapper git-verify-pack)
-(define-git-wrapper git-write-tree)
+(define-git-wrapper git-send-email
+  things
+  &key annotate (bcc :arg=) (cc :arg=) compose (from :arg=) (in-reply-to :arg=)
+  (subject :arg=) (to :arg=) (8bit-encoding :arg=) (compose-encoding :arg=)
+  (transfer-encoding (:member :7bit :8bit :quoted-printable :base64))
+  (xmailer :bool) (envelope-sender :arg=) (smtp-encryption :arg=)
+  (smtp-domain :arg=) (smtp-pass :flag :arg=) (smtp-server :arg=)
+  (smtp-server-port :arg=) (smtp-server-option :arg=) smtp-ssl
+  smtp-ssl-cert-path (smtp-user :arg=) (smtp-debug (:member :0 :1))
+  (to-cmd :arg=) (cc-cmd :arg=) (chain-reply-to :bool) (identity :arg=)
+  (signed-off-by-cc :bool) (cc-cover :bool) (to-cover :bool) (suppress-cc :arg=)
+  (suppress-from :bool) (thread :bool)
+  (confirm (:member :always :never :cc :compose :auto)) dry-run (format-patch :bool)
+  quiet (validate :bool) force)
+
+(define-git-wrapper git-shortlog
+  &optional revision-range (path :--)
+  &key numbered summary email (format :arg=) (width (:name w) :arg.))
+
+(define-git-wrapper git-show
+  object
+  &key (pretty :flag :arg=) (abbrev-commit :bool) oneline (encoding :arg=)
+  (notes :arg= :bool) (show-notes :flag :arg=) standard-notes show-signature
+  (patch :bool) (unified :arg=) raw patch-with-raw minimal patience histogram
+  (diff-algorigthm (:member :default :myers :minimal :patience :histogram))
+  (stat :arg=) numstat shortstat (dirst at :arg=) summary patch-with-stat
+  (null (:name z) :flag) name-only name-status (submodule :flag :arg=)
+  (color :bool :arg=) (word-diff :flag :arg=) (word-diff-regex :arg=)
+  (color-words :arg=) no-renames check (ws-error-highlight :arg=) full-index
+  binary (abbrev :flag :arg=) (break-rewrites :flag :arg=) (find-renames :flag :arg=)
+  (find-copies :flag :arg=) find-copies-harder irreversible-delete
+  (limit-find (:name l) :arg.) (diff-filter :arg=)
+  (differing-occurrences (:name S) :upcase :arg.)
+  (differing-diffs (:name G) :upcase :arg.)
+  pickaxe-all pickaxe-regex (order (:name O) :upcase :arg.)
+  (swap (:name R) :upcase :flag) (relative :arg=) text ignore-space-at-eol
+  ignore-space-change ignore-all-space ignore-blank-lines (inter-hunk-context :arg=)
+  function-context (ext-diff :bool) (textconv :bool) (ignore-submodules :flag :arg=)
+  (src-prefix :arg=) (dst-prefix :arg=) no-prefix)
+
+(define-git-wrapper git-show-ref
+  &optional (pattern :--)
+  &key head tags heads dereference (hash :flag :arg=) verify (abbrev :arg=) quiet
+  (exclude-existing :flag :arg=))
+
+(define-git-wrapper git-stash
+  (action (:member :list :show :drop :pop :apply :branch :save :clear :create :store) :front)
+  &optional message
+  &key patch (keep-index :bool) include-untracked all quiet)
+
+(define-git-wrapper git-status
+  (paths :--)
+  &key short branch porcelain long verbose (untracked-files :flag :arg=)
+  (ignore-submodules :flag :arg=) ignored (null (:name z) :flag) (column :bool :arg=))
+
+(define-git-wrapper git-submodule
+  (action (:member :add :status :init :deinit :update :summary :foreach :sync) :front)
+  &optional commit (path :--) (repository :--) repository-path
+  &key quiet (branch (:name b) :arg) force (name :arg) (reference :arg) (depth :arg)
+  cached recursive init remote no-fetch rebase merge files (summary-limit :arg))
+
+(define-git-wrapper git-svn
+  (command (:member :init :fetch :clone :rebase :dcommit :tag :log :blame :find-rev
+                    :set-tree :create-ignore :show-ignore :mmkdirs :commit-diff
+                    :info :proplist :propget :show-externals :gc :reset) :front)
+  &key (trunk :arg=) (tags :arg=) (branches :arg=) stdlayout no-metadata use-svm-props
+  use-svnsync-props (rewrite-root :arg=) (rewrite-uuid :arg=) (username :arg=)
+  (prefix :arg=) (ignore-paths :arg=) (include-paths :arg=) no-minimize-url localtime
+  parent (log-window-size :arg=) preserve-empty-dirs (placeholder-filename :arg=)
+  local no-rebase (commit-url :arg) (mergeinfo :arg=) interactive (message :arg)
+  (tag :arg) (destination :arg=) (commit-utl :arg) parents (revision :arg=) verbose
+  (limit :arg=) incremental show-commit oneline git-format before after
+  (shared :tag (:member :false :true :umask :group :all :world :everybody))
+  (template :arg=) stdin rmdir edit find-copies-harder (authors-file :arg=)
+  (authors-prof :arg=) quiet merge (strategy :arg=) preserve-merges dry-run
+  use-log-author add-author-from (id :arg) (svn-remote :arg) follow-parent)
+
+(define-git-wrapper git-symbolic-ref
+  name
+  &optional ref
+  &key delete quiet short (message (:name m) :arg))
+
+(define-git-wrapper git-tag
+  &optional tag commit object pattern
+  &key annotate sign (local-user :arg=) force delete verify (lines (:name n) :arg.)
+  (list :arg) (sort :arg=) (column :bool :arg=) (contains :arg) (points-at :arg)
+  (message :arg=) (file :arg=) (cleanup :arg=))
+
+(define-git-wrapper git-update-index
+  &optional (files :--)
+  &key add remove refresh (quiet (:name q) :flag) ignore-submodules unmerged
+  ignore-missing (cacheinfo :arg) index-info (chmod :arg=) (assume-unchanged :bool)
+  really-refresh (skip-worktree :bool) again unresolve info-only force-remove replace
+  stdin verbose (index-version :arg) (null (:name z) :flag) (split-index :bool)
+  (untracked-cacke :bool) force-untracked-cache)
+
+(define-git-wrapper git-update-ref
+  &optional ref newvalue oldvalue
+  &key (message (:name m) :arg) (delete (:name d) :flag) no-deref stdin
+  (null (:name z) :flag))
+
+(define-git-wrapper git-update-server-info
+  &key force)
+
+(define-git-wrapper git-verify-pack
+  (pack :--)
+  &key verbose stat-only)
+
+(define-git-wrapper git-write-tree
+  &key missing-ok (prefix :arg=))
