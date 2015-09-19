@@ -1,0 +1,20 @@
+#|
+ This file is a part of legit
+ (c) 2015 Shirakumo http://tymoon.eu (shinmera@tymoon.eu)
+ Author: Nicolas Hafner <shinmera@tymoon.eu>
+|#
+
+(in-package #:cl-user)
+(asdf:defsystem legit
+  :version "1.0.0"
+  :license "Artistic"
+  :author "Nicolas Hafner <shinmera@tymoon.eu>"
+  :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
+  :description "CL interface to the GIT binary."
+  :homepage "https://github.com/Shinmera/legit"
+  :serial T
+  :components ((:file "package")
+               (:file "toolkit")
+               (:file "low-level"))
+  :depends-on (:uiop
+               :lambda-fiddle))
