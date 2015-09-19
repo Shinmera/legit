@@ -6,20 +6,20 @@
 
 (in-package #:org.shirakumo.legit)
 
-(defun cmdify (args)
-  (with-output-to-string (out)
-    (dolist (arg args)
-      (when arg
-        (etypecase arg
-          (symbol (format out "~(~a~)" arg))
-          (string (write-string arg out))
-          (pathname (format out "~s" (uiop:native-namestring arg)))
-          (real (prin1 arg out))
-          (list (format out "~{~a~^ ~}" arg)))
-        (write-string " " out)))))
+(defun ensure-list (a)
+  (if (listp a) a (list a)))
+
+(defun shellify (arg)
+  (when arg
+    (etypecase arg
+      (symbol (string-downcase arg))
+      (string arg)
+      (pathname (prin1-to-string (uiop:native-namestring arg)))
+      (real (prin1-to-string arg))
+      (list (format NIL "~{~a ~}" (mapcar #'shellify arg))))))
 
 (defun run (&rest cmdargs)
-  (uiop:run-program (cmdify cmdargs) :output T :error-output T))
+  (uiop:run-program (shellify cmdargs) :output T :error-output T))
 
 (defun purify-args (args)
   (mapcar (lambda (a) (if (listp a) (first a) a)) args))
@@ -32,38 +32,81 @@
     (let* ((purereq (purify-args req))
            (purekey (purify-args key))
            (pureopt (purify-args opt))
-           (augkeys (mapcar (lambda (a) `(,a NIL ,(p-symb a))) purekey)))
-      `(defun ,name (,@req &key ,@pureopt ,@augkeys)
+           (augkeys (mapcar (lambda (a) `(,a NIL ,(p-symb a))) (append pureopt purekey))))
+      `(defun ,name (,@purereq &key ,@augkeys)
+         (declare (ignorable ,@(mapcar #'third augkeys)))
          (run
           "git" ,(subseq (string-downcase name) 4)
-          ,@(mapcar #'parse-argdef key)
-          ,@purereq
-          ,@pureopt)))))
+          ,@(mapcar #'parse-kargdef key)
+          ,@(mapcar #'parse-rargdef req)
+          ,@(mapcar #'parse-oargdef opt))))))
 
-(defun parse-argdef (argdef)
-  (destructuring-bind (symbol . options) (if (listp argdef) argdef (list argdef))
-    (let ((options (mapcar (lambda (a) (if (listp a) a (list a))) (or options '(:flag)))))
-      (macrolet ((opt (option &rest forms)
-                   `(let ((args (assoc ,option options)))
-                      (when args
-                        ,@forms))))
-        `(when ,(p-symb symbol)
-           (etypecase ,symbol
-             ,@(opt :flag
-                `(((not null) ,(format NIL "--~(~a~)" symbol))
-                  (T)))
-             ,@(opt :bool
-                `((null ,(format NIL "--no-~(~a~)" symbol))))
-             ,@(opt :member
-                (loop for thing in (cdr args)
-                      collect `((eql ,thing) ,(format NIL "--~(~a~)=~(~a~)" symbol thing))))
-             ,@(opt :arg=
-                `((T (format NIL ,(format NIL "--~(~a~)=~~s" symbol) (shellify ,symbol)))))
-             ,@(opt :arg
-                `((T (format NIL ,(format NIL "--~(~a~) ~~s" symbol) (shellify ,symbol)))))
-             ,@(opt :map
-                `((list (loop for (key val) in ,symbol
-                              collect (format NIL ,(format NIL "--~(~a~) ~~s=~~s" symbol) (shellify key) (shellify val))))))
-             ,@(opt :bool
-                (unless (or (assoc :arg options) (assoc :arg= options))
-                  `((T ,(format NIL "--~(~a~)" symbol)))))))))))
+(defmacro %opt (option &rest forms)
+  `(let ((args (assoc ,option options)))
+     (when args
+       ,@forms)))
+
+(defmacro argetypecase (symb &body options)
+  `(append (list 'etypecase ,symb)
+           ,@(loop for (name . forms) in options
+                   collect `(%opt ,name ,@forms))))
+
+(defmacro define-argparser (funcname (default symbol prefix name options) &body body)
+  (let ((argdef (gensym "ARGDEF")))
+    `(defun ,funcname (,argdef)
+       (destructuring-bind (,symbol . ,options) (ensure-list ,argdef)
+         (declare (ignorable ,symbol))
+         (let* ((,options (mapcar #'ensure-list (or ,options '(,default))))
+                (,name (if (assoc :name ,options) (second (assoc :name ,options)) ,symbol))
+                (,name (if (assoc :upcase ,options) (string-upcase ,name) (string-downcase ,name)))
+                (,prefix (if (= (length ,name) 1) "-" "--")))
+           (declare (ignorable ,prefix ,name ,options))
+           ,@body)))))
+
+(define-argparser parse-rargdef (:req symbol prefix name options)
+  (argetypecase symbol
+    (:--
+     `((T (list "--" ,name))))
+    (:member
+     (loop for thing in (cdr args)
+           collect `((eql ,thing) ,thing)))
+    (:req
+     `((T ,name)))))
+
+
+(define-argparser parse-oargdef (:opt symbol prefix name options)
+  `(when ,(p-symb symbol)
+     ,(argetypecase symbol
+        (:--
+         `((T (list "--" ,symbol))))
+        (:member
+         (loop for thing in (cdr args)
+               collect `((eql ,thing) ,thing)))
+        (:opt
+         `((T ,symbol))))))
+
+(define-argparser parse-kargdef (:flag symbol prefix name options)
+  `(when ,(p-symb symbol)
+     ,(argetypecase symbol
+        (:flag
+         `(((eql T) ,(format NIL "~a~a" prefix name))))
+        (:bool
+         `((null ,(format NIL "--no-~a" name))))
+        (:member
+         (loop for thing in (cdr args)
+               collect `((eql ,thing) ,(format NIL "~a~a=~(~a~)" prefix name thing))))
+        (:arg
+         `((T (format NIL ,(format NIL "~a~a ~~s" prefix name) (shellify ,symbol)))))
+        (:arg=
+         `((T (format NIL ,(format NIL "~a~a=~~s" prefix name) (shellify ,symbol)))))
+        (:arg.
+         `((T (format NIL ,(format NIL "~a~a~~a" prefix name) (shellify ,symbol)))))
+        (:map
+         `((list (loop for (key val) in ,symbol
+                       collect (format NIL ,(format NIL "~a~a ~~s~a~~s" prefix name (or (first options) "=")) (shellify key) (shellify val))))))
+        (:flag
+         (unless (or (assoc :arg options) (assoc :arg= options) (assoc :arg. options))
+           `((T))))
+        (:bool
+         (unless (or (assoc :arg options) (assoc :arg= options) (assoc :arg. options))
+           `((T ,(format NIL "~a~a" prefix name))))))))
