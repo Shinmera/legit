@@ -18,8 +18,10 @@
       (real (prin1-to-string arg))
       (list (format NIL "~{~a ~}" (mapcar #'shellify arg))))))
 
-(defun run (&rest cmdargs)
-  (uiop:run-program (shellify cmdargs) :output T :error-output T))
+(defun run (cmdargs)
+  (uiop:run-program (shellify cmdargs) :output *standard-output*
+                                       :error-output *error-output*
+                                       :input *standard-input*))
 
 (defun purify-args (args)
   (mapcar (lambda (a) (if (listp a) (first a) a)) args))
