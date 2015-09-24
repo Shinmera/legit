@@ -85,7 +85,7 @@
         (nth-value 1 (external-program:process-status process))))))
 
 (defun run-git (&rest cmdargs)
-  (run-handled
+  (run
    "git" (mapcar #'shellify (remove NIL cmdargs))
    :output *git-output*
    :error *git-errors*
