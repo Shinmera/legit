@@ -15,6 +15,7 @@
   :serial T
   :components ((:file "package")
                (:file "toolkit")
-               (:file "low-level"))
+               (:file "low-level")
+               (:file "repository"))
   :depends-on (:uiop
                :lambda-fiddle))
