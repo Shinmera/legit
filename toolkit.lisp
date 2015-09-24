@@ -117,3 +117,33 @@
         (:bool
          (unless (or (assoc :arg options) (assoc :arg= options) (assoc :arg. options))
            `((T ,(format NIL "~a~a" prefix name))))))))
+
+(defgeneric location (thing)
+  (:method ((pathname pathname))
+    pathname)
+  (:method ((string string))
+    (uiop:parse-native-namestring string)))
+
+(defmacro with-chdir ((new-path) &body body)
+  (let ((old (gensym "OLD"))
+        (new (gensym "NEW")))
+    `(let ((,old (uiop:getcwd))
+           (,new (location ,new-path)))
+       (unwind-protect
+            (progn
+              (ensure-directories-exist ,new)
+              (uiop:chdir ,new)
+              ,@body)
+         (uiop:chdir ,old)))))
+
+(defun minimal-shell-namestring (pathname)
+  (uiop:native-namestring
+   (uiop:enough-pathname
+    pathname (uiop:getcwd))))
+
+(defun relative-dir (relative &rest subdirs)
+  (loop for sub in subdirs
+        for dir = (merge-pathnames (uiop:ensure-directory-pathname sub)
+                                   (uiop:ensure-directory-pathname relative))
+        then (merge-pathnames (uiop:ensure-directory-pathname sub) dir)
+        finally (return dir)))
