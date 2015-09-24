@@ -22,11 +22,74 @@
 (defvar *git-errors* T)
 (defvar *git-input* NIL)
 
-(defun run (&rest cmdargs)
-  (uiop:run-program (shellify cmdargs)
-                    :output *git-output*
-                    :error-output *git-errors*
-                    :input *git-input*))
+(defmacro with-resolved-stream ((stream &key args) &body body)
+  `(call-with-resolved-stream (lambda (,stream) ,@body) ,stream ,@args))
+
+(defun call-with-resolved-stream (func stream &key args)
+  (etypecase stream
+    (null
+     (funcall func (make-broadcast-stream)))
+    (stream
+     (funcall func stream))
+    (pathname
+     (let ((stream (apply #'open stream args))
+           (abort T))
+       (unwind-protect
+            (prog1 (funcall func stream)
+              (setf abort NIL))
+         (close stream :abort abort))))
+    ((eql :string)
+     (with-output-to-string (stream)
+       (funcall func stream)))
+    ((eql T)
+     (funcall func *standard-output*))))
+
+(defun copy-stream (input output &key consume-all)
+  ;; We copy char by char which is /pretty shit/ performance wise
+  ;; but otherwise we would have to either thread or block,
+  ;; both of which we /definitely/ do want to avoid.
+  (when (open-stream-p input)
+    (loop for char = (read-char-no-hang input NIL :eof)
+          do (case char
+               ((NIL) (unless consume-all (return)))
+               (:eof (return))
+               (T (write-char char output))))))
+
+(defun stop-process (process &key (attempts 10) (sleep 0.1))
+  (external-program:signal-process process :interrupt)
+  (loop repeat attempts
+        do (sleep sleep)
+           (case (external-program:process-status process)
+             ((:stopped :exited) (return)))
+        finally (external-program:signal-process process :killed)))
+
+(defun ensure-process-stopped (process)
+  (when (eq (external-program:process-status process) :running)
+    (stop-process process)))
+
+(defun run (program args &key input output error)
+  (with-resolved-stream (output)
+    (with-resolved-stream (error)
+      (let* ((process (external-program:start program args :output :stream :error :stream :input input))
+             (process-output (external-program:process-output-stream process))
+             (process-error (external-program:process-error-stream process)))
+        (unwind-protect
+             (loop do (copy-stream process-output output)
+                      (copy-stream process-error error)
+                   while (eq (external-program:process-status process) :running))
+          (ensure-process-stopped process)
+          (copy-stream process-output output :consume-all T)
+          (copy-stream process-error error :consume-all T)
+          (close process-output)
+          (close process-error))
+        (nth-value 1 (external-program:process-status process))))))
+
+(defun run-git (&rest cmdargs)
+  (run-handled
+   "git" (mapcar #'shellify (remove NIL cmdargs))
+   :output *git-output*
+   :error *git-errors*
+   :input *git-input*))
 
 (defun purify-args (args)
   (mapcar (lambda (a) (if (listp a) (first a) a)) args))
@@ -45,8 +108,8 @@
            (augkeys (mapcar (lambda (a) `(,a NIL ,(p-symb a))) (append pureopt purekey))))
       `(defun ,name (,@purereq &key ,@augkeys)
          (declare (ignorable ,@(mapcar #'third augkeys)))
-         (run
-          "git" ,(subseq (string-downcase name) 4)
+         (run-git
+          ,(subseq (string-downcase name) 4)
           ,@(loop for arg in req when (front-arg-p arg) collect (parse-rargdef arg))
           ,@(loop for arg in opt when (front-arg-p arg) collect (parse-oargdef arg))
           ,@(mapcar #'parse-kargdef key)

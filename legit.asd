@@ -18,4 +18,5 @@
                (:file "low-level")
                (:file "repository"))
   :depends-on (:uiop
+               :external-program
                :lambda-fiddle))
