@@ -76,6 +76,16 @@
    #:git-update-server-info
    #:git-verify-pack
    #:git-write-tree)
+  ;; repository.lisp
+  (:export
+   #:repository
+   #:init
+   #:pull
+   #:current-commit)
   ;; toolkit.lisp
   (:export
+   #:*git-output*
+   #:*git-errors*
+   #:*git-input*
+   #:location
    #:run))
