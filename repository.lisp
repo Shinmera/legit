@@ -30,5 +30,5 @@
 (defgeneric current-commit (repository)
   (:method ((repository repository))
     (with-chdir (repository)
-      (let ((*standard-output* NIL))
-        (git-rev-parse "HEAD")))))
+      (let ((*git-output* :string))
+        (string-trim '(#\Newline) (git-rev-parse "HEAD"))))))
