@@ -11,6 +11,10 @@
   (:default-initargs
    :location NIL))
 
+(defmethod print-object ((repository repository) stream)
+  (print-unreadable-object (repository stream :type T)
+    (format stream "~s" (uiop:native-namestring (location repository)))))
+
 (defun init (repository &key (if-does-not-exist :error))
   (let ((repository (location repository)))
     (unless (uiop:directory-exists-p
