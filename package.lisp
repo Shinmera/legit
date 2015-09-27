@@ -80,12 +80,17 @@
   (:export
    #:repository
    #:init
+   #:clone
    #:pull
-   #:current-commit)
+   #:current-commit
+   #:current-branch
+   #:remote-url)
   ;; toolkit.lisp
   (:export
    #:*git-output*
    #:*git-errors*
    #:*git-input*
    #:location
-   #:run))
+   #:run
+   #:with-chdir
+   #:relative-dir))
