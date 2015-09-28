@@ -177,20 +177,18 @@
          (loop for thing in (cdr args)
                collect `((eql ,thing) ,(format NIL "~a~a=~(~a~)" prefix name thing))))
         (:arg
-         `((T (list ,(format NIL "~a~a" prefix name) (shellify ,symbol)))))
+         `(((not null) (list ,(format NIL "~a~a" prefix name) (shellify ,symbol)))))
         (:arg=
-         `((T (format NIL ,(format NIL "~a~a=~~a" prefix name) (shellify ,symbol)))))
+         `(((not null) (format NIL ,(format NIL "~a~a=~~a" prefix name) (shellify ,symbol)))))
         (:arg.
-         `((T (format NIL ,(format NIL "~a~a~~a" prefix name) (shellify ,symbol)))))
+         `(((not null) (format NIL ,(format NIL "~a~a~~a" prefix name) (shellify ,symbol)))))
         (:map
          `((list (loop for (key val) in ,symbol
                        collect (format NIL ,(format NIL "~a~a ~~a~a~~a" prefix name (or (first options) "=")) (shellify key) (shellify val))))))
         (:flag
-         (unless (or (assoc :arg options) (assoc :arg= options) (assoc :arg. options))
-           `((T))))
+         `((T)))
         (:bool
-         (unless (or (assoc :arg options) (assoc :arg= options) (assoc :arg. options))
-           `((T ,(format NIL "~a~a" prefix name))))))))
+         `((T ,(format NIL "~a~a" prefix name)))))))
 
 (defgeneric location (thing)
   (:method ((pathname pathname))
