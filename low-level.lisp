@@ -381,7 +381,7 @@
   revs
   &key parseopt sq-quote keep-dashdash stop-at-non-option stuck-long revs-only no-revs
   flags (default :arg) (prefix :arg) verify quiet (abbrev-ref :flag (:member :strict :loose))
-  (short :arg) symbolic symbolic-full-name all (branches :arg=) (tags :arg=)
+  (short :flag :arg=) symbolic symbolic-full-name all (branches :arg=) (tags :arg=)
   (remotes :arg=) (glob :arg=) (exclude :arg=) (disambiguate :arg=) local-env-vars
   git-dir git-common-dir is-inside-git-dir is-inside-work-tree is-bare-repository
   (resolve-git-dir :arg) (git-path :arg) show-cdup show-prefix show-toplevel
