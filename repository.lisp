@@ -24,21 +24,21 @@
     ((:create :init)
      (git-init :directory location)
      (when (string/= branch "master")
-       (git-checkout :branch branch :orphan T)))
+       (git-checkout :branch (or branch "master") :orphan T)))
     ((:clone)
      (git-clone (or remote (error "REMOTE required for :CLONE."))
                 :directory location
-                :branch branch))))
+                :branch (or branch "master")))))
 
 (defgeneric init (repository &key if-does-not-exist remote branch)
-  (:method ((repository pathname) &key (if-does-not-exist :error) remote (branch "master"))
+  (:method ((repository pathname) &key (if-does-not-exist :error) remote branch)
     (unless (uiop:directory-exists-p
              (relative-dir repository ".git"))
       (if if-does-not-exist
           (handle-init if-does-not-exist repository remote branch)
           (return-from init NIL)))
     (make-instance 'repository :location repository))
-  (:method ((repository repository) &key (if-does-not-exist :error) remote (branch "master"))
+  (:method ((repository repository) &key (if-does-not-exist :error) remote branch)
     (unless (uiop:directory-exists-p
              (relative-dir (location repository) ".git"))
       (if if-does-not-exist
