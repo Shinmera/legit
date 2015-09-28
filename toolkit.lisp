@@ -14,7 +14,7 @@
     (etypecase arg
       (symbol (string-downcase arg))
       (string arg)
-      (pathname (prin1-to-string (uiop:native-namestring arg)))
+      (pathname (uiop:native-namestring arg))
       (real (prin1-to-string arg))
       (list (format NIL "~{~@[~a ~]~}" (mapcar #'shellify arg))))))
 
@@ -68,6 +68,7 @@
     (stop-process process)))
 
 (defun run (program args &key input output error)
+  (format T "~&> ~a ~{~a~^ ~}~&" program args)
   (with-resolved-stream (output)
     (with-resolved-stream (error)
       (let* ((process (external-program:start program args :output :stream :error :stream :input input))
@@ -86,7 +87,12 @@
 
 (defun run-git (&rest cmdargs)
   (run
-   "git" (mapcar #'shellify (remove NIL cmdargs))
+   "git" (loop with list = ()
+               for arg in cmdargs
+               do (typecase arg
+                    (list (dolist (a arg) (push a list)))
+                    (T (push arg list)))
+               finally (return (nreverse list)))
    :output *git-output*
    :error *git-errors*
    :input *git-input*))
@@ -171,14 +177,14 @@
          (loop for thing in (cdr args)
                collect `((eql ,thing) ,(format NIL "~a~a=~(~a~)" prefix name thing))))
         (:arg
-         `((T (format NIL ,(format NIL "~a~a ~~s" prefix name) (shellify ,symbol)))))
+         `((T (list ,(format NIL "~a~a" prefix name) (shellify ,symbol)))))
         (:arg=
-         `((T (format NIL ,(format NIL "~a~a=~~s" prefix name) (shellify ,symbol)))))
+         `((T (format NIL ,(format NIL "~a~a=~~a" prefix name) (shellify ,symbol)))))
         (:arg.
          `((T (format NIL ,(format NIL "~a~a~~a" prefix name) (shellify ,symbol)))))
         (:map
          `((list (loop for (key val) in ,symbol
-                       collect (format NIL ,(format NIL "~a~a ~~s~a~~s" prefix name (or (first options) "=")) (shellify key) (shellify val))))))
+                       collect (format NIL ,(format NIL "~a~a ~~a~a~~a" prefix name (or (first options) "=")) (shellify key) (shellify val))))))
         (:flag
          (unless (or (assoc :arg options) (assoc :arg= options) (assoc :arg. options))
            `((T))))
