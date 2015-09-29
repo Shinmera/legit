@@ -67,8 +67,9 @@
   (when (eq (external-program:process-status process) :running)
     (stop-process process)))
 
-(defun run (program args &key input output error)
-  (format T "~&> ~a ~{~a~^ ~}~&" program args)
+(defun run (program args &key input output error (on-non-zero-exit :return))
+  (ecase on-non-zero-exit ((NIL :return :error :warn)))
+  #+verbose (v:trace :legit "~a~{~^ ~a~}" program args)
   (with-resolved-stream (output)
     (with-resolved-stream (error)
       (let* ((process (external-program:start program args :output :stream :error :stream :input input))
@@ -83,7 +84,14 @@
           (copy-stream process-error error :consume-all T)
           (close process-output)
           (close process-error))
-        (nth-value 1 (external-program:process-status process))))))
+        (let ((exit (nth-value 1 (external-program:process-status process))))
+          (if (= 0 exit)
+              exit
+              (case on-non-zero-exit
+                ((NIL) NIL)
+                (:return exit)
+                (:error (error "RUN of ~a ~a exited with ~a." program args exit))
+                (:warn (warn "RUN of ~a ~a exited with ~a." program args exit)))))))))
 
 (defun run-git (&rest cmdargs)
   (run
