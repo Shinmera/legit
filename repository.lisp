@@ -76,6 +76,10 @@
   (:method ((repository repository) &key)
     (git-value repository (git-rev-parse "HEAD" :abbrev-ref T))))
 
+(defgeneric current-message (repository &key)
+  (:method ((repository repository) &key)
+    (git-value repository (git-log :pretty "%B" :max-count 1))))
+
 (defgeneric remote-url (repository &key remote)
   (:method ((repository repository) &key (remote "origin"))
     (git-value repository (git-config :name (format NIL "remote.~a.url" remote)))))

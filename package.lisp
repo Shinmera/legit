@@ -84,6 +84,7 @@
    #:pull
    #:current-commit
    #:current-branch
+   #:current-message
    #:remote-url)
   ;; toolkit.lisp
   (:export
