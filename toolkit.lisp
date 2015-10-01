@@ -207,7 +207,8 @@
 (defmacro with-chdir ((new-path) &body body)
   (let ((old (gensym "OLD"))
         (new (gensym "NEW")))
-    `(let ((,old (uiop:getcwd))
+    `(let ((,old (or (ignore-errors (uiop:getcwd))
+                     (user-homedir-pathname)))
            (,new (location ,new-path)))
        (unwind-protect
             (progn
@@ -227,3 +228,12 @@
                                    (uiop:ensure-directory-pathname relative))
         then (merge-pathnames (uiop:ensure-directory-pathname sub) dir)
         finally (return dir)))
+
+(defvar *unix-epoch-difference*
+  (encode-universal-time 0 0 0 1 1 1970 0))
+
+(defun universal-to-unix-time (universal-time)
+  (- universal-time *unix-epoch-difference*))
+
+(defun unix-to-universal-time (unix-time)
+  (+ unix-time *unix-epoch-difference*))
