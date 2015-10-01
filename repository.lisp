@@ -73,6 +73,11 @@
     (with-chdir (repository)
       (git-reset :paths to :hard hard :mixed mixed :soft soft))))
 
+(defmacro git-value (repository form)
+  `(with-chdir (,repository)
+     (let ((*git-output* :string))
+       (string-right-trim '(#\Newline) ,form))))
+
 (defgeneric commits (repository &key)
   (:method ((repository repository) &key)
     (loop with text = (git-value repository (git-rev-list :all T))
@@ -81,11 +86,6 @@
           while line
           when (string/= line "")
           collect line)))
-
-(defmacro git-value (repository form)
-  `(with-chdir (,repository)
-     (let ((*git-output* :string))
-       (string-right-trim '(#\Newline) ,form))))
 
 (defgeneric current-commit (repository &key short)
   (:method ((repository repository) &key short)
