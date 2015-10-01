@@ -82,9 +82,13 @@
    #:init
    #:clone
    #:pull
+   #:checkout
+   #:reset
+   #:commits
    #:current-commit
    #:current-branch
    #:current-message
+   #:current-age
    #:remote-url)
   ;; toolkit.lisp
   (:export

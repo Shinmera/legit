@@ -63,6 +63,25 @@
     (with-chdir (repository)
       (git-pull))))
 
+(defgeneric checkout (repository thing &key)
+  (:method ((repository repository) thing &key)
+    (with-chdir (repository)
+      (git-checkout :tree-ish thing))))
+
+(defgeneric reset (repository &key to hard mixed soft)
+  (:method ((repository repository) &key to hard mixed soft)
+    (with-chdir (repository)
+      (git-reset :paths to :hard hard :mixed mixed :soft soft))))
+
+(defgeneric commits (repository &key)
+  (:method ((repository repository) &key)
+    (loop with text = (git-value repository (git-rev-list :all T))
+          with stream = (make-string-input-stream text)
+          for line = (read-line stream NIL NIL)
+          while line
+          when (string/= line "")
+          collect line)))
+
 (defmacro git-value (repository form)
   `(with-chdir (,repository)
      (let ((*git-output* :string))
@@ -79,6 +98,11 @@
 (defgeneric current-message (repository &key)
   (:method ((repository repository) &key)
     (git-value repository (git-log :pretty "%B" :max-count 1))))
+
+(defgeneric current-age (repository &key)
+  (:method ((repository repository) &key)
+    (unix-to-universal-time
+     (parse-integer (git-value repository (git-log :pretty "%ct" :max-count 1))))))
 
 (defgeneric remote-url (repository &key remote)
   (:method ((repository repository) &key (remote "origin"))
