@@ -264,7 +264,7 @@
   parents children left-right graph (show-linear-break :flag :arg=)
   (simultaneous-diff (:name c) :flag) (compressed-simultaneous-diff (:name c) :flag)
   (full-merge-diff (:name m) :flag) (show-recursive-diff (:name r) :flag)
-  (show-tree-diff (:name t) :flag) (pretty :arg=))
+  (show-tree-diff (:name t) :flag) (pretty :arg=) (format :arg=))
 
 (define-git-wrapper git-ls-files
   &optional (files :--)
