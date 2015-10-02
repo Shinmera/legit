@@ -7,7 +7,8 @@
 (in-package #:org.shirakumo.legit)
 
 (defclass repository ()
-  ((location :initarg :location :accessor location))
+  ((location :initarg :location :accessor location)
+   (cache :initform (make-hash-table :test 'equal) :accessor cache))
   (:default-initargs
    :location NIL))
 
@@ -29,6 +30,10 @@
      (git-clone (or remote (error "REMOTE required for :CLONE."))
                 :directory location
                 :branch (or branch "master")))))
+
+(defgeneric clear-cache (repository)
+  (:method ((repository repository))
+    (clrhash (cache repository))))
 
 (defgeneric init (repository &key if-does-not-exist remote branch)
   (:method ((repository pathname) &key (if-does-not-exist :error) remote branch)
@@ -61,26 +66,31 @@
 (defgeneric pull (repository &key)
   (:method ((repository repository) &key)
     (with-chdir (repository)
-      (git-pull))))
+      (git-pull))
+    (clear-cache repository)))
 
 (defgeneric checkout (repository thing &key)
   (:method ((repository repository) thing &key)
     (with-chdir (repository)
-      (git-checkout :tree-ish thing))))
+      (git-checkout :tree-ish thing))
+    (clear-cache repository)))
 
 (defgeneric reset (repository &key to hard mixed soft)
   (:method ((repository repository) &key to hard mixed soft)
     (with-chdir (repository)
-      (git-reset :paths to :hard hard :mixed mixed :soft soft))))
+      (git-reset :paths to :hard hard :mixed mixed :soft soft))
+    (clear-cache repository)))
 
-(defmacro git-value (repository form)
-  `(with-chdir (,repository)
-     (let ((*git-output* :string))
-       (string-right-trim '(#\Newline) ,form))))
+(defmacro git-value (repository name form)
+  `(or (gethash ,name (cache ,repository))
+       (setf (gethash ,name (cache ,repository))
+             (with-chdir (,repository)
+               (let ((*git-output* :string))
+                 (string-right-trim '(#\Newline) ,form))))))
 
 (defgeneric commits (repository &key)
   (:method ((repository repository) &key)
-    (loop with text = (git-value repository (git-rev-list :all T))
+    (loop with text = (git-value repository `(commits) (git-rev-list :all T))
           with stream = (make-string-input-stream text)
           for line = (read-line stream NIL NIL)
           while line
@@ -89,21 +99,21 @@
 
 (defgeneric current-commit (repository &key short)
   (:method ((repository repository) &key short)
-    (git-value repository (git-rev-parse "HEAD" :short short))))
+    (git-value repository `(commit ,short) (git-rev-parse "HEAD" :short short))))
 
 (defgeneric current-branch (repository &key)
   (:method ((repository repository) &key)
-    (git-value repository (git-rev-parse "HEAD" :abbrev-ref T))))
+    (git-value repository `(branch) (git-rev-parse "HEAD" :abbrev-ref T))))
 
 (defgeneric current-message (repository &key)
   (:method ((repository repository) &key)
-    (git-value repository (git-log :pretty "%B" :max-count 1))))
+    (git-value repository `(message) (git-log :pretty "%B" :max-count 1))))
 
 (defgeneric current-age (repository &key)
   (:method ((repository repository) &key)
     (unix-to-universal-time
-     (parse-integer (git-value repository (git-log :pretty "%ct" :max-count 1))))))
+     (parse-integer (git-value repository `(age) (git-log :pretty "%ct" :max-count 1))))))
 
 (defgeneric remote-url (repository &key remote)
   (:method ((repository repository) &key (remote "origin"))
-    (git-value repository (git-config :name (format NIL "remote.~a.url" remote)))))
+    (git-value repository `(url ,remote) (git-config :name (format NIL "remote.~a.url" remote)))))
