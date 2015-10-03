@@ -207,9 +207,10 @@
 (defmacro with-chdir ((new-path) &body body)
   (let ((old (gensym "OLD"))
         (new (gensym "NEW")))
-    `(let ((,old (or (ignore-errors (uiop:getcwd))
-                     (user-homedir-pathname)))
-           (,new (location ,new-path)))
+    `(let* ((,old (or (ignore-errors (uiop:getcwd))
+                      (user-homedir-pathname)))
+            (,new (location ,new-path))
+            (*default-pathname-defaults* ,new))
        (unwind-protect
             (progn
               (ensure-directories-exist ,new)
