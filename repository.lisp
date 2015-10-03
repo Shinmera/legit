@@ -61,7 +61,7 @@
   (:method ((from string) (to pathname) &key branch)
     (clone from (uiop:native-namestring to) :branch branch))
   (:method ((from string) (to string) &key branch)
-    (git-clone from :directory to :branch (or branch "master"))))
+    (git-clone from :directory to :branch branch)))
 
 (defgeneric pull (repository &key)
   (:method ((repository repository) &key)
