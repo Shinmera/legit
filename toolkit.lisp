@@ -209,13 +209,13 @@
         (new (gensym "NEW")))
     `(let* ((,old (or (ignore-errors (uiop:getcwd))
                       (user-homedir-pathname)))
-            (,new (location ,new-path))
-            (*default-pathname-defaults* ,new))
+            (,new (location ,new-path)))
        (unwind-protect
             (progn
               (ensure-directories-exist ,new)
               (uiop:chdir ,new)
-              ,@body)
+              (let ((*default-pathname-defaults* ,new))
+                ,@body))
          (uiop:chdir ,old)))))
 
 (defun minimal-shell-namestring (pathname)
