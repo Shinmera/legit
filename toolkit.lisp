@@ -130,8 +130,9 @@
           ,@(loop for arg in req unless (front-arg-p arg) collect (parse-rargdef arg))
           ,@(loop for arg in opt unless (front-arg-p arg) collect (parse-oargdef arg)))))))
 
-(defmacro %opt (option &rest forms)
-  `(let ((args (assoc ,option options)))
+(defmacro %opt (options &rest forms)
+  `(let ((args (or ,@(loop for option in (if (listp options) options (list options))
+                           collect `(assoc ,option options)))))
      (when args
        ,@forms)))
 
@@ -196,7 +197,10 @@
         (:flag
          `((T)))
         (:bool
-         `((T ,(format NIL "~a~a" prefix name)))))))
+         `((T ,(format NIL "~a~a" prefix name))))
+        ((:arg :arg= :arg.)
+         (unless (or (assoc :flag options) (assoc :bool options))
+           `((null)))))))
 
 (defgeneric location (thing)
   (:method ((pathname pathname))
@@ -214,8 +218,7 @@
             (progn
               (ensure-directories-exist ,new)
               (uiop:chdir ,new)
-              (let ((*default-pathname-defaults* ,new))
-                ,@body))
+              ,@body)
          (uiop:chdir ,old)))))
 
 (defun minimal-shell-namestring (pathname)
