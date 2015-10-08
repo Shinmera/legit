@@ -84,6 +84,7 @@
    #:pull
    #:checkout
    #:reset
+   #:clean
    #:commits
    #:current-commit
    #:current-branch

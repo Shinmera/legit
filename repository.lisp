@@ -35,7 +35,7 @@
   (:method ((repository repository))
     (clrhash (cache repository))))
 
-(defgeneric init (repository &key if-does-not-exist remote branch)
+(defgeneric init (repository &key &allow-other-keys)
   (:method ((repository pathname) &key (if-does-not-exist :error) remote branch)
     (unless (uiop:directory-exists-p
              (relative-dir repository ".git"))
@@ -51,7 +51,7 @@
           (return-from init NIL)))
     repository))
 
-(defgeneric clone (from to &key branch)
+(defgeneric clone (from to &key &allow-other-keys)
   (:method ((from repository) to &key branch)
     (clone (location from) to :branch branch))
   (:method ((from pathname) to &key branch)
@@ -63,23 +63,28 @@
   (:method ((from string) (to string) &key branch)
     (git-clone from :directory to :branch branch)))
 
-(defgeneric pull (repository &key)
+(defgeneric pull (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
     (with-chdir (repository)
       (git-pull))
     (clear-cache repository)))
 
-(defgeneric checkout (repository thing &key)
+(defgeneric checkout (repository thing &key &allow-other-keys)
   (:method ((repository repository) thing &key)
     (with-chdir (repository)
       (git-checkout :tree-ish thing))
     (clear-cache repository)))
 
-(defgeneric reset (repository &key to hard mixed soft)
+(defgeneric reset (repository &key &allow-other-keys)
   (:method ((repository repository) &key to hard mixed soft)
     (with-chdir (repository)
       (git-reset :paths to :hard hard :mixed mixed :soft soft))
     (clear-cache repository)))
+
+(defgeneric clean (repository &key &allow-other-keys)
+  (:method ((repository repository) &key directories force ignored)
+    (with-chdir (repository)
+      (git-clean :directories directories :force force :remove-ignored ignored))))
 
 (defmacro git-value (repository name form)
   `(or (gethash ,name (cache ,repository))
@@ -88,7 +93,7 @@
                (let ((*git-output* :string))
                  (string-right-trim '(#\Newline) ,form))))))
 
-(defgeneric commits (repository &key)
+(defgeneric commits (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
     (loop with text = (git-value repository `(commits) (git-rev-list :all T))
           with stream = (make-string-input-stream text)
@@ -97,23 +102,23 @@
           when (string/= line "")
           collect line)))
 
-(defgeneric current-commit (repository &key short)
+(defgeneric current-commit (repository &key &allow-other-keys)
   (:method ((repository repository) &key short)
     (git-value repository `(commit ,short) (git-rev-parse "HEAD" :short short))))
 
-(defgeneric current-branch (repository &key)
+(defgeneric current-branch (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
     (git-value repository `(branch) (git-rev-parse "HEAD" :abbrev-ref T))))
 
-(defgeneric current-message (repository &key)
+(defgeneric current-message (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
     (git-value repository `(message) (git-log :pretty "%B" :max-count 1))))
 
-(defgeneric current-age (repository &key)
+(defgeneric current-age (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
     (unix-to-universal-time
      (parse-integer (git-value repository `(age) (git-log :pretty "%ct" :max-count 1))))))
 
-(defgeneric remote-url (repository &key remote)
+(defgeneric remote-url (repository &key &allow-other-keys)
   (:method ((repository repository) &key (remote "origin"))
     (git-value repository `(url ,remote) (git-config :name (format NIL "remote.~a.url" remote)))))
