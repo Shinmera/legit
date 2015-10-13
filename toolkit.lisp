@@ -78,6 +78,8 @@
         (unwind-protect
              (loop do (copy-stream process-output output)
                       (copy-stream process-error error)
+                      ;; Some breathing space
+                      #+sbcl (sb-thread:thread-yield)
                    while (eq (external-program:process-status process) :running))
           (ensure-process-stopped process)
           (copy-stream process-output output :consume-all T)
