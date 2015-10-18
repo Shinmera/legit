@@ -21,7 +21,7 @@
          (uiop:chdir ,old)))))
 
 (defmacro with-chdir ((new-path) &body body)
-  `(let ((*cwd* ,new-path))
+  `(let ((*cwd* (location ,new-path)))
      ,@body))
 
 (defmacro with-resolved-stream ((stream &key args) &body body)
