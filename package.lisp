@@ -76,6 +76,16 @@
    #:git-update-server-info
    #:git-verify-pack
    #:git-write-tree)
+  ;; process.lisp
+  (:export
+   #:*cwd*
+   #:with-chdir
+   #:with-exchdir
+   #:run
+   #:*git-output*
+   #:*git-errors*
+   #:*git-input*
+   #:run-git)
   ;; repository.lisp
   (:export
    #:repository
@@ -93,10 +103,5 @@
    #:remote-url)
   ;; toolkit.lisp
   (:export
-   #:*git-output*
-   #:*git-errors*
-   #:*git-input*
    #:location
-   #:run
-   #:with-chdir
    #:relative-dir))

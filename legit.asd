@@ -15,6 +15,7 @@
   :serial T
   :components ((:file "package")
                (:file "toolkit")
+               (:file "process")
                (:file "low-level")
                (:file "repository"))
   :depends-on (:uiop
