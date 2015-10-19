@@ -20,4 +20,5 @@
                (:file "repository"))
   :depends-on (:uiop
                :external-program
-               :lambda-fiddle))
+               :lambda-fiddle
+               :bordeaux-threads))

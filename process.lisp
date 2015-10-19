@@ -46,7 +46,7 @@
     ((eql T)
      (funcall func *standard-output*))))
 
-(defun copy-stream (input output &key consume-all)
+(defun copy-stream (input output &key consume-all (buffer 64))
   ;; Ok, this is kludgy. Let's see.
   ;; In order to avoid having to spawn threads to read the
   ;; two streams simultaneously, we have to somehow read only
@@ -57,19 +57,58 @@
   ;; READ-CHAR-NO-HANG, which is impossibly inefficient and
   ;; will eat all of the resources. So we opt for a compromise
   ;; in which we check if new input is there by
-  ;; READ-CHAR-NO-HANG and then use READ-SEQUENCE for a more
-  ;; efficient way of reading it in. Hopefully the case where
-  ;; the currently available data is less than the buffer
-  ;; size is very infrequent.
+  ;; READ-CHAR-NO-HANG and then use one of several methods to
+  ;; read more or less blocking and more or less efficiently
+  ;; from the stream.
   (when (open-stream-p input)
     (let ((char (read-char-no-hang input NIL)))
       (when char
         (write-char char output)
-        (loop with buf = (make-array 64 :element-type 'character)
-              for size = (read-sequence buf input)
-              while (< 0 size)
-              do (write-sequence buf output :end size)
-                 (unless consume-all (return)))))))
+        (etypecase buffer
+          ((eql :line)
+           (if consume-all
+               (loop for line = (read-line input NIL)
+                     while line
+                     do (write-line line output))
+               (write-line (read-line input) output)))
+          ((eql :character)
+           (if consume-all
+               (loop for char = (read-char input NIL)
+                     while char
+                     do (write-char char output))
+               (loop for char = (read-char-no-hang input NIL)
+                     while char
+                     do (write-char char output))))
+          (integer
+           (let ((buf (make-array buffer :element-type 'character)))
+             (if consume-all
+                 (loop for size = (read-sequence buf input)
+                       while (< 0 size) do (write-sequence buf output :end size))
+                 (write-sequence buf output :end (read-sequence buf input))))))))))
+
+(defun handle-process-sequential (copier process out-in out-out err-in err-out &key (cooldown 0.05))
+  (unwind-protect
+       (loop do (funcall copier out-in out-out)
+                (funcall copier err-in err-out)
+                (sleep cooldown)
+             while (eq (external-program:process-status process) :running))
+    (ensure-process-stopped process)
+    (funcall copier out-in out-out :consume-all T)
+    (funcall copier err-in err-out :consume-all T)))
+
+(defun handle-process-parallel (copier process out-in out-out err-in err-out)
+  (let ((err-thread (bt:make-thread (lambda () (funcall copier err-in err-out :consume-all T))))
+        (out-thread (bt:make-thread (lambda () (funcall copier out-in out-out :consume-all T)))))
+    (unwind-protect
+         (loop while (eq (external-program:process-status process) :running)
+               do (sleep 0.1))
+      (ensure-process-stopped process)
+      (bt:join-thread err-thread)
+      (bt:join-thread out-thread))))
+
+(defun make-copier (buffer)
+  (lambda (in out &rest args)
+    (apply #'copy-stream in out :buffer buffer args)))
 
 (defun stop-process (process &key (attempts 10) (sleep 0.1))
   (external-program:signal-process process :interrupt)
@@ -87,25 +126,18 @@
   #+sbcl (apply #'external-program:start program args :directory *cwd* kargs)
   #-sbcl (with-exchdir () (apply #'external-program:start program args kargs)))
 
-(defun run (program args &key input output error (on-non-zero-exit :return))
+(defun run (program args &key input output error (on-non-zero-exit :return) (handler #'handle-process-sequential) (copier (make-copier :line)))
   (ecase on-non-zero-exit ((NIL :return :error :warn)))
   #+verbose (v:trace :legit "~a~{~^ ~a~}" program args)
   (with-resolved-stream (output)
     (with-resolved-stream (error)
       (let* ((process (%start-process program args :output :stream :error :stream :input input))
-             (process-output (external-program:process-output-stream process))
-             (process-error (external-program:process-error-stream process)))
+             (out-in (external-program:process-output-stream process))
+             (err-in (external-program:process-error-stream process)))
         (unwind-protect
-             (loop do (copy-stream process-output output)
-                      (copy-stream process-error error)
-                      ;; Some breathing space
-                      #+sbcl (sb-thread:thread-yield)
-                   while (eq (external-program:process-status process) :running))
-          (ensure-process-stopped process)
-          (copy-stream process-output output :consume-all T)
-          (copy-stream process-error error :consume-all T)
-          (close process-output)
-          (close process-error))
+             (funcall handler copier process out-in output err-in error)
+          (close out-in)
+          (close err-in))
         (let ((exit (nth-value 1 (external-program:process-status process))))
           (if (= 0 exit)
               exit

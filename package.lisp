@@ -81,6 +81,10 @@
    #:*cwd*
    #:with-chdir
    #:with-exchdir
+   #:copy-stream
+   #:handle-process-sequential
+   #:handle-process-parallel
+   #:make-copier
    #:run
    #:*git-output*
    #:*git-errors*
