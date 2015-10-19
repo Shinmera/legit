@@ -84,7 +84,8 @@
              (if consume-all
                  (loop for size = (read-sequence buf input)
                        while (< 0 size) do (write-sequence buf output :end size))
-                 (write-sequence buf output :end (read-sequence buf input))))))))))
+                 (write-sequence buf output :end (read-sequence buf input))))))
+        (finish-output output)))))
 
 (defun handle-process-sequential (copier process out-in out-out err-in err-out &key (cooldown 0.05))
   (unwind-protect
