@@ -127,7 +127,7 @@
   #+sbcl (apply #'external-program:start program args :directory *cwd* kargs)
   #-sbcl (with-exchdir () (apply #'external-program:start program args kargs)))
 
-(defun run (program args &key input output error (on-non-zero-exit :return) (handler #'handle-process-sequential) (copier (make-copier :line)))
+(defun run (program args &key input output error (on-non-zero-exit :return) (handler #'handle-process-sequential) (copier (make-copier :character)))
   (ecase on-non-zero-exit ((NIL :return :error :warn)))
   #+verbose (v:trace :legit "~a~{~^ ~a~}" program args)
   (with-resolved-stream (output)
