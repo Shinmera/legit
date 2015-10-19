@@ -47,15 +47,29 @@
      (funcall func *standard-output*))))
 
 (defun copy-stream (input output &key consume-all)
-  ;; We copy char by char which is /pretty shit/ performance wise
-  ;; but otherwise we would have to either thread or block,
-  ;; both of which we /definitely/ do want to avoid.
+  ;; Ok, this is kludgy. Let's see.
+  ;; In order to avoid having to spawn threads to read the
+  ;; two streams simultaneously, we have to somehow read only
+  ;; as much as is available and then return, to let the
+  ;; other stream be read. As such, READ-SEQUENCE by itself
+  ;; is not a possible choice as it might well block until the
+  ;; end of the program. The only other choice is to use
+  ;; READ-CHAR-NO-HANG, which is impossibly inefficient and
+  ;; will eat all of the resources. So we opt for a compromise
+  ;; in which we check if new input is there by
+  ;; READ-CHAR-NO-HANG and then use READ-SEQUENCE for a more
+  ;; efficient way of reading it in. Hopefully the case where
+  ;; the currently available data is less than the buffer
+  ;; size is very infrequent.
   (when (open-stream-p input)
-    (loop for char = (read-char-no-hang input NIL :eof)
-          do (case char
-               ((NIL) (unless consume-all (return)))
-               (:eof (return))
-               (T (write-char char output))))))
+    (let ((char (read-char-no-hang input NIL)))
+      (when char
+        (write-char char output)
+        (loop with buf = (make-array 64 :element-type 'character)
+              for size = (read-sequence buf input)
+              while (< 0 size)
+              do (write-sequence buf output :end size)
+                 (unless consume-all (return)))))))
 
 (defun stop-process (process &key (attempts 10) (sleep 0.1))
   (external-program:signal-process process :interrupt)
