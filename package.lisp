@@ -99,6 +99,7 @@
    #:checkout
    #:reset
    #:clean
+   #:git-value
    #:commits
    #:current-commit
    #:current-branch
