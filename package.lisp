@@ -102,6 +102,8 @@
    #:git-value
    #:commits
    #:submodules
+   #:map-submodules
+   #:do-submodules
    #:commit-age
    #:current-commit
    #:current-branch

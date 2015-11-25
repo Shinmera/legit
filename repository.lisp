@@ -113,6 +113,14 @@
           collect (let ((path (subseq line (1+ (position #\  line :start 1)))))
                     (make-instance 'repository :location (merge-pathnames path (location repository)))))))
 
+(defgeneric map-submodules (repository function &key &allow-other-keys)
+  (:method ((repository repository) function &rest args &key)
+    (dolist (submodule (apply #'submodules repository args))
+      (funcall function submodule))))
+
+(defmacro do-submodules ((submodule repository &rest args) &body body)
+  `(map-submodules ,repository (lambda (,submodule) ,@body) ,@args))
+
 (defgeneric commit-age (repository commit &key &allow-other-keys)
   (:method ((repository repository) commit &key)
     (unix-to-universal-time
