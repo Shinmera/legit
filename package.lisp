@@ -101,6 +101,8 @@
    #:clean
    #:git-value
    #:commits
+   #:submodules
+   #:commit-age
    #:current-commit
    #:current-branch
    #:current-message

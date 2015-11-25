@@ -102,6 +102,22 @@
           when (string/= line "")
           collect line)))
 
+(defgeneric submodules (repository &key &allow-other-keys)
+  (:method ((repository repository) &key recursive)
+    (loop with text = (git-value repository `(submodules ,recursive)
+                                 (git-submodule :status :recursive recursive))
+          with stream = (make-string-input-stream text)
+          for line = (read-line stream NIL NIL)
+          while line
+          when (string/= line "")
+          collect (let ((path (subseq line (1+ (position #\  line :start 1)))))
+                    (make-instance 'repository :location (merge-pathnames path (location repository)))))))
+
+(defgeneric commit-age (repository commit &key &allow-other-keys)
+  (:method ((repository repository) commit &key)
+    (unix-to-universal-time
+     (parse-integer (git-value repository `(age ,commit) (git-log :pretty "%ct" :max-count 1 :paths commit))))))
+
 (defgeneric current-commit (repository &key &allow-other-keys)
   (:method ((repository repository) &key short)
     (git-value repository `(commit ,short) (git-rev-parse "HEAD" :short short))))
