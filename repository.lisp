@@ -103,15 +103,17 @@
           collect line)))
 
 (defgeneric submodules (repository &key &allow-other-keys)
-  (:method ((repository repository) &key recursive)
+  (:method ((repository repository) &key recursive only-existing)
     (loop with text = (git-value repository `(submodules ,recursive)
                                  (git-submodule :status :recursive recursive))
           with stream = (make-string-input-stream text)
           for line = (read-line stream NIL NIL)
+          for path = (when (and line (string/= line ""))
+                       (merge-pathnames (subseq line (1+ (position #\  line :start 1)))
+                                        (location repository)))
           while line
-          when (string/= line "")
-          collect (let ((path (subseq line (1+ (position #\  line :start 1)))))
-                    (make-instance 'repository :location (merge-pathnames path (location repository)))))))
+          when (and path (or (not only-existing) (valid-location-p path)))
+          collect (make-instance 'repository :location path))))
 
 (defgeneric map-submodules (repository function &key &allow-other-keys)
   (:method ((repository repository) function &rest args &key)
