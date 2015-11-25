@@ -113,4 +113,5 @@
   ;; toolkit.lisp
   (:export
    #:location
+   #:valid-location-p
    #:relative-dir))

@@ -121,6 +121,11 @@
   (:method ((string string))
     (uiop:parse-native-namestring string)))
 
+(defgeneric valid-location-p (thing)
+  (:method (thing)
+    (let ((location (ignore-errors thing)))
+      (and location (uiop:probe-file* location)))))
+
 (defun minimal-shell-namestring (pathname)
   (uiop:native-namestring
    (uiop:enough-pathname
