@@ -81,7 +81,7 @@
   `(when ,(p-symb symbol)
      ,(argetypecase symbol
         (:--
-         `((T (list "--" ,symbol))))
+         `((T (when ,symbol (list "--" ,symbol)))))
         (:member
          (loop for thing in (cdr args)
                collect `((eql ,thing) ,thing)))
