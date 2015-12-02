@@ -19,6 +19,5 @@
                (:file "low-level")
                (:file "repository"))
   :depends-on (:uiop
-               :external-program
-               :lambda-fiddle
-               :bordeaux-threads))
+               :simple-inferiors
+               :lambda-fiddle))

@@ -7,7 +7,7 @@
 (in-package #:cl-user)
 (defpackage #:legit
   (:nicknames #:org.shirakumo.legit)
-  (:use #:cl)
+  (:use #:cl #:simple-inferiors)
   ;; low-level.lisp
   (:export
    #:git-add
@@ -78,14 +78,6 @@
    #:git-write-tree)
   ;; process.lisp
   (:export
-   #:*cwd*
-   #:with-chdir
-   #:with-exchdir
-   #:copy-stream
-   #:handle-process-sequential
-   #:handle-process-parallel
-   #:make-copier
-   #:run
    #:*git-output*
    #:*git-errors*
    #:*git-input*
