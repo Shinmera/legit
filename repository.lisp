@@ -23,13 +23,15 @@
     (:ignore
      NIL)
     ((:create :init)
+     (ensure-directories-exist location)
      (git-init :directory location)
-     (when (string/= branch "master")
-       (git-checkout :branch (or branch "master") :orphan T)))
+     (when (and branch (string/= branch "master"))
+       (git-checkout :branch branch :orphan T)))
     ((:clone)
+     (ensure-directories-exist location)
      (git-clone (or remote (error "REMOTE required for :CLONE."))
                 :directory location
-                :branch (or branch "master")))))
+                :branch branch))))
 
 (defgeneric clear-cache (repository &optional key)
   (:method ((repository repository) &optional (key NIL k-p))
