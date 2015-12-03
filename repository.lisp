@@ -65,6 +65,12 @@
   (:method ((from string) (to string) &key branch)
     (git-clone from :directory to :branch branch)))
 
+(defgeneric fetch (repository &key &allow-other-keys)
+  (:method ((repository repository) &key)
+    (with-chdir (repository)
+      (git-fetch))
+    (clear-cache repository)))
+
 (defgeneric pull (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
     (with-chdir (repository)

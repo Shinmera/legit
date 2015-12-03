@@ -87,6 +87,7 @@
    #:repository
    #:init
    #:clone
+   #:fetch
    #:pull
    #:checkout
    #:reset
