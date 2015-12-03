@@ -31,9 +31,11 @@
                 :directory location
                 :branch (or branch "master")))))
 
-(defgeneric clear-cache (repository)
-  (:method ((repository repository))
-    (clrhash (cache repository))))
+(defgeneric clear-cache (repository &optional key)
+  (:method ((repository repository) &optional (key NIL k-p))
+    (if k-p
+        (remhash key (cache repository))
+        (clrhash (cache repository)))))
 
 (defgeneric init (repository &key &allow-other-keys)
   (:method ((repository pathname) &key (if-does-not-exist :error) remote branch)
