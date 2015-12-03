@@ -345,9 +345,9 @@
   (show-tree-diff (:name t) :flag))
 
 (define-git-wrapper git-remote
-  (action (:member :add :rename :remove :set-head :set-branches :set-url :show :prune :update) :front)
+  (action (:member :add :rename :remove :set-head :set-branches :set-url :show :prune :update NIL) :front)
   &optional name url old new branches newurl oldurl names groups remotes
-  &key verbose (tags :bool) (mirror (:member :fetch :push)) auto add
+  &key (verbose :flag) (tags :bool) (mirror (:member :fetch :push)) auto add
   push delete dry-run prune (immediate (:name f) :flag) (track (:name t) :arg)
   (symlink (:name m) :arg) (no-query (:name n) :flag))
 
