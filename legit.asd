@@ -20,4 +20,5 @@
                (:file "repository"))
   :depends-on (:uiop
                :simple-inferiors
-               :lambda-fiddle))
+               :lambda-fiddle
+               :cl-ppcre))

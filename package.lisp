@@ -96,6 +96,7 @@
    #:submodules
    #:map-submodules
    #:do-submodules
+   #:remotes
    #:commit-age
    #:current-commit
    #:current-branch

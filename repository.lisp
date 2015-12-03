@@ -125,6 +125,37 @@
 (defmacro do-submodules ((submodule repository &rest args) &body body)
   `(map-submodules ,repository (lambda (,submodule) ,@body) ,@args))
 
+(defgeneric remotes (repository &key &allow-other-keys)
+  (:method ((repository repository) &key)
+    (remove-duplicates
+     (loop with text = (git-value repository `remotes (git-remote NIL :verbose T))
+           with stream = (make-string-input-stream text)
+           for line = (read-line stream NIL NIL)
+           while line
+           collect (cl-ppcre:register-groups-bind (name remote) ("^(.*?)\\t(.*?) " line)
+                     (cons name remote)))
+     :key #'car :test #'string=)))
+
+(defgeneric (setf remotes) (remotes repository &key &allow-other-keys)
+  (:method ((new-remotes list) (repository repository) &key)
+    (with-chdir (repository)
+      (let ((old-remotes (remotes repository)))
+        ;; Rename and remove old.
+        (loop for (name . url) in old-remotes
+              for new = (find name new-remotes :key #'car :test #'string=)
+              do (cond (new
+                        (when (string/= url (cdr new))
+                          (git-remote :set-url :name name :newurl (cdr new) :oldurl url)))
+                       (T
+                        (git-remote :remove :name name))))
+        ;; Add new.
+        (loop for (name . url) in new-remotes
+              do (unless (find name old-remotes :key #'car :test #'string=)
+                   (git-remote :add :name name :url url)))))
+    ;; Invalidate cache.
+    (clear-cache repository `remotes)
+    new-remotes))
+
 (defgeneric commit-age (repository commit &key &allow-other-keys)
   (:method ((repository repository) commit &key)
     (unix-to-universal-time
