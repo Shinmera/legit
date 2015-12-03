@@ -72,7 +72,7 @@
      `((T (list "--" ,symbol))))
     (:member
      (loop for thing in (cdr args)
-           collect `((eql ,thing) ,(format NIL "~(~a~)" thing))))
+           collect `((eql ,thing) ,(when thing (format NIL "~(~a~)" thing)))))
     (:req
      `((T ,symbol)))))
 
