@@ -16,7 +16,7 @@
   (print-unreadable-object (repository stream :type T)
     (format stream "~s" (uiop:native-namestring (location repository)))))
 
-(defun handle-init (action location remote branch)
+(defun handle-init (action location remote branch bare)
   (ecase action
     (:error
      (error "~a is not a GIT repository." location))
@@ -24,14 +24,15 @@
      NIL)
     ((:create :init)
      (ensure-directories-exist location)
-     (git-init :directory location)
+     (git-init :directory location :bare bare)
      (when (and branch (string/= branch "master"))
        (git-checkout :branch branch :orphan T)))
     ((:clone)
      (ensure-directories-exist location)
      (git-clone (or remote (error "REMOTE required for :CLONE."))
                 :directory location
-                :branch branch))))
+                :branch branch
+                :bare bare))))
 
 (defgeneric clear-cache (repository &optional key)
   (:method ((repository repository) &optional (key NIL k-p))
@@ -40,32 +41,32 @@
         (clrhash (cache repository)))))
 
 (defgeneric init (repository &key &allow-other-keys)
-  (:method ((repository pathname) &key (if-does-not-exist :error) remote branch)
+  (:method ((repository pathname) &key (if-does-not-exist :error) remote branch bare)
     (unless (uiop:directory-exists-p
              (relative-dir repository ".git"))
       (if if-does-not-exist
-          (handle-init if-does-not-exist repository remote branch)
+          (handle-init if-does-not-exist repository remote branch bare)
           (return-from init NIL)))
     (make-instance 'repository :location repository))
-  (:method ((repository repository) &key (if-does-not-exist :error) remote branch)
+  (:method ((repository repository) &key (if-does-not-exist :error) remote branch bare)
     (unless (uiop:directory-exists-p
              (relative-dir (location repository) ".git"))
       (if if-does-not-exist
-          (handle-init if-does-not-exist (location repository) remote branch)
+          (handle-init if-does-not-exist (location repository) remote branch bare)
           (return-from init NIL)))
     repository))
 
 (defgeneric clone (from to &key &allow-other-keys)
-  (:method ((from repository) to &key branch)
-    (clone (location from) to :branch branch))
-  (:method ((from pathname) to &key branch)
-    (clone (uiop:native-namestring from) to :branch branch))
-  (:method ((from string) (to repository) &key branch)
-    (clone from (location to) :branch branch))
-  (:method ((from string) (to pathname) &key branch)
-    (clone from (uiop:native-namestring to) :branch branch))
-  (:method ((from string) (to string) &key branch)
-    (git-clone from :directory to :branch branch)))
+  (:method ((from repository) to &rest args &key)
+    (apply #'clone (location from) to args))
+  (:method ((from pathname) to &rest args &key)
+    (apply #'clone (uiop:native-namestring from) to args))
+  (:method ((from string) (to repository) &rest args &key)
+    (apply #'clone from (location to) args))
+  (:method ((from string) (to pathname) &rest args &key)
+    (apply #'clone from (uiop:native-namestring to) args))
+  (:method ((from string) (to string) &key branch bare)
+    (git-clone from :directory to :branch branch :bare bare)))
 
 (defgeneric fetch (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
