@@ -85,6 +85,7 @@
   ;; repository.lisp
   (:export
    #:repository
+   #:git-location-p
    #:init
    #:clone
    #:fetch

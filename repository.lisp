@@ -40,17 +40,19 @@
         (remhash key (cache repository))
         (clrhash (cache repository)))))
 
+(defun git-location-p (location)
+  (= 0 (with-chdir (location)
+         (git-rev-parse NIL :git-dir T))))
+
 (defgeneric init (repository &key &allow-other-keys)
   (:method ((repository pathname) &key (if-does-not-exist :error) remote branch bare)
-    (unless (uiop:directory-exists-p
-             (relative-dir repository ".git"))
+    (unless (git-location-p repository)
       (if if-does-not-exist
           (handle-init if-does-not-exist repository remote branch bare)
           (return-from init NIL)))
     (make-instance 'repository :location repository))
   (:method ((repository repository) &key (if-does-not-exist :error) remote branch bare)
-    (unless (uiop:directory-exists-p
-             (relative-dir (location repository) ".git"))
+    (unless (git-location-p repository)
       (if if-does-not-exist
           (handle-init if-does-not-exist (location repository) remote branch bare)
           (return-from init NIL)))
