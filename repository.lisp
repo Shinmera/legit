@@ -192,3 +192,7 @@
 (defgeneric remote-url (repository &key &allow-other-keys)
   (:method ((repository repository) &key (remote "origin"))
     (git-value repository `(url ,remote) (git-config :name (format NIL "remote.~a.url" remote)))))
+
+(defgeneric bare-p (repository &key &allow-other-keys)
+  (:method ((repository repository) &key)
+    (string-equal "true" (git-value repository `bare-p (git-rev-parse NIL :is-bare-repository T)))))

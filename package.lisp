@@ -104,7 +104,8 @@
    #:current-branch
    #:current-message
    #:current-age
-   #:remote-url)
+   #:remote-url
+   #:bare-p)
   ;; toolkit.lisp
   (:export
    #:location
