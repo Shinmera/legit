@@ -86,6 +86,7 @@
   (:export
    #:repository
    #:git-location-p
+   #:bare-p
    #:init
    #:clone
    #:fetch

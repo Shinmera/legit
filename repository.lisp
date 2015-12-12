@@ -44,6 +44,13 @@
   (= 0 (with-chdir (location)
          (git-rev-parse NIL :git-dir T))))
 
+(defgeneric bare-p (repository &key &allow-other-keys)
+  (:method ((repository pathname) &key)
+    (= 1 (with-chdir (repository)
+           (git-rev-parse NIL :is-bare-repository T))))
+  (:method ((repository repository) &key)
+    (bare-p (pathname (location repository)))))
+
 (defgeneric init (repository &key &allow-other-keys)
   (:method ((repository pathname) &key (if-does-not-exist :error) remote branch bare)
     (unless (git-location-p repository)
