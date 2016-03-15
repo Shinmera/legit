@@ -8,6 +8,11 @@
 (defpackage #:legit
   (:nicknames #:org.shirakumo.legit)
   (:use #:cl #:simple-inferiors)
+  ;; re-export
+  (:export
+   #:with-chdir
+   #:location
+   #:valid-location-p)
   ;; low-level.lisp
   (:export
    #:git-add
@@ -85,6 +90,7 @@
   ;; repository.lisp
   (:export
    #:repository
+   #:clear-cache
    #:git-location-p
    #:init
    #:clone
@@ -108,6 +114,4 @@
    #:bare-p)
   ;; toolkit.lisp
   (:export
-   #:location
-   #:valid-location-p
    #:relative-dir))
