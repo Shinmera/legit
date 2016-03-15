@@ -17,8 +17,10 @@
                (:file "toolkit")
                (:file "process")
                (:file "low-level")
-               (:file "repository"))
+               (:file "repository")
+               (:file "documentation"))
   :depends-on (:uiop
                :simple-inferiors
                :lambda-fiddle
-               :cl-ppcre))
+               :cl-ppcre
+               :documentation-utils))
