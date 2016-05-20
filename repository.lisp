@@ -41,8 +41,9 @@
         (clrhash (cache repository)))))
 
 (defun git-location-p (location)
-  (= 0 (with-chdir (location)
-         (git-rev-parse NIL :git-dir T))))
+  (when (probe-file (location location))
+    (= 0 (with-chdir (location)
+           (git-rev-parse NIL :git-dir T)))))
 
 (defgeneric init (repository &key &allow-other-keys)
   (:method ((repository pathname) &key (if-does-not-exist :error) remote branch bare)
