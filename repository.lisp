@@ -72,15 +72,18 @@
     (git-clone from :directory to :branch branch :bare bare)))
 
 (defgeneric fetch (repository &key &allow-other-keys)
-  (:method ((repository repository) &key)
+  (:method ((repository repository) &key (remote "origin") (branch (current-branch repository)))
     (with-chdir (repository)
-      (git-fetch))
+      (git-fetch :repository remote :refspecs branch))
     (clear-cache repository)))
 
 (defgeneric pull (repository &key &allow-other-keys)
   (:method ((repository repository) &key)
-    (with-chdir (repository)
-      (git-pull))
+    (if (bare-p repository)
+        ;; In bare repositories, do the fetch that would be about the same as a pull.
+        (fetch repository :branch (format NIL "~a:~:*~a" (current-branch repository)))
+        (with-chdir (repository)
+          (git-pull)))
     (clear-cache repository)))
 
 (defgeneric checkout (repository thing &key &allow-other-keys)
