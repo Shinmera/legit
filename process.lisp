@@ -14,8 +14,8 @@
    "git" (loop with list = ()
                for arg in cmdargs
                do (typecase arg
-                    (list (dolist (a arg) (push a list)))
-                    (T (push arg list)))
+                    (list (dolist (a arg) (cl:push a list)))
+                    (T (cl:push arg list)))
                finally (return (nreverse list)))
    :output *git-output*
    :error *git-errors*

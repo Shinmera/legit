@@ -8,6 +8,7 @@
 (defpackage #:legit
   (:nicknames #:org.shirakumo.legit)
   (:use #:cl #:simple-inferiors)
+  (:shadow #:push)
   ;; re-export
   (:export
    #:with-chdir
