@@ -99,6 +99,9 @@
    #:checkout
    #:reset
    #:clean
+   #:add
+   #:commit
+   #:push
    #:git-value
    #:commits
    #:submodules
