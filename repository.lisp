@@ -122,7 +122,7 @@
 (define-repo-function commit (repository message &key amend)
   (git-commit :message message :amend amend))
 
-(define-repo-function push (repository &key (remote (first (remotes repository))) (refspecs (current-branch repository)))
+(define-repo-function push (repository &key (remote (caar (remotes repository))) (refspecs (current-branch repository)))
   (git-push :repository remote :refspecs refspecs))
 
 (define-repo-function commits (repository &key)
