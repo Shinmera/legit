@@ -63,8 +63,9 @@
 
 (defun git-location-p (location)
   (when (probe-file (location location))
-    (= 0 (with-chdir (location)
-           (git-rev-parse NIL :git-dir T)))))
+    (ignore-errors
+     (with-chdir (location)
+       (git-rev-parse NIL :git-dir T)))))
 
 (defgeneric init (repository &key &allow-other-keys)
   (:method ((repository string) &rest args)
