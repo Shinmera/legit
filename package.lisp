@@ -87,6 +87,7 @@
    #:*git-output*
    #:*git-errors*
    #:*git-input*
+   #:git-error
    #:run-git)
   ;; repository.lisp
   (:export
