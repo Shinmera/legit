@@ -56,7 +56,8 @@
 (define-repo-function clear-cache (repository &key (key NIL k-p))
   (if k-p
       (remhash key (cache repository))
-      (clrhash (cache repository))))
+      (clrhash (cache repository)))
+  repository)
 
 (defun git-location-p (location)
   (when (probe-file (location location))
@@ -111,19 +112,23 @@
   (clear-cache repository))
 
 (define-repo-function clean (repository &key directories force ignored)
-  (git-clean :directories directories :force force :remove-ignored ignored))
+  (git-clean :directories directories :force force :remove-ignored ignored)
+  repository)
 
 (define-repo-function add (repository files &key)
   (cond ((eql files :all)
          (git-add :all T))
         (T
-         (git-add :paths files))))
+         (git-add :paths files)))
+  repository)
 
 (define-repo-function commit (repository message &key amend)
-  (git-commit :message message :amend amend))
+  (git-commit :message message :amend amend)
+  repository)
 
 (define-repo-function push (repository &key (remote (caar (remotes repository))) (refspecs (current-branch repository)))
-  (git-push :repository remote :refspecs refspecs))
+  (git-push :repository remote :refspecs refspecs)
+  repository)
 
 (define-repo-function commits (repository &key)
   (loop with text = (git-value repository `(commits) (git-rev-list :all T))
