@@ -44,5 +44,5 @@
          (exit (run "git" cmdargs :output *git-output* :error *git-errors* :input *git-input*))
          (error-text (string-right-trim '(#\Newline) (get-output-stream-string error-capture))))
     (case exit
-      (0 NIL)
+      (0 T)
       (T (error 'git-error :command (cons "git" cmdargs) :exit-code exit :error-text error-text)))))
