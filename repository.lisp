@@ -46,12 +46,14 @@
               (with-chdir (,repo)
                 ,@body)))))
 
-(defmacro git-value (repository name form)
+(defmacro git-value (repository name &body forms)
   `(or (gethash ,name (cache ,repository))
        (setf (gethash ,name (cache ,repository))
              (with-chdir (,repository)
-               (let ((*git-output* :string))
-                 (string-right-trim '(#\Newline) ,form))))))
+               (string-right-trim
+                '(#\Newline)
+                (with-output-to-string (*git-output*)
+                  ,@forms))))))
 
 (define-repo-function clear-cache (repository &key (key NIL k-p))
   (if k-p
