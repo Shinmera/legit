@@ -211,7 +211,7 @@
    (parse-integer (git-value repository `(age) (git-log :pretty "%ct" :max-count 1)))))
 
 (define-repo-function remote-url (repository &key (remote "origin"))
-  (git-value repository `(url ,remote) (git-config :name (format NIL "remote.~a.url" remote))))
+  (git-value repository `(url ,remote) (ignore-errors (git-config :name (format NIL "remote.~a.url" remote)))))
 
 (define-repo-function bare-p (repository &key)
   (string-equal "true" (git-value repository `bare-p (git-rev-parse NIL :is-bare-repository T))))
