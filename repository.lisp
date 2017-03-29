@@ -101,11 +101,11 @@
   (git-fetch :repository remote :refspecs branch)
   (clear-cache repository))
 
-(define-repo-function pull (repository &key)
+(define-repo-function pull (repository &key (remote (caar (remotes repository))) (refspecs (current-branch repository)))
   (if (bare-p repository)
       ;; In bare repositories, do the fetch that would be about the same as a pull.
-      (fetch repository :branch (format NIL "~a:~:*~a" (current-branch repository)))
-      (git-pull))
+      (fetch repository :branch (format NIL "~a:~:*~a" refspecs))
+      (git-pull :repository remote :refspecs refspecs))
   (clear-cache repository))
 
 (define-repo-function checkout (repository thing &key)
