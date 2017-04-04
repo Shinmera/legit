@@ -6,38 +6,41 @@
           font-size: 14pt;
           padding: 5px;
       }
-
       body>header{
           display:flex;
           align-items: center;
           justify-content: center;
           flex-direction: column;
           max-width: 100%;
+          text-align: center;
       }
-
+      body>header img{
+          max-width: 50%;
+      }
       img{
           max-width: 100%;
           max-height: 100%;
       }
-
       code{
           font-family: Consolas, Inconsolata, monospace;
       }
-
       a{
           text-decoration: none;
           color: #0055AA;
       }
-
+      a img{
+          border: none;
+      }
       #documentation{
           text-align: justify;
       }
-
       #documentation pre{
           margin-left: 20px;
           overflow: auto;
       }
-
+      #documentation img{
+          margin: 5px;
+      }
       #symbol-index>ul{
           list-style: none;
           padding: 0;
@@ -68,7 +71,6 @@
           white-space: pre-wrap;
           font-size: 12pt;
       }
-
       @media (max-width: 800px){
           body{font-size: 12pt;}
       } </style> </head> <body> <header> <h1>legit</h1> <span class="version">1.0.0</span> <p class="description">CL interface to the GIT binary.</p> </header> <main> <article id="documentation">  <div><h2>About Legit</h2> <p>This is an interface to the GIT binary to make controlling it from within CL much easier. I've had the need to do this kind of thing a couple of times now, so I might as well encapsulate it into a proper library. I don't know if this is ever going to reach full coverage of all features given GIT's immense size, but I will add features as they are needed. The low-level command API is fully mapped however.</p> <h2>How To</h2> <p>You will need the <code>git</code> binary in your <code>PATH</code>. Once you got that, and have this system loaded via ASDF or Quicklisp, you can access all the git commands through functions.</p> <pre><code>(<a href="#LEGIT:WITH-CHDIR">legit:with-chdir</a> (&quot;some/git/dir&quot;)
@@ -77,25 +79,25 @@
   (<a href="http://l1sp.org/cl/values">values</a> (<a href="#LEGIT:COMMITS">legit:commits</a> repository)
           (<a href="#LEGIT:CURRENT-BRANCH">legit:current-branch</a> repository)
           (<a href="#LEGIT:REMOTE-URL">legit:remote-url</a> repository)))
-</code></pre> <p>A lot of the information about a repository that you can access will automatically be cached until some destructive operation (like a <code><a href="#LEGIT:PULL">pull</a></code>) occurs, so that querying that information does not take so much time each request.</p> <h2>Also See</h2> <ul> <li><a href="http://shinmera.github.io/simple-inferiors/">Simple-inferiors</a> for running and controlling the git binary.</li> </ul> </div>  </article> <article id="copyright">  <h2>Copyright</h2> <span>legit</span> is licensed under the <span><a href="https://tldrlegal.com/search?q=Artistic">Artistic</a></span> license.  © <span>Nicolas Hafner &lt;shinmera@tymoon.eu&gt;</span> .  This library can be obtained on <a href="https://github.com/Shinmera/legit">https://github.com/Shinmera/legit</a>.  </article>  <article id="symbol-index"> <h2>Package Index</h2> <ul><li class="package"> <h3> <a name="LEGIT" href="#LEGIT">LEGIT</a> <span class="nicknames">(ORG.SHIRAKUMO.LEGIT)</span> </h3> <ul><li> <a name="LEGIT:*GIT-ERRORS*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#LEGIT:*GIT-ERRORS*">*GIT-ERRORS*</a></code></h4>  </header> <pre class="docstring">The stream to which the error output of the git process is sent.
+</code></pre> <p>A lot of the information about a repository that you can access will automatically be cached until some destructive operation (like a <code><a href="#LEGIT:PULL">pull</a></code>) occurs, so that querying that information does not take so much time each request.</p> <h2>Also See</h2> <ul> <li><a href="http://shinmera.github.io/simple-inferiors/">Simple-inferiors</a> for running and controlling the git binary.</li> </ul> </div>  </article> <article id="copyright">  <h2>Copyright</h2> <span>legit</span> is licensed under the <span><a href="https://tldrlegal.com/search?q=Artistic">Artistic</a></span> license.  © <span>Nicolas Hafner &lt;shinmera@tymoon.eu&gt;</span> .  This library can be obtained on <a href="https://github.com/Shinmera/legit">https://github.com/Shinmera/legit</a>.  </article>  <article id="symbol-index"> <h2>Package Index</h2> <ul><li class="package"> <h3> <a name="LEGIT" href="#LEGIT">LEGIT</a> <span class="nicknames">(ORG.SHIRAKUMO.LEGIT)</span> </h3> <ul><li> <a name="LEGIT:*GIT-ERRORS*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#LEGIT:*GIT-ERRORS*">*GIT-ERRORS*</a></code></h4>  </header> <div class="docstring"><pre>The stream to which the error output of the git process is sent.
 
-Defaults to T, but may be automatically bound by some functions in order to process the output.</pre> </article> </li><li> <a name="LEGIT:*GIT-INPUT*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#LEGIT:*GIT-INPUT*">*GIT-INPUT*</a></code></h4>  </header> <pre class="docstring">The stream from which the standard input of the git process is taken.
+Defaults to T, but may be automatically bound by some functions in order to process the output.</pre></div> </article> </li><li> <a name="LEGIT:*GIT-INPUT*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#LEGIT:*GIT-INPUT*">*GIT-INPUT*</a></code></h4>  </header> <div class="docstring"><pre>The stream from which the standard input of the git process is taken.
 
-Defaults to NIL.</pre> </article> </li><li> <a name="LEGIT:*GIT-OUTPUT*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#LEGIT:*GIT-OUTPUT*">*GIT-OUTPUT*</a></code></h4>  </header> <pre class="docstring">The stream to which the standard output of the git process is sent.
+Defaults to NIL.</pre></div> </article> </li><li> <a name="LEGIT:*GIT-OUTPUT*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#LEGIT:*GIT-OUTPUT*">*GIT-OUTPUT*</a></code></h4>  </header> <div class="docstring"><pre>The stream to which the standard output of the git process is sent.
 
-Defaults to T, but may be automatically bound by some functions in order to process the output.</pre> </article> </li><li> <a name="LEGIT:REPOSITORY"> </a> <article> <header class="class"> <span class="type">class</span>  <h4 class="name"><code><a href="#LEGIT:REPOSITORY">REPOSITORY</a></code></h4>  </header> <pre class="docstring">A class to represent a git repository with.
+Defaults to T, but may be automatically bound by some functions in order to process the output.</pre></div> </article> </li><li> <a name="LEGIT:REPOSITORY"> </a> <article> <header class="class"> <span class="type">class</span>  <h4 class="name"><code><a href="#LEGIT:REPOSITORY">REPOSITORY</a></code></h4>  </header> <div class="docstring"><pre>A class to represent a git repository with.
 
 This is a LOCATION.
 
-See LOCATION
-See INIT</pre> </article> </li><li> <a name="LEGIT:GIT-ERROR"> </a> <article> <header class="condition"> <span class="type">condition</span>  <h4 class="name"><code><a href="#LEGIT:GIT-ERROR">GIT-ERROR</a></code></h4>  </header> <pre class="docstring"/> </article> </li><li> <a name="LEGIT:LOCATION"> </a> <article> <header class="accessor"> <span class="type">accessor</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:LOCATION">LOCATION</a></code></h4> <code class="qualifiers"></code> <code class="arguments">THING</code><code>)</code>  </header> <pre class="docstring">Attempts to resolve the THING to a pathname.
+See <a href="#LEGIT:LOCATION">LOCATION</a>
+See <a href="#LEGIT:INIT">INIT</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-ERROR"> </a> <article> <header class="condition"> <span class="type">condition</span>  <h4 class="name"><code><a href="#LEGIT:GIT-ERROR">GIT-ERROR</a></code></h4>  </header> <div class="docstring"><i>No docstring provided.</i></div> </article> </li><li> <a name="LEGIT:LOCATION"> </a> <article> <header class="accessor"> <span class="type">accessor</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:LOCATION">LOCATION</a></code></h4> <code class="qualifiers"></code> <code class="arguments">THING</code><code>)</code>  </header> <div class="docstring"><pre>Attempts to resolve the THING to a pathname.
 
 THING can be one of
   NULL     =&gt; UIOP:GETCWD
   PATHNAME =&gt; THING
   STRING   =&gt; UIOP:PARSE-NATIVE-NAMESTRING
 
-This generic function is intended to be extended with methods by the user to allow using objects as locations directly.</pre> </article> </li><li> <a name="LEGIT:REMOTES"> </a> <article> <header class="accessor"> <span class="type">accessor</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:REMOTES">REMOTES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns an alist of all remotes on the REPOSITORY. The CAR is the name, the CDR the address.
+This generic function is intended to be extended with methods by the user to allow using objects as locations directly.</pre></div> </article> </li><li> <a name="LEGIT:REMOTES"> </a> <article> <header class="accessor"> <span class="type">accessor</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:REMOTES">REMOTES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns an alist of all remotes on the REPOSITORY. The CAR is the name, the CDR the address.
 
 This function is SETF-able, meaning you can PUSH new remotes to it or remove
 remotes by SETF&amp;REMOVE. It will also gracefully change the address of a remote
@@ -103,16 +105,16 @@ if it is changed in the setted list.
 
 Setting REMOTES clears the cache.
 
-See GIT-REMOTE
-See REPOSITORY
-See CLEAR-CACHE</pre> </article> </li><li> <a name="LEGIT:GIT-ADD"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-ADD">GIT-ADD</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATHS NIL PATHS-P) (DRY-RUN NIL DRY-RUN-P) (VERBOSE NIL VERBOSE-P)
+See <a href="#LEGIT:GIT-REMOTE">GIT-REMOTE</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a>
+See <a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-ADD"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-ADD">GIT-ADD</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATHS NIL PATHS-P) (DRY-RUN NIL DRY-RUN-P) (VERBOSE NIL VERBOSE-P)
  (FORCE NIL FORCE-P) (INTERACTIVE NIL INTERACTIVE-P) (PATCH NIL PATCH-P)
  (EDIT NIL EDIT-P) (UPDATE NIL UPDATE-P) (ALL NIL ALL-P)
  (IGNORE-REMOVAL NIL IGNORE-REMOVAL-P) (INTENT-TO-ADD NIL INTENT-TO-ADD-P)
  (REFRESH NIL REFRESH-P) (IGNORE-ERRORS NIL IGNORE-ERRORS-P)
- (IGNORE-MISSING NIL IGNORE-MISSING-P)</code><code>)</code>  </header> <pre class="docstring">git add
+ (IGNORE-MISSING NIL IGNORE-MISSING-P)</code><code>)</code>  </header> <div class="docstring"><pre>git add
 
-See https://git-scm.com/docs/git-add</pre> </article> </li><li> <a name="LEGIT:GIT-AM"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-AM">GIT-AM</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (MAILDIRS NIL MAILDIRS-P) (SIGNOFF NIL SIGNOFF-P) (KEEP NIL KEEP-P)
+See <a href="NIL">https://git-scm.com/docs/git-add</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-AM"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-AM">GIT-AM</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (MAILDIRS NIL MAILDIRS-P) (SIGNOFF NIL SIGNOFF-P) (KEEP NIL KEEP-P)
  (KEEP-NON-PATCH NIL KEEP-NON-PATCH-P) (KEEP-CR NIL KEEP-CR-P)
  (SCISSORS NIL SCISSORS-P) (MESSAGE-ID NIL MESSAGE-ID-P) (QUIET NIL QUIET-P)
  (UTF8 NIL UTF8-P) (3WAY NIL 3WAY-P)
@@ -126,9 +128,9 @@ See https://git-scm.com/docs/git-add</pre> </article> </li><li> <a name="LEGIT:G
  (CONTINUE NIL CONTINUE-P) (RESOLVED NIL RESOLVED-P)
  (RESOLVEMSG NIL RESOLVEMSG-P) (ABORT NIL ABORT-P)
  (REMOVE-LEADING-SLASHES NIL REMOVE-LEADING-SLASHES-P)
- (SURROUNDING NIL SURROUNDING-P)</code><code>)</code>  </header> <pre class="docstring">git am
+ (SURROUNDING NIL SURROUNDING-P)</code><code>)</code>  </header> <div class="docstring"><pre>git am
 
-See https://git-scm.com/docs/git-am</pre> </article> </li><li> <a name="LEGIT:GIT-APPLY"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-APPLY">GIT-APPLY</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATCHES NIL PATCHES-P) (STAT NIL STAT-P) (NUMSTAT NIL NUMSTAT-P)
+See <a href="NIL">https://git-scm.com/docs/git-am</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-APPLY"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-APPLY">GIT-APPLY</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATCHES NIL PATCHES-P) (STAT NIL STAT-P) (NUMSTAT NIL NUMSTAT-P)
  (SUMMARY NIL SUMMARY-P) (CHECK NIL CHECK-P) (INDEX NIL INDEX-P)
  (CACHED NIL CACHED-P) (3WAY NIL 3WAY-P)
  (BUILD-FAKE-ANCESTOR NIL BUILD-FAKE-ANCESTOR-P) (RECURSIVE NIL RECURSIVE-P)
@@ -140,17 +142,17 @@ See https://git-scm.com/docs/git-am</pre> </article> </li><li> <a name="LEGIT:GI
  (IGNORE-WHITESPACE NIL IGNORE-WHITESPACE-P) (WHITESPACE NIL WHITESPACE-P)
  (INACCURATE-EOF NIL INACCURATE-EOF-P) (VERBOSE NIL VERBOSE-P)
  (RECOUNT NIL RECOUNT-P) (DIRECTORY NIL DIRECTORY-P)
- (UNSAFE-PATHS NIL UNSAFE-PATHS-P)</code><code>)</code>  </header> <pre class="docstring">git apply
+ (UNSAFE-PATHS NIL UNSAFE-PATHS-P)</code><code>)</code>  </header> <div class="docstring"><pre>git apply
 
-See https://git-scm.com/docs/git-apply</pre> </article> </li><li> <a name="LEGIT:GIT-ARCHIVE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-ARCHIVE">GIT-ARCHIVE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">TREE-ISH &amp;KEY (PATHS NIL PATHS-P) (FORMAT NIL FORMAT-P) (LIST NIL LIST-P)
+See <a href="NIL">https://git-scm.com/docs/git-apply</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-ARCHIVE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-ARCHIVE">GIT-ARCHIVE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">TREE-ISH &amp;KEY (PATHS NIL PATHS-P) (FORMAT NIL FORMAT-P) (LIST NIL LIST-P)
  (VERBOSE NIL VERBOSE-P) (PREFIX NIL PREFIX-P) (OUTPUT NIL OUTPUT-P)
  (WORKTREE-ATTRIBUTES NIL WORKTREE-ATTRIBUTES-P) (REMOTE NIL REMOTE-P)
- (EXEC NIL EXEC-P)</code><code>)</code>  </header> <pre class="docstring">git archive
+ (EXEC NIL EXEC-P)</code><code>)</code>  </header> <div class="docstring"><pre>git archive
 
-See https://git-scm.com/docs/git-archive</pre> </article> </li><li> <a name="LEGIT:GIT-BISECT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BISECT">GIT-BISECT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (OPTIONS NIL OPTIONS-P) (PATHS NIL PATHS-P)
- (NO-CHECKOUT NIL NO-CHECKOUT-P)</code><code>)</code>  </header> <pre class="docstring">git bisect
+See <a href="NIL">https://git-scm.com/docs/git-archive</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-BISECT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BISECT">GIT-BISECT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (OPTIONS NIL OPTIONS-P) (PATHS NIL PATHS-P)
+ (NO-CHECKOUT NIL NO-CHECKOUT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git bisect
 
-See https://git-scm.com/docs/git-bisect</pre> </article> </li><li> <a name="LEGIT:GIT-BLAME"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BLAME">GIT-BLAME</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FILE &amp;KEY (BLANK NIL BLANK-P) (ROOT NIL ROOT-P) (SHOW-STATS NIL SHOW-STATS-P)
+See <a href="NIL">https://git-scm.com/docs/git-bisect</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-BLAME"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BLAME">GIT-BLAME</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FILE &amp;KEY (BLANK NIL BLANK-P) (ROOT NIL ROOT-P) (SHOW-STATS NIL SHOW-STATS-P)
  (RANGE NIL RANGE-P) (LONG NIL LONG-P) (TIMESTAMP NIL TIMESTAMP-P)
  (REVISIONS NIL REVISIONS-P) (REVERSE NIL REVERSE-P)
  (PORCELAIN NIL PORCELAIN-P) (LINE-PORCELAIN NIL LINE-PORCELAIN-P)
@@ -160,9 +162,9 @@ See https://git-scm.com/docs/git-bisect</pre> </article> </li><li> <a name="LEGI
  (ANNOTATE NIL ANNOTATE-P) (SCORE-DEBUG NIL SCORE-DEBUG-P)
  (SHOW-NAME NIL SHOW-NAME-P) (SHOW-NUMBER NIL SHOW-NUMBER-P)
  (SUPPRESS NIL SUPPRESS-P) (SHOW-EMAIL NIL SHOW-EMAIL-P)
- (IGNORE-WHITESPACE NIL IGNORE-WHITESPACE-P) (ABBREV NIL ABBREV-P)</code><code>)</code>  </header> <pre class="docstring">git blame
+ (IGNORE-WHITESPACE NIL IGNORE-WHITESPACE-P) (ABBREV NIL ABBREV-P)</code><code>)</code>  </header> <div class="docstring"><pre>git blame
 
-See https://git-scm.com/docs/git-blame</pre> </article> </li><li> <a name="LEGIT:GIT-BRANCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BRANCH">GIT-BRANCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (BRANCH NIL BRANCH-P) (START-POINT NIL START-POINT-P)
+See <a href="NIL">https://git-scm.com/docs/git-blame</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-BRANCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BRANCH">GIT-BRANCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (BRANCH NIL BRANCH-P) (START-POINT NIL START-POINT-P)
  (OLD-BRANCH NIL OLD-BRANCH-P) (NEW-BRANCH NIL NEW-BRANCH-P)
  (PATTERNS NIL PATTERNS-P) (BRANCHES NIL BRANCHES-P) (DELETE NIL DELETE-P)
  (CREATE-REFLOG NIL CREATE-REFLOG-P) (FORCE NIL FORCE-P) (MOVE NIL MOVE-P)
@@ -171,40 +173,40 @@ See https://git-scm.com/docs/git-blame</pre> </article> </li><li> <a name="LEGIT
  (ABBREV NIL ABBREV-P) (TRACK NIL TRACK-P) (SET-UPSTREAM NIL SET-UPSTREAM-P)
  (SET-UPSTREAM-TO NIL SET-UPSTREAM-TO-P) (UNSET-UPSTREAM NIL UNSET-UPSTREAM-P)
  (EDIT-DESCRIPTION NIL EDIT-DESCRIPTION-P) (CONTAINS NIL CONTAINS-P)
- (MERGED NIL MERGED-P) (NO-MERGED NIL NO-MERGED-P)</code><code>)</code>  </header> <pre class="docstring">git branch
+ (MERGED NIL MERGED-P) (NO-MERGED NIL NO-MERGED-P)</code><code>)</code>  </header> <div class="docstring"><pre>git branch
 
-See https://git-scm.com/docs/git-branch</pre> </article> </li><li> <a name="LEGIT:GIT-BUNDLE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BUNDLE">GIT-BUNDLE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION FILE &amp;KEY (GIT-REV-LIST-ARGS NIL GIT-REV-LIST-ARGS-P)
- (REFNAMES NIL REFNAMES-P)</code><code>)</code>  </header> <pre class="docstring">git bundle
+See <a href="NIL">https://git-scm.com/docs/git-branch</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-BUNDLE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-BUNDLE">GIT-BUNDLE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION FILE &amp;KEY (GIT-REV-LIST-ARGS NIL GIT-REV-LIST-ARGS-P)
+ (REFNAMES NIL REFNAMES-P)</code><code>)</code>  </header> <div class="docstring"><pre>git bundle
 
-See https://git-scm.com/docs/git-bundle</pre> </article> </li><li> <a name="LEGIT:GIT-CAT-FILE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CAT-FILE">GIT-CAT-FILE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">OBJECT &amp;KEY (TYPE NIL TYPE-P) (SHOW-TYPE NIL SHOW-TYPE-P)
+See <a href="NIL">https://git-scm.com/docs/git-bundle</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-CAT-FILE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CAT-FILE">GIT-CAT-FILE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">OBJECT &amp;KEY (TYPE NIL TYPE-P) (SHOW-TYPE NIL SHOW-TYPE-P)
  (SHOW-SIZE NIL SHOW-SIZE-P) (SUPPRESS NIL SUPPRESS-P) (PRETTY NIL PRETTY-P)
  (TEXTCONV NIL TEXTCONV-P) (BATCH NIL BATCH-P) (BATCH-CHECK NIL BATCH-CHECK-P)
  (ALLOW-UNKNOWN-TYPE NIL ALLOW-UNKNOWN-TYPE-P)
- (FOLLOW-SYMLINKS NIL FOLLOW-SYMLINKS-P)</code><code>)</code>  </header> <pre class="docstring">git cat-file
+ (FOLLOW-SYMLINKS NIL FOLLOW-SYMLINKS-P)</code><code>)</code>  </header> <div class="docstring"><pre>git cat-file
 
-See https://git-scm.com/docs/git-cat-file</pre> </article> </li><li> <a name="LEGIT:GIT-CHECKOUT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CHECKOUT">GIT-CHECKOUT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (BRANCH NIL BRANCH-P) (NEW-BRANCH NIL NEW-BRANCH-P)
+See <a href="NIL">https://git-scm.com/docs/git-cat-file</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-CHECKOUT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CHECKOUT">GIT-CHECKOUT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (BRANCH NIL BRANCH-P) (NEW-BRANCH NIL NEW-BRANCH-P)
  (START-POINT NIL START-POINT-P) (TREE-ISH NIL TREE-ISH-P)
  (COMMIT NIL COMMIT-P) (PATHS NIL PATHS-P) (QUIET NIL QUIET-P)
  (FORCE NIL FORCE-P) (OURS NIL OURS-P) (THEIRS NIL THEIRS-P)
  (TRACK NIL TRACK-P) (DETACH NIL DETACH-P) (ORPHAN NIL ORPHAN-P)
  (IGNORE-SKIP-WORKTREE-BITS NIL IGNORE-SKIP-WORKTREE-BITS-P)
  (MERGE NIL MERGE-P) (CNOFLICT NIL CNOFLICT-P) (PATH NIL PATH-P)
- (IGNORE-OTHER-WORKTREES NIL IGNORE-OTHER-WORKTREES-P)</code><code>)</code>  </header> <pre class="docstring">git checkout
+ (IGNORE-OTHER-WORKTREES NIL IGNORE-OTHER-WORKTREES-P)</code><code>)</code>  </header> <div class="docstring"><pre>git checkout
 
-See https://git-scm.com/docs/git-checkout</pre> </article> </li><li> <a name="LEGIT:GIT-CHERRY-PICK"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CHERRY-PICK">GIT-CHERRY-PICK</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMITS NIL COMMITS-P) (EDIT NIL EDIT-P) (CONTINUE NIL CONTINUE-P)
+See <a href="NIL">https://git-scm.com/docs/git-checkout</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-CHERRY-PICK"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CHERRY-PICK">GIT-CHERRY-PICK</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMITS NIL COMMITS-P) (EDIT NIL EDIT-P) (CONTINUE NIL CONTINUE-P)
  (QUIT NIL QUIT-P) (ABORT NIL ABORT-P) (APPEND-NOTICE NIL APPEND-NOTICE-P)
  (MAINLINE NIL MAINLINE-P) (NO-COMMIT NIL NO-COMMIT-P) (SIGNOFF NIL SIGNOFF-P)
  (GPG-SIGN NIL GPG-SIGN-P) (FF NIL FF-P) (ALLOW-EMPTY NIL ALLOW-EMPTY-P)
  (ALLOW-EMPTY-MESSAGE NIL ALLOW-EMPTY-MESSAGE-P)
  (KEEP-REDUNDANT-COMMITS NIL KEEP-REDUNDANT-COMMITS-P)
- (STRATEGY NIL STRATEGY-P) (STRATEGY-OPTION NIL STRATEGY-OPTION-P)</code><code>)</code>  </header> <pre class="docstring">git cherry-pick
+ (STRATEGY NIL STRATEGY-P) (STRATEGY-OPTION NIL STRATEGY-OPTION-P)</code><code>)</code>  </header> <div class="docstring"><pre>git cherry-pick
 
-See https://git-scm.com/docs/git-cherry-pick</pre> </article> </li><li> <a name="LEGIT:GIT-CLEAN"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CLEAN">GIT-CLEAN</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATHS NIL PATHS-P) (DIRECTORIES NIL DIRECTORIES-P) (FORCE NIL FORCE-P)
+See <a href="NIL">https://git-scm.com/docs/git-cherry-pick</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-CLEAN"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CLEAN">GIT-CLEAN</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATHS NIL PATHS-P) (DIRECTORIES NIL DIRECTORIES-P) (FORCE NIL FORCE-P)
  (INTERACTIVE NIL INTERACTIVE-P) (DRY-RUN NIL DRY-RUN-P) (QUIET NIL QUIET-P)
  (EXCLUDE NIL EXCLUDE-P) (NO-IGNORE NIL NO-IGNORE-P)
- (REMOVE-IGNORED NIL REMOVE-IGNORED-P)</code><code>)</code>  </header> <pre class="docstring">git clean
+ (REMOVE-IGNORED NIL REMOVE-IGNORED-P)</code><code>)</code>  </header> <div class="docstring"><pre>git clean
 
-See https://git-scm.com/docs/git-clean</pre> </article> </li><li> <a name="LEGIT:GIT-CLONE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CLONE">GIT-CLONE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY (DIRECTORY NIL DIRECTORY-P) (LOCAL NIL LOCAL-P)
+See <a href="NIL">https://git-scm.com/docs/git-clean</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-CLONE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CLONE">GIT-CLONE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY (DIRECTORY NIL DIRECTORY-P) (LOCAL NIL LOCAL-P)
  (NO-HARDLINKS NIL NO-HARDLINKS-P) (SHARED NIL SHARED-P)
  (REFERENCE NIL REFERENCE-P) (DISSOCIATE NIL DISSOCIATE-P) (QUIET NIL QUIET-P)
  (VERBOSE NIL VERBOSE-P) (PROGRESS NIL PROGRESS-P)
@@ -212,9 +214,9 @@ See https://git-scm.com/docs/git-clean</pre> </article> </li><li> <a name="LEGIT
  (ORIGIN NIL ORIGIN-P) (BRANCH NIL BRANCH-P) (UPLOAD-PACK NIL UPLOAD-PACK-P)
  (TEMPLATE NIL TEMPLATE-P) (CONFIG NIL CONFIG-P) (DEPTH NIL DEPTH-P)
  (SINGLE-BRANCH NIL SINGLE-BRANCH-P) (RECURSIVE NIL RECURSIVE-P)
- (SEPARATE-GIT-DIR NIL SEPARATE-GIT-DIR-P)</code><code>)</code>  </header> <pre class="docstring">git clone
+ (SEPARATE-GIT-DIR NIL SEPARATE-GIT-DIR-P)</code><code>)</code>  </header> <div class="docstring"><pre>git clone
 
-See https://git-scm.com/docs/git-clone</pre> </article> </li><li> <a name="LEGIT:GIT-COMMIT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-COMMIT">GIT-COMMIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (ALL NIL ALL-P) (PATCH NIL PATCH-P)
+See <a href="NIL">https://git-scm.com/docs/git-clone</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-COMMIT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-COMMIT">GIT-COMMIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (ALL NIL ALL-P) (PATCH NIL PATCH-P)
  (REUSE-MESSAGE NIL REUSE-MESSAGE-P) (REEDIT-MESSAGE NIL REEDIT-MESSAGE-P)
  (FIXUP NIL FIXUP-P) (SQUASH NIL SQUASH-P) (RESET-AUTHOR NIL RESET-AUTHOR-P)
  (SHORT NIL SHORT-P) (BRANCH NIL BRANCH-P) (PORCELAIN NIL PORCELAIN-P)
@@ -227,12 +229,12 @@ See https://git-scm.com/docs/git-clone</pre> </article> </li><li> <a name="LEGIT
  (INCLUDE NIL INCLUDE-P) (ONLY NIL ONLY-P)
  (UNTRACKED-FILES NIL UNTRACKED-FILES-P) (VERBOSE NIL VERBOSE-P)
  (QUIET NIL QUIET-P) (DRY-RUN NIL DRY-RUN-P) (STATUS NIL STATUS-P)
- (GPG-SIGN NIL GPG-SIGN-P)</code><code>)</code>  </header> <pre class="docstring">git commit
+ (GPG-SIGN NIL GPG-SIGN-P)</code><code>)</code>  </header> <div class="docstring"><pre>git commit
 
-See https://git-scm.com/docs/git-commit</pre> </article> </li><li> <a name="LEGIT:GIT-COMMIT-TREE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-COMMIT-TREE">GIT-COMMIT-TREE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">TREE &amp;KEY (PARENT NIL PARENT-P) (MESSAGE NIL MESSAGE-P) (FILE NIL FILE-P)
- (GPG-SIGN NIL GPG-SIGN-P)</code><code>)</code>  </header> <pre class="docstring">git commit-tree
+See <a href="NIL">https://git-scm.com/docs/git-commit</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-COMMIT-TREE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-COMMIT-TREE">GIT-COMMIT-TREE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">TREE &amp;KEY (PARENT NIL PARENT-P) (MESSAGE NIL MESSAGE-P) (FILE NIL FILE-P)
+ (GPG-SIGN NIL GPG-SIGN-P)</code><code>)</code>  </header> <div class="docstring"><pre>git commit-tree
 
-See https://git-scm.com/docs/git-commit-tree</pre> </article> </li><li> <a name="LEGIT:GIT-CONFIG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CONFIG">GIT-CONFIG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILE-OPTION NIL FILE-OPTION-P) (TYPE NIL TYPE-P) (NAME NIL NAME-P)
+See <a href="NIL">https://git-scm.com/docs/git-commit-tree</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-CONFIG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-CONFIG">GIT-CONFIG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILE-OPTION NIL FILE-OPTION-P) (TYPE NIL TYPE-P) (NAME NIL NAME-P)
  (VALUE NIL VALUE-P) (URL NIL URL-P) (NAME-REGEX NIL NAME-REGEX-P)
  (VALUE-REGEX NIL VALUE-REGEX-P) (OLD-NAME NIL OLD-NAME-P)
  (NEW-NAME NIL NEW-NAME-P) (DEFAULT NIL DEFAULT-P)
@@ -241,11 +243,11 @@ See https://git-scm.com/docs/git-commit-tree</pre> </article> </li><li> <a name=
  (UNSET-ALL NIL UNSET-ALL-P) (RENAME-SECTION NIL RENAME-SECTION-P)
  (REMOVE-SECTION NIL REMOVE-SECTION-P) (LIST NIL LIST-P)
  (GET-COLOR NIL GET-COLOR-P) (GET-COLORBOOL NIL GET-COLORBOOL-P)
- (EDIT NIL EDIT-P)</code><code>)</code>  </header> <pre class="docstring">git config
+ (EDIT NIL EDIT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git config
 
-See https://git-scm.com/docs/git-config</pre> </article> </li><li> <a name="LEGIT:GIT-COUNT-OBJECTS"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-COUNT-OBJECTS">GIT-COUNT-OBJECTS</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (VERBOSE NIL VERBOSE-P) (HUMAN-READABLE NIL HUMAN-READABLE-P)</code><code>)</code>  </header> <pre class="docstring">git count-objects
+See <a href="NIL">https://git-scm.com/docs/git-config</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-COUNT-OBJECTS"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-COUNT-OBJECTS">GIT-COUNT-OBJECTS</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (VERBOSE NIL VERBOSE-P) (HUMAN-READABLE NIL HUMAN-READABLE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git count-objects
 
-See https://git-scm.com/docs/git-count-objects</pre> </article> </li><li> <a name="LEGIT:GIT-DAEMON"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DAEMON">GIT-DAEMON</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (DIRECTORY NIL DIRECTORY-P) (STRICT-PATHS NIL STRICT-PATHS-P)
+See <a href="NIL">https://git-scm.com/docs/git-count-objects</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-DAEMON"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DAEMON">GIT-DAEMON</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (DIRECTORY NIL DIRECTORY-P) (STRICT-PATHS NIL STRICT-PATHS-P)
  (BASE-PATH NIL BASE-PATH-P) (BASE-PATH-RELAXED NIL BASE-PATH-RELAXED-P)
  (INTERPOLATED-PATH NIL INTERPOLATED-PATH-P) (EXPORT-ALL NIL EXPORT-ALL-P)
  (INTED NIL INTED-P) (LISTEN NIL LISTEN-P) (PORT NIL PORT-P)
@@ -256,15 +258,15 @@ See https://git-scm.com/docs/git-count-objects</pre> </article> </li><li> <a nam
  (USER NIL USER-P) (GROUP NIL GROUP-P) (ENABLE NIL ENABLE-P)
  (DISABLE NIL DISABLE-P) (ALLOW-OVERRIDE NIL ALLOW-OVERRIDE-P)
  (FORBID-OVERRIF NIL FORBID-OVERRIF-P)
- (INFORMATIVE-ERRORS NIL INFORMATIVE-ERRORS-P) (ACCESS-HOOK NIL ACCESS-HOOK-P)</code><code>)</code>  </header> <pre class="docstring">git daemon
+ (INFORMATIVE-ERRORS NIL INFORMATIVE-ERRORS-P) (ACCESS-HOOK NIL ACCESS-HOOK-P)</code><code>)</code>  </header> <div class="docstring"><pre>git daemon
 
-See https://git-scm.com/docs/git-daemon</pre> </article> </li><li> <a name="LEGIT:GIT-DESCRIBE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DESCRIBE">GIT-DESCRIBE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMIT-ISHS NIL COMMIT-ISHS-P) (DIRTY NIL DIRTY-P) (ALL NIL ALL-P)
+See <a href="NIL">https://git-scm.com/docs/git-daemon</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-DESCRIBE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DESCRIBE">GIT-DESCRIBE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMIT-ISHS NIL COMMIT-ISHS-P) (DIRTY NIL DIRTY-P) (ALL NIL ALL-P)
  (TAGS NIL TAGS-P) (CONTAINS NIL CONTAINS-P) (ABBREV NIL ABBREV-P)
  (CANDIDATES NIL CANDIDATES-P) (EXACT-MATCH NIL EXACT-MATCH-P)
  (DEBUG NIL DEBUG-P) (LONG NIL LONG-P) (MATCH NIL MATCH-P)
- (ALWAYS NIL ALWAYS-P) (FIRST-PARENT NIL FIRST-PARENT-P)</code><code>)</code>  </header> <pre class="docstring">git describe
+ (ALWAYS NIL ALWAYS-P) (FIRST-PARENT NIL FIRST-PARENT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git describe
 
-See https://git-scm.com/docs/git-describe</pre> </article> </li><li> <a name="LEGIT:GIT-DIFF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DIFF">GIT-DIFF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMIT NIL COMMIT-P) (BLOB NIL BLOB-P) (PATHS NIL PATHS-P)
+See <a href="NIL">https://git-scm.com/docs/git-describe</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-DIFF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DIFF">GIT-DIFF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMIT NIL COMMIT-P) (BLOB NIL BLOB-P) (PATHS NIL PATHS-P)
  (PATCH NIL PATCH-P) (UNIFIED NIL UNIFIED-P) (RAW NIL RAW-P)
  (PATCH-WITH-RAW NIL PATCH-WITH-RAW-P) (MINIMAL NIL MINIMAL-P)
  (PATIENCE NIL PATIENCE-P) (HISTOGRAM NIL HISTOGRAM-P)
@@ -293,9 +295,9 @@ See https://git-scm.com/docs/git-describe</pre> </article> </li><li> <a name="LE
  (FUNCTION-CONTEXT NIL FUNCTION-CONTEXT-P) (EXT-DIFF NIL EXT-DIFF-P)
  (TEXTCONV NIL TEXTCONV-P) (IGNORE-SUBMODULES NIL IGNORE-SUBMODULES-P)
  (SRC-PREFIX NIL SRC-PREFIX-P) (DST-PREFIX NIL DST-PREFIX-P)
- (NO-PREFIX NIL NO-PREFIX-P)</code><code>)</code>  </header> <pre class="docstring">git diff
+ (NO-PREFIX NIL NO-PREFIX-P)</code><code>)</code>  </header> <div class="docstring"><pre>git diff
 
-See https://git-scm.com/docs/git-diff</pre> </article> </li><li> <a name="LEGIT:GIT-DIFF-INDEX"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DIFF-INDEX">GIT-DIFF-INDEX</a></code></h4> <code class="qualifiers"></code> <code class="arguments">TREE-ISH &amp;KEY (PATHS NIL PATHS-P) (PATCH NIL PATCH-P) (UNIFIED NIL UNIFIED-P)
+See <a href="NIL">https://git-scm.com/docs/git-diff</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-DIFF-INDEX"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-DIFF-INDEX">GIT-DIFF-INDEX</a></code></h4> <code class="qualifiers"></code> <code class="arguments">TREE-ISH &amp;KEY (PATHS NIL PATHS-P) (PATCH NIL PATCH-P) (UNIFIED NIL UNIFIED-P)
  (RAW NIL RAW-P) (PATCH-WITH-RAW NIL PATCH-WITH-RAW-P) (MINIMAL NIL MINIMAL-P)
  (PATIENCE NIL PATIENCE-P) (HISTOGRAM NIL HISTOGRAM-P)
  (DIFF-ALGORITHM NIL DIFF-ALGORITHM-P) (STAT NIL STAT-P)
@@ -324,18 +326,18 @@ See https://git-scm.com/docs/git-diff</pre> </article> </li><li> <a name="LEGIT:
  (TEXTCONV NIL TEXTCONV-P) (IGNORE-SUBMODULES NIL IGNORE-SUBMODULES-P)
  (SRC-PREFIX NIL SRC-PREFIX-P) (DST-PREFIX NIL DST-PREFIX-P)
  (NO-PREFIX NIL NO-PREFIX-P) (REPORT-UNCHECKED NIL REPORT-UNCHECKED-P)
- (CACHED NIL CACHED-P)</code><code>)</code>  </header> <pre class="docstring">git diff-index
+ (CACHED NIL CACHED-P)</code><code>)</code>  </header> <div class="docstring"><pre>git diff-index
 
-See https://git-scm.com/docs/git-diff-index</pre> </article> </li><li> <a name="LEGIT:GIT-FAST-IMPORT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FAST-IMPORT">GIT-FAST-IMPORT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FORCE NIL FORCE-P) (QUIET NIL QUIET-P) (STATS NIL STATS-P)
+See <a href="NIL">https://git-scm.com/docs/git-diff-index</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-FAST-IMPORT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FAST-IMPORT">GIT-FAST-IMPORT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FORCE NIL FORCE-P) (QUIET NIL QUIET-P) (STATS NIL STATS-P)
  (CAT-BLOB-FD NIL CAT-BLOB-FD-P) (DATE-FORMAT NIL DATE-FORMAT-P)
  (DONE NIL DONE-P) (EXPORT-MARKS NIL EXPORT-MARKS-P)
  (IMPORT-MARKS NIL IMPORT-MARKS-P)
  (IMPORT-MARKS-IF-EXISTS NIL IMPORT-MARKS-IF-EXISTS-P)
  (RELATIVE-MARKS NIL RELATIVE-MARKS-P) (ACTIVE-BRANCHES NIL ACTIVE-BRANCHES-P)
  (BIG-FILE-THRESHOLD NIL BIG-FILE-THRESHOLD-P) (DEPTH NIL DEPTH-P)
- (EXPORT-PACK NIL EXPORT-PACK-P) (MAX-PACK-SIZE NIL MAX-PACK-SIZE-P)</code><code>)</code>  </header> <pre class="docstring">git fast-import
+ (EXPORT-PACK NIL EXPORT-PACK-P) (MAX-PACK-SIZE NIL MAX-PACK-SIZE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git fast-import
 
-See https://git-scm.com/docs/git-fast-import</pre> </article> </li><li> <a name="LEGIT:GIT-FETCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FETCH">GIT-FETCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REPOSITORY NIL REPOSITORY-P) (REFSPECS NIL REFSPECS-P)
+See <a href="NIL">https://git-scm.com/docs/git-fast-import</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-FETCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FETCH">GIT-FETCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REPOSITORY NIL REPOSITORY-P) (REFSPECS NIL REFSPECS-P)
  (GROUP NIL GROUP-P) (REPOSITORIES NIL REPOSITORIES-P) (GROUPS NIL GROUPS-P)
  (ALL NIL ALL-P) (APPEND NIL APPEND-P) (DEPTH NIL DEPTH-P)
  (UNSHALLOW NIL UNSHALLOW-P) (UPDATE-SHALLOW NIL UPDATE-SHALLOW-P)
@@ -346,21 +348,21 @@ See https://git-scm.com/docs/git-fast-import</pre> </article> </li><li> <a name=
  (SUBMODULE-PREFIX NIL SUBMODULE-PREFIX-P)
  (RECURSE-SUBMODULES-DEFAULT NIL RECURSE-SUBMODULES-DEFAULT-P)
  (UPDATE-HEAD-OK NIL UPDATE-HEAD-OK-P) (UPLOAD-PACK NIL UPLOAD-PACK-P)
- (QUIET NIL QUIET-P) (VERBOSE NIL VERBOSE-P) (PROGRESS NIL PROGRESS-P)</code><code>)</code>  </header> <pre class="docstring">git fetch
+ (QUIET NIL QUIET-P) (VERBOSE NIL VERBOSE-P) (PROGRESS NIL PROGRESS-P)</code><code>)</code>  </header> <div class="docstring"><pre>git fetch
 
-See https://git-scm.com/docs/git-fetch</pre> </article> </li><li> <a name="LEGIT:GIT-FILTER-BRANCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FILTER-BRANCH">GIT-FILTER-BRANCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (OPTIONS NIL OPTIONS-P) (ENV-FILTER NIL ENV-FILTER-P)
+See <a href="NIL">https://git-scm.com/docs/git-fetch</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-FILTER-BRANCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FILTER-BRANCH">GIT-FILTER-BRANCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (OPTIONS NIL OPTIONS-P) (ENV-FILTER NIL ENV-FILTER-P)
  (TREE-FILTER NIL TREE-FILTER-P) (INDEX-FILTER NIL INDEX-FILTER-P)
  (PARENT-FILTER NIL PARENT-FILTER-P) (MSG-FILTER NIL MSG-FILTER-P)
  (COMMIT-FILTER NIL COMMIT-FILTER-P) (TAG-NAME-FILTER NIL TAG-NAME-FILTER-P)
  (SUBDIRECTORY-FILTER NIL SUBDIRECTORY-FILTER-P)
  (PRUNE-EMPTY NIL PRUNE-EMPTY-P) (ORIGINAL NIL ORIGINAL-P)
- (DIRECTORY NIL DIRECTORY-P) (FORCE NIL FORCE-P)</code><code>)</code>  </header> <pre class="docstring">git filter-branch
+ (DIRECTORY NIL DIRECTORY-P) (FORCE NIL FORCE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git filter-branch
 
-See https://git-scm.com/docs/git-filter-branch</pre> </article> </li><li> <a name="LEGIT:GIT-FOR-EACH-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FOR-EACH-REF">GIT-FOR-EACH-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATTERNS NIL PATTERNS-P) (COUNT NIL COUNT-P) (SHELL NIL SHELL-P)
+See <a href="NIL">https://git-scm.com/docs/git-filter-branch</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-FOR-EACH-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FOR-EACH-REF">GIT-FOR-EACH-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATTERNS NIL PATTERNS-P) (COUNT NIL COUNT-P) (SHELL NIL SHELL-P)
  (PERL NIL PERL-P) (PYTHON NIL PYTHON-P) (TCL NIL TCL-P) (SORT NIL SORT-P)
- (FORMAT NIL FORMAT-P)</code><code>)</code>  </header> <pre class="docstring">git for-each-ref
+ (FORMAT NIL FORMAT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git for-each-ref
 
-See https://git-scm.com/docs/git-for-each-ref</pre> </article> </li><li> <a name="LEGIT:GIT-FORMAT-PATCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FORMAT-PATCH">GIT-FORMAT-PATCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (OPTIONS NIL OPTIONS-P) (SINCE NIL SINCE-P)
+See <a href="NIL">https://git-scm.com/docs/git-for-each-ref</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-FORMAT-PATCH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FORMAT-PATCH">GIT-FORMAT-PATCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (OPTIONS NIL OPTIONS-P) (SINCE NIL SINCE-P)
  (REVISION-RANGE NIL REVISION-RANGE-P) (NO-STAT NIL NO-STAT-P)
  (NO-PATCH NIL NO-PATCH-P) (UNIFIED NIL UNIFIED-P) (MINIMAL NIL MINIMAL-P)
  (PATIENCE NIL PATIENCE-P) (HISTOGRAM NIL HISTOGRAM-P)
@@ -391,18 +393,18 @@ See https://git-scm.com/docs/git-for-each-ref</pre> </article> </li><li> <a name
  (COVER-LETTER NIL COVER-LETTER-P) (NOTES NIL NOTES-P)
  (SIGNATURE NIL SIGNATURE-P) (SIGNATURE-FILE NIL SIGNATURE-FILE-P)
  (SUFFIX NIL SUFFIX-P) (QUIET NIL QUIET-P) (NO-BINARY NIL NO-BINARY-P)
- (ROOT NIL ROOT-P)</code><code>)</code>  </header> <pre class="docstring">git format-patch
+ (ROOT NIL ROOT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git format-patch
 
-See https://git-scm.com/docs/git-format-patch</pre> </article> </li><li> <a name="LEGIT:GIT-FSCK"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FSCK">GIT-FSCK</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (OBJECTS NIL OBJECTS-P) (UNREACAKBLE NIL UNREACAKBLE-P)
+See <a href="NIL">https://git-scm.com/docs/git-format-patch</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-FSCK"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-FSCK">GIT-FSCK</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (OBJECTS NIL OBJECTS-P) (UNREACAKBLE NIL UNREACAKBLE-P)
  (DANGLING NIL DANGLING-P) (ROOT NIL ROOT-P) (TAGS NIL TAGS-P)
  (CACHE NIL CACHE-P) (NO-REFLOGS NIL NO-REFLOGS-P) (FULL NIL FULL-P)
  (STRICT NIL STRICT-P) (VERBOSE NIL VERBOSE-P) (LOST-FOUND NIL LOST-FOUND-P)
- (PROGRESS NIL PROGRESS-P)</code><code>)</code>  </header> <pre class="docstring">git fsck
+ (PROGRESS NIL PROGRESS-P)</code><code>)</code>  </header> <div class="docstring"><pre>git fsck
 
-See https://git-scm.com/docs/git-fsck</pre> </article> </li><li> <a name="LEGIT:GIT-GC"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-GC">GIT-GC</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (AGGRESSIVE NIL AGGRESSIVE-P) (AUTO NIL AUTO-P) (PRUNE NIL PRUNE-P)
- (QUIET NIL QUIET-P) (FORCE NIL FORCE-P)</code><code>)</code>  </header> <pre class="docstring">git gc
+See <a href="NIL">https://git-scm.com/docs/git-fsck</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-GC"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-GC">GIT-GC</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (AGGRESSIVE NIL AGGRESSIVE-P) (AUTO NIL AUTO-P) (PRUNE NIL PRUNE-P)
+ (QUIET NIL QUIET-P) (FORCE NIL FORCE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git gc
 
-See https://git-scm.com/docs/git-gc</pre> </article> </li><li> <a name="LEGIT:GIT-GREP"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-GREP">GIT-GREP</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TREE NIL TREE-P) (PATHS NIL PATHS-P) (CACHED NIL CACHED-P)
+See <a href="NIL">https://git-scm.com/docs/git-gc</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-GREP"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-GREP">GIT-GREP</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TREE NIL TREE-P) (PATHS NIL PATHS-P) (CACHED NIL CACHED-P)
  (NO-INDEX NIL NO-INDEX-P) (UNTRACKED NIL UNTRACKED-P)
  (EXCLUDE-STANDARD NIL EXCLUDE-STANDARD-P) (TEXT NIL TEXT-P)
  (TEXTCONV NIL TEXTCONV-P) (IGNORE-CASE NIL IGNORE-CASE-P)
@@ -418,24 +420,24 @@ See https://git-scm.com/docs/git-gc</pre> </article> </li><li> <a name="LEGIT:GI
  (BEFORE-CONTEXT NIL BEFORE-CONTEXT-P)
  (FUNCTION-CONTEXT NIL FUNCTION-CONTEXT-P) (FILE NIL FILE-P)
  (PATTERN NIL PATTERN-P) (AND NIL AND-P) (OR NIL OR-P) (NOT NIL NOT-P)
- (ALL-MATCH NIL ALL-MATCH-P) (QUIET NIL QUIET-P)</code><code>)</code>  </header> <pre class="docstring">git grep
+ (ALL-MATCH NIL ALL-MATCH-P) (QUIET NIL QUIET-P)</code><code>)</code>  </header> <div class="docstring"><pre>git grep
 
-See https://git-scm.com/docs/git-grep</pre> </article> </li><li> <a name="LEGIT:GIT-HASH-OBJECT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-HASH-OBJECT">GIT-HASH-OBJECT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FILES &amp;KEY (TYPE NIL TYPE-P) (WRITE NIL WRITE-P) (STDIN NIL STDIN-P)
+See <a href="NIL">https://git-scm.com/docs/git-grep</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-HASH-OBJECT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-HASH-OBJECT">GIT-HASH-OBJECT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FILES &amp;KEY (TYPE NIL TYPE-P) (WRITE NIL WRITE-P) (STDIN NIL STDIN-P)
  (STDIN-PATHS NIL STDIN-PATHS-P) (PATH NIL PATH-P)
- (NO-FILTERS NIL NO-FILTERS-P) (LITERALLY NIL LITERALLY-P)</code><code>)</code>  </header> <pre class="docstring">git hash-object
+ (NO-FILTERS NIL NO-FILTERS-P) (LITERALLY NIL LITERALLY-P)</code><code>)</code>  </header> <div class="docstring"><pre>git hash-object
 
-See https://git-scm.com/docs/git-hash-object</pre> </article> </li><li> <a name="LEGIT:GIT-HELP"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-HELP">GIT-HELP</a></code></h4> <code class="qualifiers"></code> <code class="arguments">COMMAND-OR-GUIDE &amp;KEY (ALL NIL ALL-P) (GUIDES NIL GUIDES-P) (INFO NIL INFO-P)
- (MAN NIL MAN-P) (WEB NIL WEB-P)</code><code>)</code>  </header> <pre class="docstring">git help
+See <a href="NIL">https://git-scm.com/docs/git-hash-object</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-HELP"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-HELP">GIT-HELP</a></code></h4> <code class="qualifiers"></code> <code class="arguments">COMMAND-OR-GUIDE &amp;KEY (ALL NIL ALL-P) (GUIDES NIL GUIDES-P) (INFO NIL INFO-P)
+ (MAN NIL MAN-P) (WEB NIL WEB-P)</code><code>)</code>  </header> <div class="docstring"><pre>git help
 
-See https://git-scm.com/docs/git-help</pre> </article> </li><li> <a name="LEGIT:GIT-INIT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-INIT">GIT-INIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (DIRECTORY NIL DIRECTORY-P) (QUIET NIL QUIET-P) (BARE NIL BARE-P)
+See <a href="NIL">https://git-scm.com/docs/git-help</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-INIT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-INIT">GIT-INIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (DIRECTORY NIL DIRECTORY-P) (QUIET NIL QUIET-P) (BARE NIL BARE-P)
  (TEMPLATE NIL TEMPLATE-P) (SEPARATE-GIT-DIR NIL SEPARATE-GIT-DIR-P)
- (SHARED NIL SHARED-P)</code><code>)</code>  </header> <pre class="docstring">git init
+ (SHARED NIL SHARED-P)</code><code>)</code>  </header> <div class="docstring"><pre>git init
 
-See https://git-scm.com/docs/git-init</pre> </article> </li><li> <a name="LEGIT:GIT-INSTAWEB"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-INSTAWEB">GIT-INSTAWEB</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (LOCAL NIL LOCAL-P) (HTTPD NIL HTTPD-P) (MODULE-PATH NIL MODULE-PATH-P)
+See <a href="NIL">https://git-scm.com/docs/git-init</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-INSTAWEB"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-INSTAWEB">GIT-INSTAWEB</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (LOCAL NIL LOCAL-P) (HTTPD NIL HTTPD-P) (MODULE-PATH NIL MODULE-PATH-P)
  (PORT NIL PORT-P) (BROWSER NIL BROWSER-P) (START NIL START-P)
- (STOP NIL STOP-P) (RESTART NIL RESTART-P)</code><code>)</code>  </header> <pre class="docstring">git instaweb
+ (STOP NIL STOP-P) (RESTART NIL RESTART-P)</code><code>)</code>  </header> <div class="docstring"><pre>git instaweb
 
-See https://git-scm.com/docs/git-instaweb</pre> </article> </li><li> <a name="LEGIT:GIT-LOCATION-P"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-LOCATION-P">GIT-LOCATION-P</a></code></h4> <code class="qualifiers"></code> <code class="arguments">LOCATION</code><code>)</code>  </header> <pre class="docstring">Returns T if the given location/path is a, or within a git repository.</pre> </article> </li><li> <a name="LEGIT:GIT-LOG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-LOG">GIT-LOG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REVISION-RANGE NIL REVISION-RANGE-P) (PATHS NIL PATHS-P)
+See <a href="NIL">https://git-scm.com/docs/git-instaweb</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-LOCATION-P"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-LOCATION-P">GIT-LOCATION-P</a></code></h4> <code class="qualifiers"></code> <code class="arguments">LOCATION</code><code>)</code>  </header> <div class="docstring"><pre>Returns T if the given location/path is a, or within a git repository.</pre></div> </article> </li><li> <a name="LEGIT:GIT-LOG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-LOG">GIT-LOG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REVISION-RANGE NIL REVISION-RANGE-P) (PATHS NIL PATHS-P)
  (FOLLOW NIL FOLLOW-P) (DECORATE NIL DECORATE-P) (SOURCE NIL SOURCE-P)
  (USE-MAILMAP NIL USE-MAILMAP-P) (FULL-DIFF NIL FULL-DIFF-P)
  (LOG-SIZE NIL LOG-SIZE-P) (RANGE NIL RANGE-P) (MAX-COUNT NIL MAX-COUNT-P)
@@ -470,9 +472,9 @@ See https://git-scm.com/docs/git-instaweb</pre> </article> </li><li> <a name="LE
  (FULL-MERGE-DIFF NIL FULL-MERGE-DIFF-P)
  (SHOW-RECURSIVE-DIFF NIL SHOW-RECURSIVE-DIFF-P)
  (SHOW-TREE-DIFF NIL SHOW-TREE-DIFF-P) (PRETTY NIL PRETTY-P)
- (FORMAT NIL FORMAT-P)</code><code>)</code>  </header> <pre class="docstring">git log
+ (FORMAT NIL FORMAT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git log
 
-See https://git-scm.com/docs/git-log</pre> </article> </li><li> <a name="LEGIT:GIT-LS-FILES"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-LS-FILES">GIT-LS-FILES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (CACHED NIL CACHED-P) (DELETED NIL DELETED-P)
+See <a href="NIL">https://git-scm.com/docs/git-log</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-LS-FILES"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-LS-FILES">GIT-LS-FILES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (CACHED NIL CACHED-P) (DELETED NIL DELETED-P)
  (MODIFIED NIL MODIFIED-P) (OTHERS NIL OTHERS-P) (IGNORED NIL IGNORED-P)
  (STAGE NIL STAGE-P) (DIRECTORY NIL DIRECTORY-P)
  (NO-EMPTY-DIRECTORY NIL NO-EMPTY-DIRECTORY-P) (UNMERGED NIL UNMERGED-P)
@@ -481,28 +483,28 @@ See https://git-scm.com/docs/git-log</pre> </article> </li><li> <a name="LEGIT:G
  (EXCLUDE-PER-DIRECTORY NIL EXCLUDE-PER-DIRECTORY-P)
  (EXCLUDE-STANDARD NIL EXCLUDE-STANDARD-P) (ERROR-UNMATCH NIL ERROR-UNMATCH-P)
  (WITH-TREE NIL WITH-TREE-P) (FULL-NAME NIL FULL-NAME-P) (ABBREV NIL ABBREV-P)
- (DEBUG NIL DEBUG-P)</code><code>)</code>  </header> <pre class="docstring">git ls-files
+ (DEBUG NIL DEBUG-P)</code><code>)</code>  </header> <div class="docstring"><pre>git ls-files
 
-See https://git-scm.com/docs/git-ls-files</pre> </article> </li><li> <a name="LEGIT:GIT-MERGE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MERGE">GIT-MERGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (HEAD NIL HEAD-P) (COMMITS NIL COMMITS-P) (COMMIT NIL COMMIT-P)
+See <a href="NIL">https://git-scm.com/docs/git-ls-files</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-MERGE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MERGE">GIT-MERGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (HEAD NIL HEAD-P) (COMMITS NIL COMMITS-P) (COMMIT NIL COMMIT-P)
  (EDIT NIL EDIT-P) (FF NIL FF-P) (FF-ONLY NIL FF-ONLY-P) (LOG NIL LOG-P)
  (STAT NIL STAT-P) (SQUASH NIL SQUASH-P) (STRATEGY NIL STRATEGY-P)
  (STRATEGY-OPTION NIL STRATEGY-OPTION-P)
  (VERIFY-SIGNATURES NIL VERIFY-SIGNATURES-P) (SUMMARY NIL SUMMARY-P)
  (QUIET NIL QUIET-P) (VERBOSE NIL VERBOSE-P) (PROGRESS NIL PROGRESS-P)
  (GPG-SIGN NIL GPG-SIGN-P) (MESSAGE NIL MESSAGE-P)
- (RERERE-AUTOIPDATE NIL RERERE-AUTOIPDATE-P) (ABORT NIL ABORT-P)</code><code>)</code>  </header> <pre class="docstring">git merge
+ (RERERE-AUTOIPDATE NIL RERERE-AUTOIPDATE-P) (ABORT NIL ABORT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git merge
 
-See https://git-scm.com/docs/git-merge</pre> </article> </li><li> <a name="LEGIT:GIT-MERGE-BASE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MERGE-BASE">GIT-MERGE-BASE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REF NIL REF-P) (COMMITS NIL COMMITS-P) (OCTOPUS NIL OCTOPUS-P)
+See <a href="NIL">https://git-scm.com/docs/git-merge</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-MERGE-BASE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MERGE-BASE">GIT-MERGE-BASE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REF NIL REF-P) (COMMITS NIL COMMITS-P) (OCTOPUS NIL OCTOPUS-P)
  (INDEPENDENT NIL INDEPENDENT-P) (IS-ANCESTOR NIL IS-ANCESTOR-P)
- (FORK-POINT NIL FORK-POINT-P) (ALL NIL ALL-P)</code><code>)</code>  </header> <pre class="docstring">git merge-base
+ (FORK-POINT NIL FORK-POINT-P) (ALL NIL ALL-P)</code><code>)</code>  </header> <div class="docstring"><pre>git merge-base
 
-See https://git-scm.com/docs/git-merge-base</pre> </article> </li><li> <a name="LEGIT:GIT-MERGETOOL"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MERGETOOL">GIT-MERGETOOL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (TOOL NIL TOOL-P) (TOOL-HELP NIL TOOL-HELP-P)
- (PROMPT NIL PROMPT-P)</code><code>)</code>  </header> <pre class="docstring">git mergetool
+See <a href="NIL">https://git-scm.com/docs/git-merge-base</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-MERGETOOL"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MERGETOOL">GIT-MERGETOOL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (TOOL NIL TOOL-P) (TOOL-HELP NIL TOOL-HELP-P)
+ (PROMPT NIL PROMPT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git mergetool
 
-See https://git-scm.com/docs/git-mergetool</pre> </article> </li><li> <a name="LEGIT:GIT-MV"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MV">GIT-MV</a></code></h4> <code class="qualifiers"></code> <code class="arguments">SOURCES DESTINATION &amp;KEY (FODCE NIL FODCE-P) (SKIP-ERRORS NIL SKIP-ERRORS-P)
- (DRY-RUN NIL DRY-RUN-P) (VERBOSE NIL VERBOSE-P)</code><code>)</code>  </header> <pre class="docstring">git mv
+See <a href="NIL">https://git-scm.com/docs/git-mergetool</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-MV"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-MV">GIT-MV</a></code></h4> <code class="qualifiers"></code> <code class="arguments">SOURCES DESTINATION &amp;KEY (FODCE NIL FODCE-P) (SKIP-ERRORS NIL SKIP-ERRORS-P)
+ (DRY-RUN NIL DRY-RUN-P) (VERBOSE NIL VERBOSE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git mv
 
-See https://git-scm.com/docs/git-mv</pre> </article> </li><li> <a name="LEGIT:GIT-PULL"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-PULL">GIT-PULL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REPOSITORY NIL REPOSITORY-P) (REFSPECS NIL REFSPECS-P)
+See <a href="NIL">https://git-scm.com/docs/git-mv</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-PULL"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-PULL">GIT-PULL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REPOSITORY NIL REPOSITORY-P) (REFSPECS NIL REFSPECS-P)
  (QUIET NIL QUIET-P) (VERBOSE NIL VERBOSE-P)
  (RECURSE-SUBMODULES NIL RECURSE-SUBMODULES-P) (COMMIT NIL COMMIT-P)
  (EDIT NIL EDIT-P) (FF NIL FF-P) (FF-ONLY NIL FF-ONLY-P) (LOG NIL LOG-P)
@@ -513,9 +515,9 @@ See https://git-scm.com/docs/git-mv</pre> </article> </li><li> <a name="LEGIT:GI
  (DEPTH NIL DEPTH-P) (UNSHALLOW NIL UNSHALLOW-P)
  (UPDATE-SHALLOW NIL UPDATE-SHALLOW-P) (FORCE NIL FORCE-P) (KEEP NIL KEEP-P)
  (NO-TAGS NIL NO-TAGS-P) (UPDATE-HEAD-OK NIL UPDATE-HEAD-OK-P)
- (UPLOAD-PACK NIL UPLOAD-PACK-P) (PROGRESS NIL PROGRESS-P)</code><code>)</code>  </header> <pre class="docstring">git pull
+ (UPLOAD-PACK NIL UPLOAD-PACK-P) (PROGRESS NIL PROGRESS-P)</code><code>)</code>  </header> <div class="docstring"><pre>git pull
 
-See https://git-scm.com/docs/git-pull</pre> </article> </li><li> <a name="LEGIT:GIT-PUSH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-PUSH">GIT-PUSH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REPOSITORY NIL REPOSITORY-P) (REFSPECS NIL REFSPECS-P) (ALL NIL ALL-P)
+See <a href="NIL">https://git-scm.com/docs/git-pull</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-PUSH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-PUSH">GIT-PUSH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REPOSITORY NIL REPOSITORY-P) (REFSPECS NIL REFSPECS-P) (ALL NIL ALL-P)
  (PRUNE NIL PRUNE-P) (MIRROR NIL MIRROR-P) (DRY-RUN NIL DRY-RUN-P)
  (PORCELAIN NIL PORCELAIN-P) (DELETE NIL DELETE-P) (TAGS NIL TAGS-P)
  (FOLLOW-TAGS NIL FOLLOW-TAGS-P) (SIGNED NIL SIGNED-P) (ATOMIC NIL ATOMIC-P)
@@ -523,18 +525,18 @@ See https://git-scm.com/docs/git-pull</pre> </article> </li><li> <a name="LEGIT:
  (FORCE NIL FORCE-P) (REPO NIL REPO-P) (SET-UPSTREAM NIL SET-UPSTREAM-P)
  (THIN NIL THIN-P) (QUIET NIL QUIET-P) (VERBOSE NIL VERBOSE-P)
  (PROGRESS NIL PROGRESS-P) (RECURSE-SUBMODULES NIL RECURSE-SUBMODULES-P)
- (VERIFY NIL VERIFY-P)</code><code>)</code>  </header> <pre class="docstring">git push
+ (VERIFY NIL VERIFY-P)</code><code>)</code>  </header> <div class="docstring"><pre>git push
 
-See https://git-scm.com/docs/git-push</pre> </article> </li><li> <a name="LEGIT:GIT-READ-TREE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-READ-TREE">GIT-READ-TREE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TREE-ISH1 NIL TREE-ISH1-P) (TREE-ISH2 NIL TREE-ISH2-P)
+See <a href="NIL">https://git-scm.com/docs/git-push</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-READ-TREE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-READ-TREE">GIT-READ-TREE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TREE-ISH1 NIL TREE-ISH1-P) (TREE-ISH2 NIL TREE-ISH2-P)
  (TREE-ISH3 NIL TREE-ISH3-P) (MERGE NIL MERGE-P) (RESET NIL RESET-P)
  (UPDATE NIL UPDATE-P) (TEMPORARY-INDEX NIL TEMPORARY-INDEX-P)
  (DRY-RUN NIL DRY-RUN-P) (VERBOSE NIL VERBOSE-P) (TRIVIAL NIL TRIVIAL-P)
  (AGGRESSIVE NIL AGGRESSIVE-P) (PREFIX NIL PREFIX-P)
  (EXCLUDE-PER-DIRECTORY NIL EXCLUDE-PER-DIRECTORY-P)
  (INDEX-OUTPUT NIL INDEX-OUTPUT-P)
- (NO-SPARSE-CHECKOUT NIL NO-SPARSE-CHECKOUT-P) (EMPTY NIL EMPTY-P)</code><code>)</code>  </header> <pre class="docstring">git read-tree
+ (NO-SPARSE-CHECKOUT NIL NO-SPARSE-CHECKOUT-P) (EMPTY NIL EMPTY-P)</code><code>)</code>  </header> <div class="docstring"><pre>git read-tree
 
-See https://git-scm.com/docs/git-read-tree</pre> </article> </li><li> <a name="LEGIT:GIT-REBASE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REBASE">GIT-REBASE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (UPSTREAM NIL UPSTREAM-P) (BRANCH NIL BRANCH-P) (ONTO NIL ONTO-P)
+See <a href="NIL">https://git-scm.com/docs/git-read-tree</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REBASE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REBASE">GIT-REBASE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (UPSTREAM NIL UPSTREAM-P) (BRANCH NIL BRANCH-P) (ONTO NIL ONTO-P)
  (CONTINUE NIL CONTINUE-P) (ABORT NIL ABORT-P) (KEEP-EMPTY NIL KEEP-EMPTY-P)
  (SKIP NIL SKIP-P) (EDITO-TODO NIL EDITO-TODO-P) (MERGE NIL MERGE-P)
  (STRATEGY NIL STRATEGY-P) (STRATEGY-OPTION NIL STRATEGY-OPTION-P)
@@ -545,9 +547,9 @@ See https://git-scm.com/docs/git-read-tree</pre> </article> </li><li> <a name="L
  (COMMITTER-DATE-IS-AUTHOR-DATE NIL COMMITTER-DATE-IS-AUTHOR-DATE-P)
  (IGNORE-DATE NIL IGNORE-DATE-P) (INTERACTIVE NIL INTERACTIVE-P)
  (PRESERVE-MERGES NIL PRESERVE-MERGES-P) (EXEC NIL EXEC-P) (ROOT NIL ROOT-P)
- (AUTOSQUASH NIL AUTOSQUASH-P) (AUTOSTASH NIL AUTOSTASH-P) (NO-FF NIL NO-FF-P)</code><code>)</code>  </header> <pre class="docstring">git rebase
+ (AUTOSQUASH NIL AUTOSQUASH-P) (AUTOSTASH NIL AUTOSTASH-P) (NO-FF NIL NO-FF-P)</code><code>)</code>  </header> <div class="docstring"><pre>git rebase
 
-See https://git-scm.com/docs/git-rebase</pre> </article> </li><li> <a name="LEGIT:GIT-REFLOG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REFLOG">GIT-REFLOG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (ALL NIL ALL-P) (EXPIRE NIL EXPIRE-P)
+See <a href="NIL">https://git-scm.com/docs/git-rebase</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REFLOG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REFLOG">GIT-REFLOG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (ALL NIL ALL-P) (EXPIRE NIL EXPIRE-P)
  (EXPIRE-UNREACHABLE NIL EXPIRE-UNREACHABLE-P) (UPDATEREF NIL UPDATEREF-P)
  (REWRITE NIL REWRITE-P) (STALE-FIX NIL STALE-FIX-P) (DRY-RUN NIL DRY-RUN-P)
  (VERBOSE NIL VERBOSE-P) (FOLLOW NIL FOLLOW-P) (DECORATE NIL DECORATE-P)
@@ -583,23 +585,23 @@ See https://git-scm.com/docs/git-rebase</pre> </article> </li><li> <a name="LEGI
  (COMPRESSED-SIMULTANEOUS-DIFF NIL COMPRESSED-SIMULTANEOUS-DIFF-P)
  (FULL-MERGE-DIFF NIL FULL-MERGE-DIFF-P)
  (SHOW-RECURSIVE-DIFF NIL SHOW-RECURSIVE-DIFF-P)
- (SHOW-TREE-DIFF NIL SHOW-TREE-DIFF-P)</code><code>)</code>  </header> <pre class="docstring">git reflog
+ (SHOW-TREE-DIFF NIL SHOW-TREE-DIFF-P)</code><code>)</code>  </header> <div class="docstring"><pre>git reflog
 
-See https://git-scm.com/docs/git-reflog</pre> </article> </li><li> <a name="LEGIT:GIT-REMOTE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REMOTE">GIT-REMOTE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (NAME NIL NAME-P) (URL NIL URL-P) (OLD NIL OLD-P) (NEW NIL NEW-P)
+See <a href="NIL">https://git-scm.com/docs/git-reflog</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REMOTE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REMOTE">GIT-REMOTE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (NAME NIL NAME-P) (URL NIL URL-P) (OLD NIL OLD-P) (NEW NIL NEW-P)
  (BRANCHES NIL BRANCHES-P) (NEWURL NIL NEWURL-P) (OLDURL NIL OLDURL-P)
  (NAMES NIL NAMES-P) (GROUPS NIL GROUPS-P) (REMOTES NIL REMOTES-P)
  (VERBOSE NIL VERBOSE-P) (TAGS NIL TAGS-P) (MIRROR NIL MIRROR-P)
  (AUTO NIL AUTO-P) (ADD NIL ADD-P) (PUSH NIL PUSH-P) (DELETE NIL DELETE-P)
  (DRY-RUN NIL DRY-RUN-P) (PRUNE NIL PRUNE-P) (IMMEDIATE NIL IMMEDIATE-P)
- (TRACK NIL TRACK-P) (SYMLINK NIL SYMLINK-P) (NO-QUERY NIL NO-QUERY-P)</code><code>)</code>  </header> <pre class="docstring">git remote
+ (TRACK NIL TRACK-P) (SYMLINK NIL SYMLINK-P) (NO-QUERY NIL NO-QUERY-P)</code><code>)</code>  </header> <div class="docstring"><pre>git remote
 
-See https://git-scm.com/docs/git-remote</pre> </article> </li><li> <a name="LEGIT:GIT-REQUEST-PULL"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REQUEST-PULL">GIT-REQUEST-PULL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">START URL &amp;KEY (END NIL END-P) (PATCH NIL PATCH-P)</code><code>)</code>  </header> <pre class="docstring">git request-pull
+See <a href="NIL">https://git-scm.com/docs/git-remote</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REQUEST-PULL"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REQUEST-PULL">GIT-REQUEST-PULL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">START URL &amp;KEY (END NIL END-P) (PATCH NIL PATCH-P)</code><code>)</code>  </header> <div class="docstring"><pre>git request-pull
 
-See https://git-scm.com/docs/git-request-pull</pre> </article> </li><li> <a name="LEGIT:GIT-RESET"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-RESET">GIT-RESET</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TREE-ISH NIL TREE-ISH-P) (PATHS NIL PATHS-P) (SOFT NIL SOFT-P)
+See <a href="NIL">https://git-scm.com/docs/git-request-pull</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-RESET"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-RESET">GIT-RESET</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TREE-ISH NIL TREE-ISH-P) (PATHS NIL PATHS-P) (SOFT NIL SOFT-P)
  (MIXED NIL MIXED-P) (HARD NIL HARD-P) (MERGE NIL MERGE-P) (KEEP NIL KEEP-P)
- (QUIET NIL QUIET-P) (PATCH NIL PATCH-P)</code><code>)</code>  </header> <pre class="docstring">git reset
+ (QUIET NIL QUIET-P) (PATCH NIL PATCH-P)</code><code>)</code>  </header> <div class="docstring"><pre>git reset
 
-See https://git-scm.com/docs/git-reset</pre> </article> </li><li> <a name="LEGIT:GIT-REV-LIST"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REV-LIST">GIT-REV-LIST</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (MAX-COUNT NIL MAX-COUNT-P) (SKIP NIL SKIP-P) (SINCE NIL SINCE-P)
+See <a href="NIL">https://git-scm.com/docs/git-reset</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REV-LIST"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REV-LIST">GIT-REV-LIST</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (MAX-COUNT NIL MAX-COUNT-P) (SKIP NIL SKIP-P) (SINCE NIL SINCE-P)
  (UNTIL NIL UNTIL-P) (MAX-AGE NIL MAX-AGE-P) (AUTHOR NIL AUTHOR-P)
  (GREP-REFLOG NIL GREP-REFLOG-P) (GREP NIL GREP-P) (ALL-MATCH NIL ALL-MATCH-P)
  (INVERT-GREP NIL INVERT-GREP-P) (REGEXP-IGNORE-CASE NIL REGEXP-IGNORE-CASE-P)
@@ -632,9 +634,9 @@ See https://git-scm.com/docs/git-reset</pre> </article> </li><li> <a name="LEGIT
  (SHOW-LINEAR-BREAK NIL SHOW-LINEAR-BREAK-P) (COUNT NIL COUNT-P)
  (FULL-MERGE-DIFF NIL FULL-MERGE-DIFF-P)
  (SHOW-RECURSIVE-DIFF NIL SHOW-RECURSIVE-DIFF-P)
- (SHOW-TREE-DIFF NIL SHOW-TREE-DIFF-P)</code><code>)</code>  </header> <pre class="docstring">git rev-list
+ (SHOW-TREE-DIFF NIL SHOW-TREE-DIFF-P)</code><code>)</code>  </header> <div class="docstring"><pre>git rev-list
 
-See https://git-scm.com/docs/git-rev-list</pre> </article> </li><li> <a name="LEGIT:GIT-REV-PARSE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REV-PARSE">GIT-REV-PARSE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REVS &amp;KEY (PARSEOPT NIL PARSEOPT-P) (SQ-QUOTE NIL SQ-QUOTE-P)
+See <a href="NIL">https://git-scm.com/docs/git-rev-list</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REV-PARSE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REV-PARSE">GIT-REV-PARSE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REVS &amp;KEY (PARSEOPT NIL PARSEOPT-P) (SQ-QUOTE NIL SQ-QUOTE-P)
  (KEEP-DASHDASH NIL KEEP-DASHDASH-P)
  (STOP-AT-NON-OPTION NIL STOP-AT-NON-OPTION-P) (STUCK-LONG NIL STUCK-LONG-P)
  (REVS-ONLY NIL REVS-ONLY-P) (NO-REVS NIL NO-REVS-P) (FLAGS NIL FLAGS-P)
@@ -652,22 +654,22 @@ See https://git-scm.com/docs/git-rev-list</pre> </article> </li><li> <a name="LE
  (SHOW-CDUP NIL SHOW-CDUP-P) (SHOW-PREFIX NIL SHOW-PREFIX-P)
  (SHOW-TOPLEVEL NIL SHOW-TOPLEVEL-P)
  (SHARED-INDEX-PATH NIL SHARED-INDEX-PATH-P) (SINCE NIL SINCE-P)
- (UNTIL NIL UNTIL-P)</code><code>)</code>  </header> <pre class="docstring">git rev-parse
+ (UNTIL NIL UNTIL-P)</code><code>)</code>  </header> <div class="docstring"><pre>git rev-parse
 
-See https://git-scm.com/docs/git-rev-parse</pre> </article> </li><li> <a name="LEGIT:GIT-REVERT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REVERT">GIT-REVERT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMITS NIL COMMITS-P) (EDIT NIL EDIT-P) (MAINLINE NIL MAINLINE-P)
+See <a href="NIL">https://git-scm.com/docs/git-rev-parse</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-REVERT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-REVERT">GIT-REVERT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (COMMITS NIL COMMITS-P) (EDIT NIL EDIT-P) (MAINLINE NIL MAINLINE-P)
  (NO-COMMIT NIL NO-COMMIT-P) (GPG-SIGN NIL GPG-SIGN-P) (SIGNOFF NIL SIGNOFF-P)
  (STRATEGY NIL STRATEGY-P) (STRATEGY-OPTION NIL STRATEGY-OPTION-P)
- (CONTINUE NIL CONTINUE-P) (QUIT NIL QUIT-P) (ABORT NIL ABORT-P)</code><code>)</code>  </header> <pre class="docstring">git revert
+ (CONTINUE NIL CONTINUE-P) (QUIT NIL QUIT-P) (ABORT NIL ABORT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git revert
 
-See https://git-scm.com/docs/git-revert</pre> </article> </li><li> <a name="LEGIT:GIT-RM"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-RM">GIT-RM</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FILES &amp;KEY (FORCE NIL FORCE-P) (DRY-RUN NIL DRY-RUN-P)
+See <a href="NIL">https://git-scm.com/docs/git-revert</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-RM"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-RM">GIT-RM</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FILES &amp;KEY (FORCE NIL FORCE-P) (DRY-RUN NIL DRY-RUN-P)
  (RECURSIVE NIL RECURSIVE-P) (CACHED NIL CACHED-P)
- (IGNORE-UNMATCH NIL IGNORE-UNMATCH-P) (QUIET NIL QUIET-P)</code><code>)</code>  </header> <pre class="docstring">git rm
+ (IGNORE-UNMATCH NIL IGNORE-UNMATCH-P) (QUIET NIL QUIET-P)</code><code>)</code>  </header> <div class="docstring"><pre>git rm
 
-See https://git-scm.com/docs/git-rm</pre> </article> </li><li> <a name="LEGIT:GIT-SHORTLOG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SHORTLOG">GIT-SHORTLOG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REVISION-RANGE NIL REVISION-RANGE-P) (PATHS NIL PATHS-P)
+See <a href="NIL">https://git-scm.com/docs/git-rm</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-SHORTLOG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SHORTLOG">GIT-SHORTLOG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REVISION-RANGE NIL REVISION-RANGE-P) (PATHS NIL PATHS-P)
  (NUMBERED NIL NUMBERED-P) (SUMMARY NIL SUMMARY-P) (EMAIL NIL EMAIL-P)
- (FORMAT NIL FORMAT-P) (WIDTH NIL WIDTH-P)</code><code>)</code>  </header> <pre class="docstring">git shortlog
+ (FORMAT NIL FORMAT-P) (WIDTH NIL WIDTH-P)</code><code>)</code>  </header> <div class="docstring"><pre>git shortlog
 
-See https://git-scm.com/docs/git-shortlog</pre> </article> </li><li> <a name="LEGIT:GIT-SHOW"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SHOW">GIT-SHOW</a></code></h4> <code class="qualifiers"></code> <code class="arguments">OBJECTS &amp;KEY (PRETTY NIL PRETTY-P) (ABBREV-COMMIT NIL ABBREV-COMMIT-P)
+See <a href="NIL">https://git-scm.com/docs/git-shortlog</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-SHOW"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SHOW">GIT-SHOW</a></code></h4> <code class="qualifiers"></code> <code class="arguments">OBJECTS &amp;KEY (PRETTY NIL PRETTY-P) (ABBREV-COMMIT NIL ABBREV-COMMIT-P)
  (ONELINE NIL ONELINE-P) (ENCODING NIL ENCODING-P) (NOTES NIL NOTES-P)
  (SHOW-NOTES NIL SHOW-NOTES-P) (STANDARD-NOTES NIL STANDARD-NOTES-P)
  (SHOW-SIGNATURE NIL SHOW-SIGNATURE-P) (PATCH NIL PATCH-P)
@@ -698,32 +700,32 @@ See https://git-scm.com/docs/git-shortlog</pre> </article> </li><li> <a name="LE
  (FUNCTION-CONTEXT NIL FUNCTION-CONTEXT-P) (EXT-DIFF NIL EXT-DIFF-P)
  (TEXTCONV NIL TEXTCONV-P) (IGNORE-SUBMODULES NIL IGNORE-SUBMODULES-P)
  (SRC-PREFIX NIL SRC-PREFIX-P) (DST-PREFIX NIL DST-PREFIX-P)
- (NO-PREFIX NIL NO-PREFIX-P)</code><code>)</code>  </header> <pre class="docstring">git show
+ (NO-PREFIX NIL NO-PREFIX-P)</code><code>)</code>  </header> <div class="docstring"><pre>git show
 
-See https://git-scm.com/docs/git-show</pre> </article> </li><li> <a name="LEGIT:GIT-SHOW-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SHOW-REF">GIT-SHOW-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATTERNS NIL PATTERNS-P) (HEAD NIL HEAD-P) (TAGS NIL TAGS-P)
+See <a href="NIL">https://git-scm.com/docs/git-show</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-SHOW-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SHOW-REF">GIT-SHOW-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (PATTERNS NIL PATTERNS-P) (HEAD NIL HEAD-P) (TAGS NIL TAGS-P)
  (HEADS NIL HEADS-P) (DEREFERENCE NIL DEREFERENCE-P) (HASH NIL HASH-P)
  (VERIFY NIL VERIFY-P) (ABBREV NIL ABBREV-P) (QUIET NIL QUIET-P)
- (EXCLUDE-EXISTING NIL EXCLUDE-EXISTING-P)</code><code>)</code>  </header> <pre class="docstring">git show-ref
+ (EXCLUDE-EXISTING NIL EXCLUDE-EXISTING-P)</code><code>)</code>  </header> <div class="docstring"><pre>git show-ref
 
-See https://git-scm.com/docs/git-show-ref</pre> </article> </li><li> <a name="LEGIT:GIT-STASH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-STASH">GIT-STASH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (MESSAGE NIL MESSAGE-P) (PATCH NIL PATCH-P)
+See <a href="NIL">https://git-scm.com/docs/git-show-ref</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-STASH"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-STASH">GIT-STASH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (MESSAGE NIL MESSAGE-P) (PATCH NIL PATCH-P)
  (KEEP-INDEX NIL KEEP-INDEX-P) (INCLUDE-UNTRACKED NIL INCLUDE-UNTRACKED-P)
- (ALL NIL ALL-P) (QUIET NIL QUIET-P)</code><code>)</code>  </header> <pre class="docstring">git stash
+ (ALL NIL ALL-P) (QUIET NIL QUIET-P)</code><code>)</code>  </header> <div class="docstring"><pre>git stash
 
-See https://git-scm.com/docs/git-stash</pre> </article> </li><li> <a name="LEGIT:GIT-STATUS"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-STATUS">GIT-STATUS</a></code></h4> <code class="qualifiers"></code> <code class="arguments">PATHS &amp;KEY (SHORT NIL SHORT-P) (BRANCH NIL BRANCH-P)
+See <a href="NIL">https://git-scm.com/docs/git-stash</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-STATUS"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-STATUS">GIT-STATUS</a></code></h4> <code class="qualifiers"></code> <code class="arguments">PATHS &amp;KEY (SHORT NIL SHORT-P) (BRANCH NIL BRANCH-P)
  (PORCELAIN NIL PORCELAIN-P) (LONG NIL LONG-P) (VERBOSE NIL VERBOSE-P)
  (UNTRACKED-FILES NIL UNTRACKED-FILES-P)
  (IGNORE-SUBMODULES NIL IGNORE-SUBMODULES-P) (IGNORED NIL IGNORED-P)
- (NULL NIL NULL-P) (COLUMN NIL COLUMN-P)</code><code>)</code>  </header> <pre class="docstring">git status
+ (NULL NIL NULL-P) (COLUMN NIL COLUMN-P)</code><code>)</code>  </header> <div class="docstring"><pre>git status
 
-See https://git-scm.com/docs/git-status</pre> </article> </li><li> <a name="LEGIT:GIT-SUBMODULE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SUBMODULE">GIT-SUBMODULE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (COMMIT NIL COMMIT-P) (PATHS NIL PATHS-P)
+See <a href="NIL">https://git-scm.com/docs/git-status</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-SUBMODULE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SUBMODULE">GIT-SUBMODULE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">ACTION &amp;KEY (COMMIT NIL COMMIT-P) (PATHS NIL PATHS-P)
  (REPOSITORY NIL REPOSITORY-P) (REPOSITORY-PATH NIL REPOSITORY-PATH-P)
  (QUIET NIL QUIET-P) (BRANCH NIL BRANCH-P) (FORCE NIL FORCE-P)
  (NAME NIL NAME-P) (REFERENCE NIL REFERENCE-P) (DEPTH NIL DEPTH-P)
  (CACHED NIL CACHED-P) (RECURSIVE NIL RECURSIVE-P) (INIT NIL INIT-P)
  (REMOTE NIL REMOTE-P) (NO-FETCH NIL NO-FETCH-P) (REBASE NIL REBASE-P)
- (MERGE NIL MERGE-P) (FILES NIL FILES-P) (SUMMARY-LIMIT NIL SUMMARY-LIMIT-P)</code><code>)</code>  </header> <pre class="docstring">git submodule
+ (MERGE NIL MERGE-P) (FILES NIL FILES-P) (SUMMARY-LIMIT NIL SUMMARY-LIMIT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git submodule
 
-See https://git-scm.com/docs/git-submodule</pre> </article> </li><li> <a name="LEGIT:GIT-SVN"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SVN">GIT-SVN</a></code></h4> <code class="qualifiers"></code> <code class="arguments">COMMAND &amp;KEY (TRUNK NIL TRUNK-P) (TAGS NIL TAGS-P) (BRANCHES NIL BRANCHES-P)
+See <a href="NIL">https://git-scm.com/docs/git-submodule</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-SVN"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SVN">GIT-SVN</a></code></h4> <code class="qualifiers"></code> <code class="arguments">COMMAND &amp;KEY (TRUNK NIL TRUNK-P) (TAGS NIL TAGS-P) (BRANCHES NIL BRANCHES-P)
  (STDLAYOUT NIL STDLAYOUT-P) (NO-METADATA NIL NO-METADATA-P)
  (USE-SVM-PROPS NIL USE-SVM-PROPS-P)
  (USE-SVNSYNC-PROPS NIL USE-SVNSYNC-PROPS-P) (REWRITE-ROOT NIL REWRITE-ROOT-P)
@@ -749,19 +751,19 @@ See https://git-scm.com/docs/git-submodule</pre> </article> </li><li> <a name="L
  (PRESERVE-MERGES NIL PRESERVE-MERGES-P) (DRY-RUN NIL DRY-RUN-P)
  (USE-LOG-AUTHOR NIL USE-LOG-AUTHOR-P) (ADD-AUTHOR-FROM NIL ADD-AUTHOR-FROM-P)
  (ID NIL ID-P) (SVN-REMOTE NIL SVN-REMOTE-P)
- (FOLLOW-PARENT NIL FOLLOW-PARENT-P)</code><code>)</code>  </header> <pre class="docstring">git svn
+ (FOLLOW-PARENT NIL FOLLOW-PARENT-P)</code><code>)</code>  </header> <div class="docstring"><pre>git svn
 
-See https://git-scm.com/docs/git-svn</pre> </article> </li><li> <a name="LEGIT:GIT-SYMBOLIC-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SYMBOLIC-REF">GIT-SYMBOLIC-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">NAME &amp;KEY (REF NIL REF-P) (DELETE NIL DELETE-P) (QUIET NIL QUIET-P)
- (SHORT NIL SHORT-P) (MESSAGE NIL MESSAGE-P)</code><code>)</code>  </header> <pre class="docstring">git symbolic-ref
+See <a href="NIL">https://git-scm.com/docs/git-svn</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-SYMBOLIC-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-SYMBOLIC-REF">GIT-SYMBOLIC-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">NAME &amp;KEY (REF NIL REF-P) (DELETE NIL DELETE-P) (QUIET NIL QUIET-P)
+ (SHORT NIL SHORT-P) (MESSAGE NIL MESSAGE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git symbolic-ref
 
-See https://git-scm.com/docs/git-symbolic-ref</pre> </article> </li><li> <a name="LEGIT:GIT-TAG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-TAG">GIT-TAG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TAGS NIL TAGS-P) (COMMIT NIL COMMIT-P) (OBJECT NIL OBJECT-P)
+See <a href="NIL">https://git-scm.com/docs/git-symbolic-ref</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-TAG"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-TAG">GIT-TAG</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (TAGS NIL TAGS-P) (COMMIT NIL COMMIT-P) (OBJECT NIL OBJECT-P)
  (PATTERNS NIL PATTERNS-P) (ANNOTATE NIL ANNOTATE-P) (SIGN NIL SIGN-P)
  (LOCAL-USER NIL LOCAL-USER-P) (FORCE NIL FORCE-P) (DELETE NIL DELETE-P)
  (VERIFY NIL VERIFY-P) (LINES NIL LINES-P) (LIST NIL LIST-P) (SORT NIL SORT-P)
  (COLUMN NIL COLUMN-P) (CONTAINS NIL CONTAINS-P) (POINTS-AT NIL POINTS-AT-P)
- (MESSAGE NIL MESSAGE-P) (FILE NIL FILE-P) (CLEANUP NIL CLEANUP-P)</code><code>)</code>  </header> <pre class="docstring">git tag
+ (MESSAGE NIL MESSAGE-P) (FILE NIL FILE-P) (CLEANUP NIL CLEANUP-P)</code><code>)</code>  </header> <div class="docstring"><pre>git tag
 
-See https://git-scm.com/docs/git-tag</pre> </article> </li><li> <a name="LEGIT:GIT-UPDATE-INDEX"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-UPDATE-INDEX">GIT-UPDATE-INDEX</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (ADD NIL ADD-P) (REMOVE NIL REMOVE-P)
+See <a href="NIL">https://git-scm.com/docs/git-tag</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-UPDATE-INDEX"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-UPDATE-INDEX">GIT-UPDATE-INDEX</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FILES NIL FILES-P) (ADD NIL ADD-P) (REMOVE NIL REMOVE-P)
  (REFRESH NIL REFRESH-P) (QUIET NIL QUIET-P)
  (IGNORE-SUBMODULES NIL IGNORE-SUBMODULES-P) (UNMERGED NIL UNMERGED-P)
  (IGNORE-MISSING NIL IGNORE-MISSING-P) (CACHEINFO NIL CACHEINFO-P)
@@ -772,71 +774,71 @@ See https://git-scm.com/docs/git-tag</pre> </article> </li><li> <a name="LEGIT:G
  (FORCE-REMOVE NIL FORCE-REMOVE-P) (REPLACE NIL REPLACE-P) (STDIN NIL STDIN-P)
  (VERBOSE NIL VERBOSE-P) (INDEX-VERSION NIL INDEX-VERSION-P) (NULL NIL NULL-P)
  (SPLIT-INDEX NIL SPLIT-INDEX-P) (UNTRACKED-CACKE NIL UNTRACKED-CACKE-P)
- (FORCE-UNTRACKED-CACHE NIL FORCE-UNTRACKED-CACHE-P)</code><code>)</code>  </header> <pre class="docstring">git update-index
+ (FORCE-UNTRACKED-CACHE NIL FORCE-UNTRACKED-CACHE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git update-index
 
-See https://git-scm.com/docs/git-update-index</pre> </article> </li><li> <a name="LEGIT:GIT-UPDATE-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-UPDATE-REF">GIT-UPDATE-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REF NIL REF-P) (NEWVALUE NIL NEWVALUE-P) (OLDVALUE NIL OLDVALUE-P)
+See <a href="NIL">https://git-scm.com/docs/git-update-index</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-UPDATE-REF"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-UPDATE-REF">GIT-UPDATE-REF</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (REF NIL REF-P) (NEWVALUE NIL NEWVALUE-P) (OLDVALUE NIL OLDVALUE-P)
  (MESSAGE NIL MESSAGE-P) (DELETE NIL DELETE-P) (NO-DEREF NIL NO-DEREF-P)
- (STDIN NIL STDIN-P) (NULL NIL NULL-P)</code><code>)</code>  </header> <pre class="docstring">git update-ref
+ (STDIN NIL STDIN-P) (NULL NIL NULL-P)</code><code>)</code>  </header> <div class="docstring"><pre>git update-ref
 
-See https://git-scm.com/docs/git-update-ref</pre> </article> </li><li> <a name="LEGIT:GIT-UPDATE-SERVER-INFO"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-UPDATE-SERVER-INFO">GIT-UPDATE-SERVER-INFO</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FORCE NIL FORCE-P)</code><code>)</code>  </header> <pre class="docstring">git update-server-info
+See <a href="NIL">https://git-scm.com/docs/git-update-ref</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-UPDATE-SERVER-INFO"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-UPDATE-SERVER-INFO">GIT-UPDATE-SERVER-INFO</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (FORCE NIL FORCE-P)</code><code>)</code>  </header> <div class="docstring"><pre>git update-server-info
 
-See https://git-scm.com/docs/git-update-server-info</pre> </article> </li><li> <a name="LEGIT:GIT-VERIFY-PACK"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-VERIFY-PACK">GIT-VERIFY-PACK</a></code></h4> <code class="qualifiers"></code> <code class="arguments">PACKS &amp;KEY (VERBOSE NIL VERBOSE-P) (STAT-ONLY NIL STAT-ONLY-P)</code><code>)</code>  </header> <pre class="docstring">git verify-pack
+See <a href="NIL">https://git-scm.com/docs/git-update-server-info</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-VERIFY-PACK"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-VERIFY-PACK">GIT-VERIFY-PACK</a></code></h4> <code class="qualifiers"></code> <code class="arguments">PACKS &amp;KEY (VERBOSE NIL VERBOSE-P) (STAT-ONLY NIL STAT-ONLY-P)</code><code>)</code>  </header> <div class="docstring"><pre>git verify-pack
 
-See https://git-scm.com/docs/git-verify-pack</pre> </article> </li><li> <a name="LEGIT:GIT-WRITE-TREE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-WRITE-TREE">GIT-WRITE-TREE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (MISSING-OK NIL MISSING-OK-P) (PREFIX NIL PREFIX-P)</code><code>)</code>  </header> <pre class="docstring">git write-tree
+See <a href="NIL">https://git-scm.com/docs/git-verify-pack</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-WRITE-TREE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-WRITE-TREE">GIT-WRITE-TREE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;KEY (MISSING-OK NIL MISSING-OK-P) (PREFIX NIL PREFIX-P)</code><code>)</code>  </header> <div class="docstring"><pre>git write-tree
 
-See https://git-scm.com/docs/git-write-tree</pre> </article> </li><li> <a name="LEGIT:RELATIVE-DIR"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:RELATIVE-DIR">RELATIVE-DIR</a></code></h4> <code class="qualifiers"></code> <code class="arguments">RELATIVE &amp;REST SUBDIRS</code><code>)</code>  </header> <pre class="docstring">Get a directory pathname that is SUBDIRS beneath RELATIVE.</pre> </article> </li><li> <a name="LEGIT:RUN-GIT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:RUN-GIT">RUN-GIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;REST CMDARGS</code><code>)</code>  </header> <pre class="docstring">Launches a new git process with the given CMDARGS.
+See <a href="NIL">https://git-scm.com/docs/git-write-tree</a></pre></div> </article> </li><li> <a name="LEGIT:RELATIVE-DIR"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:RELATIVE-DIR">RELATIVE-DIR</a></code></h4> <code class="qualifiers"></code> <code class="arguments">RELATIVE &amp;REST SUBDIRS</code><code>)</code>  </header> <div class="docstring"><pre>Get a directory pathname that is SUBDIRS beneath RELATIVE.</pre></div> </article> </li><li> <a name="LEGIT:RUN-GIT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:RUN-GIT">RUN-GIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;REST CMDARGS</code><code>)</code>  </header> <div class="docstring"><pre>Launches a new git process with the given CMDARGS.
 
-See LEGIT:RUN
-See *GIT-OUTPUT*
-See *GIT-ERRORS*
-See *GIT-INPUT*</pre> </article> </li><li> <a name="LEGIT:ADD"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:ADD">ADD</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY FILES &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring"/> </article> </li><li> <a name="LEGIT:BARE-P"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:BARE-P">BARE-P</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns T if the REPOSITORY is bare.
+See <a href="#LEGIT:RUN">LEGIT:RUN</a>
+See <a href="#LEGIT:*GIT-OUTPUT*">*GIT-OUTPUT*</a>
+See <a href="#LEGIT:*GIT-ERRORS*">*GIT-ERRORS*</a>
+See <a href="#LEGIT:*GIT-INPUT*">*GIT-INPUT*</a></pre></div> </article> </li><li> <a name="LEGIT:ADD"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:ADD">ADD</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY FILES &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><i>No docstring provided.</i></div> </article> </li><li> <a name="LEGIT:BARE-P"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:BARE-P">BARE-P</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns T if the REPOSITORY is bare.
 
-See GIT-REV-PARSE
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CHECKOUT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CHECKOUT">CHECKOUT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY THING &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Checks out a specific THING in the repository.
+See <a href="#LEGIT:GIT-REV-PARSE">GIT-REV-PARSE</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CHECKOUT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CHECKOUT">CHECKOUT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY THING &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Checks out a specific THING in the repository.
 
 This clears the cache.
 
-See GIT-CHECKOUT
-See REPOSITORY
-See CLEAR-CACHE</pre> </article> </li><li> <a name="LEGIT:CLEAN"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CLEAN">CLEAN</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY DIRECTORIES FORCE IGNORED &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Cleans the repository out.
+See <a href="#LEGIT:GIT-CHECKOUT">GIT-CHECKOUT</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a>
+See <a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></pre></div> </article> </li><li> <a name="LEGIT:CLEAN"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CLEAN">CLEAN</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY DIRECTORIES FORCE IGNORED &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Cleans the repository out.
 
 Default extra keyword arguments are DIRECTORIES, FORCE, IGNORED.
 
-See GIT-CLEAN
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CLEAR-CACHE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Clears the internal cache on the git repository.
+See <a href="#LEGIT:GIT-CLEAN">GIT-CLEAN</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CLEAR-CACHE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Clears the internal cache on the git repository.
 
 Calling this causes subsequent queries against the repository to actually launch a subprocess. 
 This should be called whenever the repository on the file system may have been modified in any way.
 
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CLONE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CLONE">CLONE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FROM TO &amp;KEY BRANCH BARE &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Clone a repository from FROM to TO.
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CLONE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CLONE">CLONE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">FROM TO &amp;KEY BRANCH BARE &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Clone a repository from FROM to TO.
 
 Default extra keyword arguments are BRANCH and BARE.
 
-See GIT-CLONE</pre> </article> </li><li> <a name="LEGIT:COMMIT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:COMMIT">COMMIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY MESSAGE &amp;KEY AMEND &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring"/> </article> </li><li> <a name="LEGIT:COMMIT-AGE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:COMMIT-AGE">COMMIT-AGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY COMMIT &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns a universal-time timestamp of when the given commit was made.
+See <a href="#LEGIT:GIT-CLONE">GIT-CLONE</a></pre></div> </article> </li><li> <a name="LEGIT:COMMIT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:COMMIT">COMMIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY MESSAGE &amp;KEY AMEND &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><i>No docstring provided.</i></div> </article> </li><li> <a name="LEGIT:COMMIT-AGE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:COMMIT-AGE">COMMIT-AGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY COMMIT &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns a universal-time timestamp of when the given commit was made.
 
-See GIT-LOG
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:COMMITS"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:COMMITS">COMMITS</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns the full list of commit hashes on the repository.
+See <a href="#LEGIT:GIT-LOG">GIT-LOG</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:COMMITS"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:COMMITS">COMMITS</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns the full list of commit hashes on the repository.
 
-See GIT-REV-LIST
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CURRENT-AGE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-AGE">CURRENT-AGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns the latest commit's age on the current branch of the REPOSITORY as a universal-time timestamp.
+See <a href="#LEGIT:GIT-REV-LIST">GIT-REV-LIST</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CURRENT-AGE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-AGE">CURRENT-AGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns the latest commit's age on the current branch of the REPOSITORY as a universal-time timestamp.
 
-See GIT-LOG
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CURRENT-BRANCH"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-BRANCH">CURRENT-BRANCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns the currently checked out branch of the REPOSITORY.
+See <a href="#LEGIT:GIT-LOG">GIT-LOG</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CURRENT-BRANCH"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-BRANCH">CURRENT-BRANCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns the currently checked out branch of the REPOSITORY.
 
-See GIT-REV-PARSE
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CURRENT-COMMIT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-COMMIT">CURRENT-COMMIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY SHORT &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns the latest commit hash on the current branch of the REPOSITORY.
+See <a href="#LEGIT:GIT-REV-PARSE">GIT-REV-PARSE</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CURRENT-COMMIT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-COMMIT">CURRENT-COMMIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY SHORT &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns the latest commit hash on the current branch of the REPOSITORY.
 
-See GIT-REV-PARSE
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:CURRENT-MESSAGE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-MESSAGE">CURRENT-MESSAGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns the latest commit's message on the current branch of the REPOSITORY.
+See <a href="#LEGIT:GIT-REV-PARSE">GIT-REV-PARSE</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:CURRENT-MESSAGE"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:CURRENT-MESSAGE">CURRENT-MESSAGE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns the latest commit's message on the current branch of the REPOSITORY.
 
-See GIT-LOG
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:FETCH"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:FETCH">FETCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE BRANCH &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Fetch the latest commits from upstream.
+See <a href="#LEGIT:GIT-LOG">GIT-LOG</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:FETCH"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:FETCH">FETCH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE BRANCH &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Fetch the latest commits from upstream.
 
 This clears the cache.
 
-See GIT-FETCH
-See REPOSITORY
-See CLEAR-CACHE</pre> </article> </li><li> <a name="LEGIT:INIT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:INIT">INIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY IF-DOES-NOT-EXIST REMOTE BRANCH BARE &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Initialises the given repository.
+See <a href="#LEGIT:GIT-FETCH">GIT-FETCH</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a>
+See <a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></pre></div> </article> </li><li> <a name="LEGIT:INIT"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:INIT">INIT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY IF-DOES-NOT-EXIST REMOTE BRANCH BARE &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Initialises the given repository.
 
 REPOSITORY can be a pathname or repository. Optionally supplied keyword arguments are
 by default 
@@ -852,41 +854,41 @@ BRANCH             --- The branch to use if IF-DOES-NOT-EXIST is :CLONE, :CREATE
 BARE               --- Whether the repository should be bare if IF-DOES-NOT-EXIST is
                        :CLONE, :CREATE, or :INIT.
 
-See REPOSITORY
-See GIT-INIT
-See GIT-CHECKOUT
-See GIT-CLONE</pre> </article> </li><li> <a name="LEGIT:MAP-SUBMODULES"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:MAP-SUBMODULES">MAP-SUBMODULES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY FUNCTION &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Maps FUNCTION over all submodules of REPOSITORY.
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a>
+See <a href="#LEGIT:GIT-INIT">GIT-INIT</a>
+See <a href="#LEGIT:GIT-CHECKOUT">GIT-CHECKOUT</a>
+See <a href="#LEGIT:GIT-CLONE">GIT-CLONE</a></pre></div> </article> </li><li> <a name="LEGIT:MAP-SUBMODULES"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:MAP-SUBMODULES">MAP-SUBMODULES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY FUNCTION &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Maps FUNCTION over all submodules of REPOSITORY.
 
-See SUBDMODULES
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:PULL"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:PULL">PULL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Pull and merge the latest commits from upstream.
+See <a href="NIL">SUBDMODULES</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:PULL"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:PULL">PULL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE REFSPECS &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Pull and merge the latest commits from upstream.
 
 This clears the cache.
 
-See GIT-PULL
-See REPOSITORY
-See CLEAR-CACHE</pre> </article> </li><li> <a name="LEGIT:PUSH"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:PUSH">PUSH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE REFSPECS &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring"/> </article> </li><li> <a name="LEGIT:REMOTE-URL"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:REMOTE-URL">REMOTE-URL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns the address of a remote (default &quot;origin&quot;) on the REPOSITORY.
+See <a href="#LEGIT:GIT-PULL">GIT-PULL</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a>
+See <a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></pre></div> </article> </li><li> <a name="LEGIT:PUSH"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:PUSH">PUSH</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE REFSPECS &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><i>No docstring provided.</i></div> </article> </li><li> <a name="LEGIT:REMOTE-URL"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:REMOTE-URL">REMOTE-URL</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY REMOTE &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns the address of a remote (default &quot;origin&quot;) on the REPOSITORY.
 
 Accepts a default keyword argument REMOTE.
 
-See GIT-CONFIG
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:RESET"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:RESET">RESET</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY TO HARD MIXED SOFT &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Resets changes in the repository.
+See <a href="#LEGIT:GIT-CONFIG">GIT-CONFIG</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:RESET"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:RESET">RESET</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY TO HARD MIXED SOFT &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Resets changes in the repository.
 
 Default extra keyword arguments are TO, HARD, MIXED, SOFT.
 
 This clears the cache.
 
-See GIT-RESET
-See REPOSITORY
-See CLEAR-CACHE</pre> </article> </li><li> <a name="LEGIT:SUBMODULES"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:SUBMODULES">SUBMODULES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY RECURSIVE ONLY-EXISTING &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <pre class="docstring">Returns a list of REPOSITORY instances that represent the submodules of REPOSITORY.
+See <a href="#LEGIT:GIT-RESET">GIT-RESET</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a>
+See <a href="#LEGIT:CLEAR-CACHE">CLEAR-CACHE</a></pre></div> </article> </li><li> <a name="LEGIT:SUBMODULES"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:SUBMODULES">SUBMODULES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY &amp;KEY RECURSIVE ONLY-EXISTING &amp;ALLOW-OTHER-KEYS</code><code>)</code>  </header> <div class="docstring"><pre>Returns a list of REPOSITORY instances that represent the submodules of REPOSITORY.
 
-See GIT-SUBMODULE
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:VALID-LOCATION-P"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:VALID-LOCATION-P">VALID-LOCATION-P</a></code></h4> <code class="qualifiers"></code> <code class="arguments">THING</code><code>)</code>  </header> <pre class="docstring">Checks whether THING is a valid (existing) location.
+See <a href="#LEGIT:GIT-SUBMODULE">GIT-SUBMODULE</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:VALID-LOCATION-P"> </a> <article> <header class="generic"> <span class="type">generic</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:VALID-LOCATION-P">VALID-LOCATION-P</a></code></h4> <code class="qualifiers"></code> <code class="arguments">THING</code><code>)</code>  </header> <div class="docstring"><pre>Checks whether THING is a valid (existing) location.
 
-See LOCATION</pre> </article> </li><li> <a name="LEGIT:DO-SUBMODULES"> </a> <article> <header class="macro"> <span class="type">macro</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:DO-SUBMODULES">DO-SUBMODULES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;REST ARGS</code><code>)</code>  </header> <pre class="docstring">Iterates over all submodules of REPOSITORY.
+See <a href="#LEGIT:LOCATION">LOCATION</a></pre></div> </article> </li><li> <a name="LEGIT:DO-SUBMODULES"> </a> <article> <header class="macro"> <span class="type">macro</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:DO-SUBMODULES">DO-SUBMODULES</a></code></h4> <code class="qualifiers"></code> <code class="arguments">(SUBMODULE REPOSITORY &amp;REST ARGS) &amp;BODY BODY</code><code>)</code>  </header> <div class="docstring"><pre>Iterates over all submodules of REPOSITORY.
 
-See MAP-SUBMODULES
-See REPOSITORY</pre> </article> </li><li> <a name="LEGIT:GIT-VALUE"> </a> <article> <header class="macro"> <span class="type">macro</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-VALUE">GIT-VALUE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;REST ARGS</code><code>)</code>  </header> <pre class="docstring">Shorthand macro to handle caching of the value from the git process under NAME.</pre> </article> </li><li> <a name="LEGIT:WITH-CHDIR"> </a> <article> <header class="macro"> <span class="type">macro</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:WITH-CHDIR">WITH-CHDIR</a></code></h4> <code class="qualifiers"></code> <code class="arguments">&amp;REST ARGS</code><code>)</code>  </header> <pre class="docstring">Changes the directory lazily.
+See <a href="#LEGIT:MAP-SUBMODULES">MAP-SUBMODULES</a>
+See <a href="#LEGIT:REPOSITORY">REPOSITORY</a></pre></div> </article> </li><li> <a name="LEGIT:GIT-VALUE"> </a> <article> <header class="macro"> <span class="type">macro</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:GIT-VALUE">GIT-VALUE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">REPOSITORY NAME &amp;BODY FORMS</code><code>)</code>  </header> <div class="docstring"><pre>Shorthand macro to handle caching of the value from the git process under NAME.</pre></div> </article> </li><li> <a name="LEGIT:WITH-CHDIR"> </a> <article> <header class="macro"> <span class="type">macro</span>  <code>(</code><h4 class="name"><code><a href="#LEGIT:WITH-CHDIR">WITH-CHDIR</a></code></h4> <code class="qualifiers"></code> <code class="arguments">(NEW-PATH) &amp;BODY BODY</code><code>)</code>  </header> <div class="docstring"><pre>Changes the directory lazily.
 This merges the passed NEW-PATH (resolved through LOCATION) with *CWD* (resolved through LOCATION) and binds that to *CWD*.
 
-See LOCATION
-See *CWD*</pre> </article> </li></ul> </li></ul> </article>  </main> </body> </html> 
+See <a href="#LEGIT:LOCATION">LOCATION</a>
+See <a href="NIL">*CWD*</a></pre></div> </article> </li></ul> </li></ul> </article>  </main> </body> </html> 
