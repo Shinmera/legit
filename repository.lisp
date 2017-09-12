@@ -197,6 +197,12 @@
   (unix-to-universal-time
    (parse-integer (git-value repository `(age ,commit) (git-log :pretty "%ct" :max-count 1 :paths commit)))))
 
+(define-repo-function commit-message (repository commit &key)
+  (git-value repository `(message ,commit) (git-log :pretty "%B" :max-count 1 :paths commit)))
+
+(define-repo-function commit-author (repository commit &key)
+  (git-value repository `(author ,commit) (git-log :pretty "%an <%ae>" :max-count 1 :paths commit)))
+
 (define-repo-function current-commit (repository &key short)
   (git-value repository `(commit ,short) (git-rev-parse "HEAD" :short short)))
 

@@ -111,6 +111,8 @@
    #:do-submodules
    #:remotes
    #:commit-age
+   #:commit-message
+   #:commit-author
    #:current-commit
    #:current-branch
    #:current-message
