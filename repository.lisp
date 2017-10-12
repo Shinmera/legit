@@ -94,8 +94,8 @@
     (apply #'clone from (location to) args))
   (:method ((from string) (to pathname) &rest args &key)
     (apply #'clone from (uiop:native-namestring to) args))
-  (:method ((from string) (to string) &key branch bare)
-    (git-clone from :directory to :branch branch :bare bare)))
+  (:method ((from string) (to string) &key branch bare single-branch)
+    (git-clone from :directory to :branch branch :bare bare :single-branch single-branch)))
 
 (define-repo-function fetch (repository &key (remote "origin") (branch (current-branch repository)))
   (git-fetch :repository remote :refspecs branch)
