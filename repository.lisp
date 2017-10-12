@@ -114,7 +114,7 @@
   (clear-cache repository))
 
 (define-repo-function reset (repository &key to hard mixed soft)
-  (git-reset :paths to :hard hard :mixed mixed :soft soft)
+  (git-reset :tree-ish to :hard hard :mixed mixed :soft soft)
   (clear-cache repository))
 
 (define-repo-function clean (repository &key directories force ignored)
