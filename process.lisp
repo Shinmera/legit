@@ -35,12 +35,18 @@
             (cl:push a list))
           (cl:push arg list)))))
 
+(defun coerce-to-cmdarg (thing)
+  (etypecase thing
+    (string thing)
+    (pathname (uiop:native-namestring thing))
+    (number (princ-to-string thing))))
+
 (defun run-git (&rest cmdargs)
   (let* ((error-capture (make-string-output-stream))
          (*git-errors* (if *git-errors*
                            (make-broadcast-stream (%resolve-stream *git-errors*) error-capture)
                            error-capture))
-         (cmdargs (flatten cmdargs))
+         (cmdargs (mapcar #'coerce-to-cmdarg (flatten cmdargs)))
          (exit (run "git" cmdargs :output *git-output* :error *git-errors* :input *git-input*))
          (error-text (string-right-trim '(#\Newline) (get-output-stream-string error-capture))))
     (case exit
