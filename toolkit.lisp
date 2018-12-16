@@ -22,7 +22,8 @@
   (mapcar (lambda (a) (if (listp a) (first a) a)) args))
 
 (defun p-symb (symbol)
-  (intern (format NIL "~a-P" symbol)))
+  (let ((*print-case* #.(readtable-case *readtable*)))
+    (intern (format NIL "~a-~a" symbol 'p))))
 
 (defun front-arg-p (arg)
   (and (listp arg) (find :front arg)))
