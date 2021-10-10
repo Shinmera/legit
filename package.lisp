@@ -67,7 +67,7 @@
    #:git-rev-parse
    #:git-revert
    #:git-rm
-   #:git-send-mail
+   #:git-send-email
    #:git-shortlog
    #:git-show
    #:git-show-ref
