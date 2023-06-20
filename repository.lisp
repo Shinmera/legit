@@ -102,11 +102,12 @@
   (git-fetch :repository remote :refspecs branch)
   (clear-cache repository))
 
-(define-repo-function pull (repository &key (remote (caar (remotes repository))) (refspecs (current-branch repository)))
-  (if (bare-p repository)
-      ;; In bare repositories, do the fetch that would be about the same as a pull.
-      (fetch repository :branch (format NIL "~a:~:*~a" refspecs))
-      (git-pull :repository remote :refspecs refspecs))
+(define-repo-function pull (repository &key (refspecs (current-branch repository)) (remote (branch-remote repository :branch refspecs)))
+  (cond ((bare-p repository)
+         ;; In bare repositories, do the fetch that would be about the same as a pull.
+         (fetch repository :branch (format NIL "~a:~:*~a" refspecs)))
+        (remote
+         (git-pull :repository remote :refspecs refspecs)))
   (clear-cache repository))
 
 (define-repo-function checkout (repository thing &key)
@@ -216,6 +217,9 @@
 (define-repo-function current-age (repository &key)
   (unix-to-universal-time
    (parse-integer (git-value repository `(age) (git-log :pretty "%ct" :max-count 1)))))
+
+(define-repo-function branch-remote (repository &key (branch (current-branch repository)))
+  (git-value repository '(url) (git-config :name (format NIL "branch.~a.remote" branch))))
 
 (define-repo-function remote-url (repository &key (remote "origin"))
   (git-value repository `(url ,remote) (ignore-errors (git-config :name (format NIL "remote.~a.url" remote)))))
