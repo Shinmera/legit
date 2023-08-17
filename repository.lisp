@@ -220,3 +220,26 @@
 
 (define-repo-function bare-p (repository &key)
   (string-equal "true" (git-value repository `bare-p (git-rev-parse NIL :is-bare-repository T))))
+
+(defun ref-names-endings (content)
+  (with-input-from-string (in content)
+    (remove-duplicates
+     (loop
+       for line = (read-line in nil nil)
+       while line
+       for last-slash-position = (position #\slash line :from-end t)
+       when last-slash-position
+         collect (subseq line (1+ last-slash-position)))
+     :test #'string=)))
+
+(define-repo-function branches (repository &key)
+  (ref-names-endings
+   (git-value repository 'branches
+     (git-branch :list t :all t :format "%(refname)"
+                 :color nil :column nil))))
+
+(define-repo-function tags (repository &key)
+  (ref-names-endings
+   (git-value repository 'tag
+     (git-tag :list t :format "%(refname)"
+              :column nil))))

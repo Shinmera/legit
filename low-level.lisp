@@ -48,7 +48,7 @@
   &key delete create-reflog force move (color :arg= :bool) (column :arg :bool)
   remotes all list verbose quiet (abbrev :arg= :bool) (track :bool) set-upstream
   (set-upstream-to :arg=) unset-upstream edit-description (contains :arg)
-  (merged :arg) (no-merged :arg))
+  (merged :arg) (no-merged :arg) (format :arg=))
 
 (define-git-wrapper git-bundle
   (action (:member :create :verify :list-heads :unbundle)) file
@@ -475,8 +475,8 @@
 (define-git-wrapper git-tag
   &optional tags commit object patterns
   &key annotate sign (local-user :arg=) force delete verify (lines (:name n) :arg.)
-  (list :arg) (sort :arg=) (column :bool :arg=) (contains :arg) (points-at :arg)
-  (message :arg=) (file :arg=) (cleanup :arg=))
+  list (sort :arg=) (column :bool :arg=) (contains :arg) (points-at :arg)
+  (message :arg=) (file :arg=) (cleanup :arg=) (format :arg=))
 
 (define-git-wrapper git-update-index
   &optional (files :--)
