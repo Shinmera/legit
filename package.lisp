@@ -112,7 +112,9 @@
    #:current-message
    #:current-age
    #:remote-url
-   #:bare-p)
+   #:bare-p
+   #:branches
+   #:tags)
   ;; toolkit.lisp
   (:export
    #:relative-dir))
