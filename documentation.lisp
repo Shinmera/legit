@@ -535,6 +535,18 @@ See REPOSITORY")
     "Returns T if the REPOSITORY is bare.
 
 See GIT-REV-PARSE
+See REPOSITORY")
+
+  (function branches
+    "Returns a list of branch names for REPOSITORY.
+
+See GIT-BRANCH
+See REPOSITORY")
+
+  (function tags
+    "Returns a list of tag names for REPOSITORY.
+
+See GIT-TAG
 See REPOSITORY"))
 
 ;; toolkit.lisp
