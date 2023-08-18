@@ -112,6 +112,7 @@
    #:current-message
    #:current-age
    #:remote-url
+   #:default-remote
    #:bare-p
    #:branches
    #:tags)

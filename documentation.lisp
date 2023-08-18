@@ -531,6 +531,14 @@ Accepts a default keyword argument REMOTE.
 See GIT-CONFIG
 See REPOSITORY")
 
+  (function default-remote
+    "Returns a suitable default remote name.
+
+Will get the branch's configured remote, if any, or fall back to the
+first available remote.
+
+See REPOSITORY")
+
   (function bare-p
     "Returns T if the REPOSITORY is bare.
 
