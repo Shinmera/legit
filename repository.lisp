@@ -233,7 +233,7 @@
      (loop
        for line = (read-line in nil nil)
        while line
-       for last-slash-position = (position #\slash line :from-end t)
+       for last-slash-position = (position #\solidus line :from-end t)
        when last-slash-position
          collect (subseq line (1+ last-slash-position)))
      :test #'string=)))
