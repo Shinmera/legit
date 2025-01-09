@@ -113,6 +113,10 @@
    #:current-age
    #:remote-url
    #:default-remote
+   #:branch-remote
+   #:branch-upstream
+   #:remote-url
+   #:default-remote
    #:bare-p
    #:branches
    #:tags)

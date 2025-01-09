@@ -215,6 +215,9 @@
 (define-repo-function branch-remote (repository &key (branch (current-branch repository)))
   (git-value repository '(url) (git-config :name (format NIL "branch.~a.remote" branch))))
 
+(define-repo-function branch-upstream (repository &key (branch (current-branch repository)))
+  (git-value repository '(branch) (git-rev-parse (format NIL "~a@{u}" branch) :abbrev-ref T)))
+
 (define-repo-function remote-url (repository &key remote)
   (if remote
       (git-value repository `(url ,remote) (ignore-errors (git-config :name (format NIL "remote.~a.url" remote))))
