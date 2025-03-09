@@ -266,6 +266,12 @@
   (exclude-from :arg=) (exclude-per-directory :arg=) exclude-standard error-unmatch
   (with-tree :arg=) full-name (abbrev :arg=) debug)
 
+(define-git-wrapper git-ls-tree
+  &optional tree-ish (paths :--)
+  &key name-only name-status object-only full-name full-tree
+  (format :arg=)
+  (abbrev :arg=))
+
 (define-git-wrapper git-merge
   &optional head commits
   &key (commit :bool) (edit :bool) (ff :bool) ff-only (log :bool :arg=) (stat :bool)

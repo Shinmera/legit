@@ -45,6 +45,7 @@
    #:git-instaweb
    #:git-log
    #:git-ls-files
+   #:git-ls-tree
    #:git-merge
    #:git-merge-base
    #:git-mergetool
