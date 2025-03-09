@@ -55,8 +55,7 @@
   &optional git-rev-list-args refnames)
 
 (define-git-wrapper git-cat-file
-  object
-  &optional type
+  &optional type  object
   &key (show-type (:name t) :flag) (show-size (:name s) :flag) (suppress (:name e) :flag)
   (pretty (:name p) :flag) textconv (batch :flag :arg=) (batch-check :flag :arg=)
   allow-unknown-type follow-symlinks)
