@@ -230,6 +230,9 @@
 (define-repo-function bare-p (repository &key)
   (string-equal "true" (git-value repository `bare-p (git-rev-parse NIL :is-bare-repository T))))
 
+(define-repo-function changed-p (repository &key)
+  (not (string-equal "" (git-value repository 'changed-p (git-status () :porcelain T)))))
+
 (defun ref-names-endings (content)
   (with-input-from-string (in content)
     (remove-duplicates
@@ -238,7 +241,7 @@
        while line
        for last-slash-position = (position #\/ line :from-end t)
        when last-slash-position
-         collect (subseq line (1+ last-slash-position)))
+       collect (subseq line (1+ last-slash-position)))
      :test #'string=)))
 
 (define-repo-function branches (repository &key)

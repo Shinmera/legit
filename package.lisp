@@ -119,6 +119,7 @@
    #:remote-url
    #:default-remote
    #:bare-p
+   #:changed-p
    #:branches
    #:tags)
   ;; toolkit.lisp
